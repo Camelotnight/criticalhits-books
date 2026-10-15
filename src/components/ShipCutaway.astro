@@ -1,0 +1,186 @@
+---
+import Explorer from './Explorer.astro';
+import { shipItems, SHIP_VIEW } from '../data/ship';
+
+// Hull outline: side profile of the flattened double wedge, bow to the right.
+// 10 units = 1 m: stern at x 55, bow tip at x 795 (74 m); top at y 50, keel at y 200 (15 m).
+const hull = '795,128 610,58 560,50 330,50 130,82 55,95 55,155 130,168 330,200 560,200 610,192';
+---
+<Explorer
+  name="ship"
+  label="Ship systems"
+  items={shipItems}
+  aspect={`${SHIP_VIEW.w} / ${SHIP_VIEW.h}`}
+  caption="Cooper’s Reach, side profile. Schematic: the spin ring is shown stowed, and fittings are placed for clarity, not to scale."
+>
+  <svg viewBox={`0 0 ${SHIP_VIEW.w} ${SHIP_VIEW.h}`} role="img" aria-labelledby="ship-svg-title ship-svg-desc">
+    <title id="ship-svg-title">Side profile of the Cooper’s Reach</title>
+    <desc id="ship-svg-desc">
+      A long, faceted double wedge with a sharp bow on the right and a tapered stern on the left. The fusion torch
+      sits at the stern with droplet radiators streaming aft in the hull's shadow. A spin ring sits amidships,
+      the command deck forward of it, and the Caretaker black box on the keel.
+    </desc>
+    <defs>
+      <linearGradient id="hullFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#1c2737" />
+        <stop offset="0.5" stop-color="#141c28" />
+        <stop offset="1" stop-color="#0f151e" />
+      </linearGradient>
+      <pattern id="drops" width="6" height="6" patternUnits="userSpaceOnUse">
+        <circle cx="3" cy="3" r="0.9" fill="#7cc8dc" />
+      </pattern>
+    </defs>
+
+    <!-- scale bar -->
+    <g class="scale" transform="translate(55 232)">
+      <line x1="0" y1="0" x2="740" y2="0" />
+      <line x1="0" y1="-4" x2="0" y2="4" /><line x1="740" y1="-4" x2="740" y2="4" />
+      <line x1="370" y1="-3" x2="370" y2="3" />
+      <text x="370" y="-7" text-anchor="middle">74 m</text>
+    </g>
+    <g class="scale" transform="translate(818 50)">
+      <line x1="0" y1="0" x2="0" y2="150" />
+      <line x1="-4" y1="0" x2="4" y2="0" /><line x1="-4" y1="150" x2="4" y2="150" />
+      <text x="-6" y="79" text-anchor="end">15 m</text>
+    </g>
+
+    <!-- radiators: droplet sheets in the aft shadow -->
+    <g data-part="radiators" class="part">
+      <polygon points="140,80 22,66 22,76 140,88" fill="url(#drops)" />
+      <polygon points="140,162 22,174 22,184 140,170" fill="url(#drops)" />
+    </g>
+
+    <!-- torch -->
+    <g data-part="torch" class="part">
+      <polygon points="56,110 18,96 18,154 56,140" class="metal" />
+      <line x1="18" y1="96" x2="18" y2="154" class="edge" />
+      <circle cx="100" cy="125" r="22" class="inner" />
+      <circle cx="100" cy="125" r="11" class="inner" />
+    </g>
+
+    <!-- hull and the Pelt -->
+    <g data-part="hull" class="part">
+      <polygon points={hull} fill="url(#hullFill)" class="hull" />
+      <!-- facet lines -->
+      <polyline points="795,128 560,118 330,118 130,124 55,125" class="facet" />
+      <line x1="560" y1="50" x2="560" y2="200" class="facet" />
+      <line x1="330" y1="50" x2="330" y2="200" class="facet" />
+      <line x1="130" y1="82" x2="130" y2="168" class="facet" />
+      <!-- drone bays in the aft taper -->
+      <rect x="150" y="150" width="34" height="14" class="inner" />
+      <rect x="192" y="150" width="34" height="14" class="inner" />
+    </g>
+    <g data-part="pelt" class="part">
+      <polygon points={hull} class="pelt" />
+    </g>
+
+    <!-- engineering bulkhead and keel -->
+    <line x1="290" y1="56" x2="290" y2="194" class="bulkhead" />
+    <line x1="80" y1="194" x2="700" y2="194" class="keel" />
+
+    <!-- spin ring (stowed) -->
+    <g data-part="ring" class="part ring">
+      <rect x="372" y="58" width="76" height="134" rx="10" class="inner" />
+      <line x1="372" y1="80" x2="448" y2="80" class="inner" />
+      <line x1="372" y1="170" x2="448" y2="170" class="inner" />
+      <line x1="410" y1="58" x2="410" y2="192" class="inner dashed" />
+    </g>
+
+    <!-- command deck -->
+    <g data-part="command" class="part">
+      <rect x="500" y="74" width="110" height="34" class="inner" />
+      <line x1="512" y1="91" x2="598" y2="91" class="inner dashed" />
+    </g>
+
+    <!-- Caretaker black box on the keel -->
+    <g data-part="caretaker" class="part">
+      <rect x="320" y="176" width="30" height="16" class="box" />
+    </g>
+
+    <!-- RCS on the four shoulders -->
+    <g data-part="rcs" class="part">
+      <rect x="596" y="54" width="12" height="8" class="metal" />
+      <rect x="596" y="188" width="12" height="8" class="metal" />
+      <rect x="138" y="76" width="12" height="8" class="metal" />
+      <rect x="138" y="166" width="12" height="8" class="metal" />
+    </g>
+
+    <!-- rescue kit: lance at the bow, umbilical collars on the belly -->
+    <g data-part="rescue" class="part">
+      <line x1="795" y1="128" x2="822" y2="128" class="lance" />
+      <rect x="465" y="199" width="14" height="6" class="metal" />
+      <rect x="495" y="199" width="14" height="6" class="metal" />
+      <rect x="525" y="199" width="14" height="6" class="metal" />
+    </g>
+
+    <text x="700" y="34" class="label">BOW →</text>
+    <text x="40" y="34" class="label">← STERN</text>
+  </svg>
+</Explorer>
+
+<style>
+  svg :global(.hull) { stroke: #3b4f68; stroke-width: 1.2; }
+  svg :global(.pelt) { fill: none; stroke: #5c7290; stroke-width: 3; stroke-opacity: 0.35; }
+  svg :global(.facet) { fill: none; stroke: #2c3b4f; stroke-width: 1; }
+  svg :global(.inner) { fill: none; stroke: #4d6380; stroke-width: 1.2; }
+  svg :global(.dashed) { stroke-dasharray: 4 4; }
+  svg :global(.metal) { fill: #2a3646; stroke: #5c7290; stroke-width: 1; }
+  svg :global(.edge) { stroke: #e3a857; stroke-width: 2; }
+  svg :global(.box) { fill: #05070a; stroke: #7d8fa6; stroke-width: 1.2; }
+  svg :global(.bulkhead) { stroke: #2c3b4f; stroke-width: 2; stroke-dasharray: 2 3; }
+  svg :global(.keel) { stroke: #2c3b4f; stroke-width: 1.5; }
+  svg :global(.lance) { stroke: #e3a857; stroke-width: 2.5; stroke-linecap: round; }
+  svg :global(.scale line) { stroke: #4a5b70; stroke-width: 1; }
+  svg :global(.scale text), svg :global(.label) {
+    fill: #8a97a6;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  svg :global(.part) { transition: opacity 0.2s ease, filter 0.2s ease; }
+
+  /* Highlight whatever the reader has selected. */
+  :global([data-explorer='ship'][data-selected]) svg :global(.part:not([data-part='hull']):not([data-part='pelt'])) { opacity: 0.55; }
+  :global([data-explorer='ship'][data-selected='ship-hull']) svg :global([data-part='hull'] .hull) { stroke: #e3a857; }
+  :global([data-explorer='ship'][data-selected='ship-pelt']) svg :global(.pelt) { stroke: #e3a857; stroke-opacity: 0.9; }
+  :global([data-explorer='ship'][data-selected='ship-torch']) svg :global([data-part='torch']),
+  :global([data-explorer='ship'][data-selected='ship-rcs']) svg :global([data-part='rcs']),
+  :global([data-explorer='ship'][data-selected='ship-radiators']) svg :global([data-part='radiators']),
+  :global([data-explorer='ship'][data-selected='ship-ring']) svg :global([data-part='ring']),
+  :global([data-explorer='ship'][data-selected='ship-command']) svg :global([data-part='command']),
+  :global([data-explorer='ship'][data-selected='ship-rescue']) svg :global([data-part='rescue']),
+  :global([data-explorer='ship'][data-selected='ship-caretaker']) svg :global([data-part='caretaker']) {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(227, 168, 87, 0.8));
+  }
+  :global([data-explorer='ship'][data-selected='ship-ring']) svg :global([data-part='ring'] .inner),
+  :global([data-explorer='ship'][data-selected='ship-command']) svg :global([data-part='command'] .inner) { stroke: #e3a857; }
+  :global([data-explorer='ship'][data-selected='ship-rcs']) svg :global([data-part='rcs'] .metal) { fill: #3fbf7f; }
+
+  /* Spin ring readout: one turn every 7.2 s, the period of the bearing chirp. */
+  :global(.chirp) {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    margin-top: 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+  }
+  :global(.chirp .arm) {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    width: 2px;
+    height: 24px;
+    margin-left: -1px;
+    background: var(--accent);
+    transform-origin: 50% 24px;
+    animation: spin 7.2s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.chirp) { display: none; }
+  }
+  :global(.layers) { padding-left: 1.2rem; }
+  :global(.layers li) { margin-bottom: 0.4rem; }
+</style>
