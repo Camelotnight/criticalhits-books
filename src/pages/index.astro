@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import SignUp from '../components/SignUp.astro';
+import { RELEASE, TAGLINE } from '../config';
+---
+<Base title="Home" description={`${TAGLINE} The Jovian Crisis, Book One of The Capa Incident, by Robert Hasleton. ${RELEASE}.`}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-cover">
+        <Cover width={380} eager />
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">The Capa Incident · Book One</p>
+        <h1>The Jovian Crisis</h1>
+        <p class="tagline">{TAGLINE}</p>
+        <p class="hook"><strong>Some distress calls should stay unanswered.</strong></p>
+        <p class="prose">
+          Kade Holloway flies rescue out of Minerva Station in Jupiter's Trojans, because it's the last place in the
+          system where a captain buried in debt can still make the math work. When a dead ship's beacon lights his
+          board, he logs first-responder rights under the Belt Code and goes in.
+        </p>
+        <p class="release"><span class="rule-label">Release</span> <span class="date">{RELEASE}</span></p>
+        <div class="actions">
+          <a class="btn" href="#signup">Join the list</a>
+          <a class="btn btn--ghost" href="/book/">About the book</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <SignUp />
+      <aside class="arc" aria-labelledby="arc-title">
+        <p class="eyebrow">Advance reader copies</p>
+        <h2 id="arc-title">ARC readers wanted</h2>
+        <p>Advance copies open around October 26. Join the list and you'll get the invitation first.</p>
+        <a class="btn btn--ghost" href="#signup">Sign up for the ARC</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap explore">
+      <a class="card" href="/ship/">
+        <p class="eyebrow">The ship</p>
+        <h2>Cooper’s Reach</h2>
+        <p class="muted">A 74-meter heavy rescue cutter. Open the cutaway.</p>
+      </a>
+      <a class="card" href="/world/">
+        <p class="eyebrow">The world</p>
+        <h2>The Jovian system</h2>
+        <p class="muted">Minerva Station, Callisto and the Trojan clouds. Open the map.</p>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 7vw, 5rem); background: radial-gradient(ellipse at 80% 0%, #17202d, var(--bg) 60%); }
+  .hero-grid { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 820px) { .hero-grid { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 4rem; } }
+  .hero-cover { max-width: 300px; margin-inline: auto; width: 100%; }
+  @media (min-width: 820px) { .hero-cover { max-width: none; } }
+  .tagline { font-family: var(--font-display); font-size: clamp(1.15rem, 2.4vw, 1.45rem); color: var(--accent); margin-bottom: 1.5rem; }
+  .hook { font-size: 1.15rem; }
+  .release { display: flex; align-items: center; gap: 1rem; max-width: 26rem; margin-top: 1.5rem; }
+  .release .rule-label { flex: 1; }
+  .release .date { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+
+  .split { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
+  .arc { padding: clamp(1.25rem, 4vw, 2rem); border: 1px dashed var(--line-strong); border-radius: var(--radius); }
+
+  .explore { display: grid; gap: 1rem; }
+  @media (min-width: 720px) { .explore { grid-template-columns: 1fr 1fr; } }
+  .card {
+    display: block;
+    padding: 1.5rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .card:hover { border-color: var(--accent); color: var(--text); }
+  .card h2 { margin-bottom: 0.3rem; }
+  .card p:last-child { margin: 0; }
+</style>

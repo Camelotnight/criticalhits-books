@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import JovianMap from '../components/JovianMap.astro';
+---
+<Base title="The World" description="A map of the Jovian system in The Jovian Crisis: Minerva Station, Callisto and Jupiter’s Trojan clouds.">
+  <section class="section">
+    <div class="wrap">
+      <header class="prose head">
+        <p class="eyebrow">The World</p>
+        <h1>The Jovian system</h1>
+        <p class="lede">
+          Jupiter, its moons, and the two Trojan clouds that share its orbit around the Sun. Pick a place to look
+          closer.
+        </p>
+      </header>
+      <JovianMap />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { margin-bottom: 2rem; }
+  .head + :global(.explorer .canvas) { max-width: 48rem; }
+</style>
