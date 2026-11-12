@@ -1,0 +1,146 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-400-italic.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+const fullTitle = title === 'Home' ? 'Robert Hasleton · The Jovian Crisis' : `${title} · Robert Hasleton`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/book/', label: 'The Book' },
+  { href: '/ship/', label: 'The Ship' },
+  { href: '/world/', label: 'The World' },
+  { href: '/about/', label: 'About' },
+];
+const isCurrent = (href: string) => (href.replace(/\/$/, '') || '/') === path;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0b0f15" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href="/">
+          <span class="brand-name">Robert Hasleton</span>
+          <span class="brand-sub">The Capa Incident</span>
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <p>© 2026 Robert Hasleton. All rights reserved.</p>
+        <p class="muted"><a href="/about/#signup">Join the list</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 10;
+    padding: 0.6rem 1rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+    border-radius: var(--radius);
+  }
+  .skip:focus { top: 1rem; }
+
+  .site-header {
+    border-bottom: 1px solid var(--line);
+    background: rgba(11, 15, 21, 0.92);
+    z-index: 5;
+  }
+  @media (min-width: 720px) {
+    .site-header { position: sticky; top: 0; backdrop-filter: blur(6px); }
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 0.75rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .brand-name { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.02em; }
+  .brand-sub { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding: 0.55rem 0.6rem;
+    min-height: 44px;
+    line-height: 1.8;
+    color: var(--muted);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { color: var(--text); }
+  nav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--accent); }
+
+  main:focus { outline: none; }
+
+  .site-footer { border-top: 1px solid var(--line); padding-block: 2rem; font-size: 0.9rem; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; }
+  .foot p { margin: 0; }
+</style>

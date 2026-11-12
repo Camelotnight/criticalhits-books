@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Cover from '../components/Cover.astro';
+import { AMAZON_URL, RELEASE, isPlaceholder } from '../config';
+const preorderLive = !isPlaceholder(AMAZON_URL);
+---
+<Base title="The Book" description={`The Jovian Crisis, Book One of The Capa Incident. Hard science fiction from the edge of Jupiter. ${RELEASE}.`}>
+  <section class="section">
+    <div class="wrap grid">
+      <div class="side">
+        <Cover width={340} />
+        <dl class="facts">
+          <dt>Series</dt><dd>The Capa Incident, Book One</dd>
+          <dt>Release</dt><dd>{RELEASE}</dd>
+        </dl>
+        {preorderLive ? (
+          <a class="btn buy" href={AMAZON_URL} rel="noopener">Pre-order on Amazon</a>
+        ) : (
+          <span class="btn buy" aria-disabled="true">Pre-order link coming soon</span>
+        )}
+      </div>
+
+      <article class="prose blurb">
+        <p class="eyebrow">The Book</p>
+        <h1>The Jovian Crisis</h1>
+        <p class="hook"><strong>Some distress calls should stay unanswered.</strong></p>
+        <p>
+          Kade Holloway flies rescue out of Minerva Station in Jupiter's Trojans, because it's the last place in the
+          system where a captain buried in debt can still make the math work. When a dead ship's beacon lights his
+          board, he logs first-responder rights under the Belt Code and goes in.
+        </p>
+        <p>
+          The <em>Second Chance</em> is minutes from sublimating. Inside: a crew that tore itself apart, two survivors
+          strapped into their crash couches, and a helium-3 claim worth more than every debt Kade will ever owe.
+        </p>
+        <p>
+          He gets the survivors out. Then the ship burns, the proof goes with her, and the claim becomes the most
+          dangerous thing in the Jovian system.
+        </p>
+        <p>
+          His ship is impounded. The only way out costs him his license. And whoever gutted the <em>Second Chance</em>
+          is still watching the man who walked away with her secret.
+        </p>
+        <p>
+          <em>My air is your air.</em> It's the first rule on Kade's ship. Now he has to find out how far it reaches.
+        </p>
+        <p class="comp"><em>For readers of The Expanse and Delta-v.</em></p>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 820px) { .grid { grid-template-columns: 340px minmax(0, 1fr); gap: 4rem; align-items: start; } }
+  .side { max-width: 300px; width: 100%; margin-inline: auto; }
+  @media (min-width: 820px) { .side { max-width: none; position: sticky; top: 6rem; } }
+  .facts { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 1.5rem 0; font-size: 0.95rem; }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; }
+  .buy { width: 100%; }
+  .hook { font-size: 1.2rem; }
+  .comp { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); }
+</style>

@@ -1,0 +1,59 @@
+---
+// Book cover. Drop the approved cover (eCover_2) in at src/assets/cover.jpg and it is used
+// automatically. Until then a typographic stand-in renders in its place.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  width?: number;
+  eager?: boolean;
+}
+const { width = 420, eager = false } = Astro.props;
+
+const found = import.meta.glob<{ default: ImageMetadata }>('../assets/cover.{jpg,jpeg,png,webp}', { eager: true });
+const cover = Object.values(found)[0]?.default;
+const alt = 'Cover of The Jovian Crisis, Book One of The Capa Incident, by Robert Hasleton';
+---
+{cover ? (
+  <Image
+    src={cover}
+    alt={alt}
+    width={width}
+    widths={[Math.round(width / 2), width, width * 2]}
+    sizes={`(max-width: 640px) 70vw, ${width}px`}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : 'auto'}
+    class="cover"
+  />
+) : (
+  <div class="cover cover--standin" role="img" aria-label={alt} style={`max-width:${width}px`}>
+    <span class="series">The Capa Incident · Book One</span>
+    <span class="title">The Jovian Crisis</span>
+    <span class="author">Robert Hasleton</span>
+  </div>
+)}
+
+<style>
+  .cover {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+  .cover--standin {
+    aspect-ratio: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8% 9%;
+    background:
+      radial-gradient(circle at 74% 74%, #c9874a 0 11%, #8a4f2a 15%, transparent 15.5%),
+      radial-gradient(ellipse at 50% 120%, #1d2a3d, #090c12 70%);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .series { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); }
+  .title { font-size: clamp(1.6rem, 6vw, 2.4rem); font-weight: 600; line-height: 1.05; letter-spacing: 0.04em; }
+  .author { font-size: 0.85rem; letter-spacing: 0.24em; }
+</style>

@@ -1,0 +1,239 @@
+---
+// Shared shell for the two interactive diagrams: an SVG with hotspot buttons laid over it,
+// a list of the same items (easier on phones and for keyboard users), and one detail panel.
+// Without JavaScript every panel shows, so nothing is hidden from anyone.
+export interface ExplorerItem {
+  id: string;
+  label: string;
+  /** Hotspot position as a percentage of the figure's width and height. */
+  x: number;
+  y: number;
+  title: string;
+  kicker?: string;
+  html: string;
+}
+
+interface Props {
+  name: string;
+  label: string;
+  items: ExplorerItem[];
+  caption: string;
+  aspect: string;
+}
+const { name, label, items, caption, aspect } = Astro.props;
+---
+<div class="explorer" data-explorer={name}>
+  <figure class="stage">
+    <div class="canvas" style={`aspect-ratio:${aspect}`}>
+      <slot />
+      {items.map((item, i) => (
+        <button
+          type="button"
+          class="hotspot"
+          style={`left:${item.x}%;top:${item.y}%`}
+          data-target={`${name}-${item.id}`}
+          aria-controls={`${name}-panel`}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <span class="dot"></span>
+          <span class="tip">{item.label}</span>
+        </button>
+      ))}
+    </div>
+    <figcaption class="muted">{caption}</figcaption>
+  </figure>
+
+  <div class="console">
+    <div class="systems" role="group" aria-label={label}>
+      <p class="rule-label" id={`${name}-list-label`}>{label}</p>
+      <ul>
+        {items.map((item, i) => (
+          <li>
+            <button
+              type="button"
+              class="sys"
+              data-target={`${name}-${item.id}`}
+              aria-controls={`${name}-panel`}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+            >
+              <span class="idx">{String(i + 1).padStart(2, '0')}</span>{item.label}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="panels" id={`${name}-panel`} aria-live="polite">
+      {items.map((item, i) => (
+        <article class:list={['panel', { active: i === 0 }]} id={`${name}-${item.id}`}>
+          {item.kicker && <p class="eyebrow">{item.kicker}</p>}
+          <h2 class="panel-title">{item.title}</h2>
+          <Fragment set:html={item.html} />
+        </article>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-explorer]')) {
+    const triggers = [...root.querySelectorAll<HTMLButtonElement>('[data-target]')];
+    const listButtons = [...root.querySelectorAll<HTMLButtonElement>('.sys')];
+    const panels = [...root.querySelectorAll<HTMLElement>('.panel')];
+
+    // Hotspots are mouse/touch targets (aria-hidden, out of the tab order); keyboard and
+    // screen-reader users get the list, which carries the same items.
+    const select = (target: string) => {
+      for (const p of panels) p.classList.toggle('active', p.id === target);
+      for (const t of triggers) t.setAttribute('aria-pressed', String(t.dataset.target === target));
+      root.dataset.selected = target;
+    };
+
+    for (const t of triggers) t.addEventListener('click', () => select(t.dataset.target!));
+
+    root.addEventListener('keydown', (e) => {
+      const i = listButtons.indexOf(document.activeElement as HTMLButtonElement);
+      if (i < 0) return;
+      const keys: Record<string, number> = {
+        ArrowDown: i + 1, ArrowRight: i + 1, ArrowUp: i - 1, ArrowLeft: i - 1, Home: 0, End: listButtons.length - 1,
+      };
+      if (!(e.key in keys)) return;
+      e.preventDefault();
+      const next = listButtons[(keys[e.key] + listButtons.length) % listButtons.length];
+      next.focus();
+      select(next.dataset.target!);
+    });
+
+    if (triggers[0]) select(triggers[0].dataset.target!);
+  }
+</script>
+
+<style>
+  .explorer {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 960px) {
+    .explorer { grid-template-columns: minmax(0, 1fr); }
+    .console { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+  }
+
+  .stage { margin: 0; }
+  .canvas {
+    position: relative;
+    width: 100%;
+    background:
+      linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 40px 40px,
+      var(--bg-2);
+    background-blend-mode: normal;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(11, 15, 21, 0.85) 100%);
+    pointer-events: none;
+  }
+  .canvas :global(svg) { position: absolute; inset: 0; width: 100%; height: 100%; }
+  figcaption { font-size: 0.85rem; margin-top: 0.6rem; }
+
+  .hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .dot {
+    position: absolute;
+    inset: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--signal);
+    background: rgba(11, 15, 21, 0.75);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .dot::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+  .hotspot[aria-pressed='true'] .dot { border-color: var(--accent); transform: scale(1.25); }
+  .hotspot[aria-pressed='true'] .dot::after { background: var(--accent); }
+  .hotspot:hover .dot { transform: scale(1.2); }
+  .tip {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 0.15rem 0.45rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .hotspot:hover .tip, .hotspot[aria-pressed='true'] .tip { opacity: 1; }
+  /* On small screens the hotspots crowd each other; the list right below does the job. */
+  @media (max-width: 640px) {
+    .hotspot { display: none; }
+  }
+
+  .systems ul { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; gap: 2px; }
+  @media (max-width: 959px) {
+    .systems ul { grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); }
+  }
+  .sys {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.7rem;
+    background: var(--panel);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    text-align: left;
+    cursor: pointer;
+  }
+  .sys:hover { color: var(--text); border-color: var(--line-strong); }
+  .sys[aria-pressed='true'] { color: var(--text); border-color: var(--accent); background: #1a2330; }
+  .idx { font-size: 0.72rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .panels { min-height: 12rem; }
+  .panel-title { font-size: 1.15rem; }
+  .panel {
+    padding: 1.25rem 1.4rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--accent);
+    border-radius: var(--radius);
+  }
+  .panel + .panel { margin-top: 1rem; }
+  :global(.js) .panel { display: none; margin: 0; }
+  :global(.js) .panel.active { display: block; }
+  .panel :global(p:last-child), .panel :global(ul:last-child), .panel :global(dl:last-child) { margin-bottom: 0; }
+  .panel :global(dl) { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; margin: 0 0 1em; }
+  .panel :global(dt) { color: var(--muted); font-size: 0.9rem; }
+  .panel :global(dd) { margin: 0; font-variant-numeric: tabular-nums; }
+  .panel :global(ul) { padding-left: 1.1rem; }
+</style>

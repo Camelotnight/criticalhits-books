@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import ShipCutaway from '../components/ShipCutaway.astro';
+---
+<Base title="The Ship" description="Cooper’s Reach, a Lifeline-class heavy rescue cutter: an interactive cutaway of Kade Holloway’s ship.">
+  <section class="section">
+    <div class="wrap">
+      <header class="prose head">
+        <p class="eyebrow">The Ship</p>
+        <h1><em>Cooper’s Reach</em></h1>
+        <p class="lede">
+          A <em>Lifeline</em>-class heavy rescue cutter flying a civilian search-and-rescue charter. Built to reach
+          people in trouble and bring them home. Pick a system to look closer.
+        </p>
+      </header>
+      <ShipCutaway />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { margin-bottom: 2rem; }
+</style>
