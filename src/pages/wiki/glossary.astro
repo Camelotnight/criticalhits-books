@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+import { KINDS, TERMS, type Kind } from '../../data/glossary';
+
+const key = (t: string) => t.toLowerCase().replace(/^the\s+/, '');
+const slug = (t: string) =>
+  t.toLowerCase().normalize('NFKD').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const sorted = [...TERMS].sort((a, b) => key(a.term).localeCompare(key(b.term)));
+const letters = [...new Set(sorted.map((t) => key(t.term)[0].toUpperCase()))];
+const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[0].toUpperCase() === L) }));
+---
+<Base
+  title="Quick glossary"
+  description="Plain-English definitions of the words of The Jovian Crisis, written for every reader, including those reading in a second language. No spoilers."
+>
+  <section class="section">
+    <div class="wrap">
+      <header class="prose head">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="/wiki/">Encyclopedia</a></nav>
+        <h1>Quick glossary</h1>
+        <p class="lede">
+          The words of the Jovian system in plain English. Each entry tells you what a word means, never what happens.
+        </p>
+        <p class="muted">
+          Reading in a second language? Some entries are ordinary English used in a special way, like
+          <a href="#translation">translation</a> or <a href="#bingo">bingo</a>. They are marked “Ways of talking.” For
+          the full story behind a word, see the <a href="/wiki/">encyclopedia</a>.
+        </p>
+      </header>
+
+      <div class="controls" data-controls hidden>
+        <label class="field grow">
+          <span>Find a word</span>
+          <input type="search" data-q placeholder="e.g. shu, Capa, bingo" autocomplete="off" spellcheck="false" />
+        </label>
+        <label class="field">
+          <span>Show</span>
+          <select data-kind>
+            <option value="">Everything</option>
+            {(Object.keys(KINDS) as Kind[]).map((k) => <option value={k}>{KINDS[k]}</option>)}
+          </select>
+        </label>
+        <p class="count muted" data-count aria-live="polite"></p>
+      </div>
+
+      <nav class="letters" aria-label="Jump to letter">
+        {letters.map((L) => <a href={`#letter-${L}`}>{L}</a>)}
+      </nav>
+
+      {groups.map((g) => (
+        <section class="letter" data-letter aria-labelledby={`letter-${g.L}`}>
+          <h2 id={`letter-${g.L}`} class="rule-label">{g.L}</h2>
+          <dl class="terms">
+            {g.terms.map((t) => (
+              <div class="entry" id={slug(t.term)} data-kind={t.kind}
+                   data-text={[t.term, ...(t.also ?? []), t.def].join(' ').toLowerCase()}>
+                <dt>
+                  <span class="term">{t.term}</span>
+                  {t.also && <span class="also">also: {t.also.join(', ')}</span>}
+                </dt>
+                <dd>
+                  <p>{t.def}</p>
+                  <span class="kind">{KINDS[t.kind]}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+
+      <p class="empty muted" data-empty hidden>No words match that. Try a shorter search.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const controls = document.querySelector<HTMLElement>('[data-controls]')!;
+  const q = document.querySelector<HTMLInputElement>('[data-q]')!;
+  const kind = document.querySelector<HTMLSelectElement>('[data-kind]')!;
+  const count = document.querySelector<HTMLElement>('[data-count]')!;
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-letter]')];
+  controls.hidden = false;
+
+  const apply = () => {
+    const words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const k = kind.value;
+    let shown = 0;
+    for (const g of groups) {
+      let n = 0;
+      for (const e of g.querySelectorAll<HTMLElement>('.entry')) {
+        const hit = (!k || e.dataset.kind === k) && words.every((w) => e.dataset.text!.includes(w));
+        e.hidden = !hit;
+        if (hit) n++;
+      }
+      g.hidden = n === 0;
+      shown += n;
+    }
+    empty.hidden = shown > 0;
+    count.textContent = `${shown} ${shown === 1 ? 'word' : 'words'}`;
+  };
+  q.addEventListener('input', apply);
+  kind.addEventListener('change', apply);
+  apply();
+</script>
+
+<style>
+  .head { margin-bottom: 1.5rem; }
+  .crumbs { font-size: 0.85rem; margin-bottom: 1rem; }
+  .crumbs a { color: var(--muted); }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.75rem 1.25rem;
+    padding: 1rem 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .controls[hidden] { display: none; }
+  @media (min-width: 720px) { .controls { position: sticky; top: 3.9rem; z-index: 2; } }
+  .field { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; color: var(--muted); }
+  .field.grow { flex: 1 1 14rem; }
+  select, input {
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+  }
+  .count { margin: 0 0 0.6rem; font-size: 0.85rem; }
+
+  .letters { display: flex; flex-wrap: wrap; gap: 0.2rem; margin: 1rem 0 0.5rem; }
+  .letters a {
+    min-width: 2.2rem; min-height: 2.2rem; display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); color: var(--muted); text-decoration: none; border-radius: var(--radius);
+  }
+  .letters a:hover { background: var(--panel); color: var(--text); }
+
+  .letter { margin-top: 2rem; }
+  .letter h2 { margin-bottom: 1rem; scroll-margin-top: 1rem; }
+  @media (min-width: 720px) { .letter h2 { scroll-margin-top: 11rem; } }
+
+  .terms { display: grid; gap: 0.75rem; margin: 0; }
+  @media (min-width: 900px) { .terms { grid-template-columns: 1fr 1fr; } }
+  .entry { padding: 1rem 1.1rem; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); scroll-margin-top: 1rem; }
+  @media (min-width: 720px) { .entry { scroll-margin-top: 11rem; } }
+  .entry:target { border-color: var(--accent); }
+  .entry dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.75rem; margin-bottom: 0.35rem; }
+  .term { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--accent); }
+  .also { font-size: 0.82rem; color: var(--muted); }
+  .entry dd { margin: 0; }
+  .entry dd p { margin: 0 0 0.5rem; }
+  .kind { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); }
+  .empty { margin-top: 2rem; }
+</style>

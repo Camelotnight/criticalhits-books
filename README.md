@@ -47,6 +47,22 @@ The sign-up is a plain HTML form that posts to `https://app.kit.com/forms/<KIT_F
 - Every ship and world fact traces to the vault. See `docs/canon-check.md` before changing a number.
 - The ship's spin gravity (0.6 g, 16 m drum, about 8.3 RPM, 7.2 s chirp) is locked canon. Thrust gravity is separate; don't mix them.
 
+## The encyclopedia
+
+`/wiki/` is a spoiler-free encyclopedia of the world. Each article is one Markdown file in `src/content/wiki/`, with its facts, an "At a glance" box and an optional **Behind the science** note:
+
+```md
+<aside class="science">
+
+## Behind the science
+
+Real research goes here.
+
+</aside>
+```
+
+Rules: world facts only, never plot; nothing the book treats as a reveal; no Book 2. The `sources` field in each file records where every fact came from in the vault and is never shown on the site. The quick glossary (`/wiki/glossary/`) lives in `src/data/glossary.ts`.
+
 ## Layout
 
 ```
