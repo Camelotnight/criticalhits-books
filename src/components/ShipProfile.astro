@@ -1,18 +1,13 @@
 ---
-import Explorer from './Explorer.astro';
-import { shipItems, SHIP_VIEW } from '../data/ship';
+import { SHIP_VIEW } from '../data/ship';
+
+// Flat side profile: the fallback for the 3D model (no WebGL, no JavaScript).
 
 // Hull outline: side profile of the flattened double wedge, bow to the right.
 // 10 units = 1 m: stern at x 55, bow tip at x 795 (74 m); top at y 50, keel at y 200 (15 m).
 const hull = '795,128 610,58 560,50 330,50 130,82 55,95 55,155 130,168 330,200 560,200 610,192';
 ---
-<Explorer
-  name="ship"
-  label="Ship systems"
-  items={shipItems}
-  aspect={`${SHIP_VIEW.w} / ${SHIP_VIEW.h}`}
-  caption="Cooper’s Reach, side profile. Schematic: the spin ring is shown stowed, and fittings are placed for clarity, not to scale."
->
+<div class="profile">
   <svg viewBox={`0 0 ${SHIP_VIEW.w} ${SHIP_VIEW.h}`} role="img" aria-labelledby="ship-svg-title ship-svg-desc">
     <title id="ship-svg-title">Side profile of the Cooper’s Reach</title>
     <desc id="ship-svg-desc">
@@ -116,9 +111,10 @@ const hull = '795,128 610,58 560,50 330,50 130,82 55,95 55,155 130,168 330,200 5
     <text x="700" y="34" class="label">BOW →</text>
     <text x="40" y="34" class="label">← STERN</text>
   </svg>
-</Explorer>
+</div>
 
 <style>
+  .profile { position: absolute; inset: 0; }
   svg :global(.hull) { stroke: #3b4f68; stroke-width: 1.2; }
   svg :global(.pelt) { fill: none; stroke: #5c7290; stroke-width: 3; stroke-opacity: 0.35; }
   svg :global(.facet) { fill: none; stroke: #2c3b4f; stroke-width: 1; }

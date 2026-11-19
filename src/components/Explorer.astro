@@ -19,14 +19,16 @@ interface Props {
   items: ExplorerItem[];
   caption: string;
   aspect: string;
+  /** Overlay a button on the figure for each item. Off when the figure handles its own clicks. */
+  hotspots?: boolean;
 }
-const { name, label, items, caption, aspect } = Astro.props;
+const { name, label, items, caption, aspect, hotspots = true } = Astro.props;
 ---
 <div class="explorer" data-explorer={name}>
   <figure class="stage">
     <div class="canvas" style={`aspect-ratio:${aspect}`}>
       <slot />
-      {items.map((item, i) => (
+      {hotspots && items.map((item, i) => (
         <button
           type="button"
           class="hotspot"
@@ -42,6 +44,7 @@ const { name, label, items, caption, aspect } = Astro.props;
         </button>
       ))}
     </div>
+    <slot name="below" />
     <figcaption class="muted">{caption}</figcaption>
   </figure>
 
@@ -89,6 +92,8 @@ const { name, label, items, caption, aspect } = Astro.props;
       for (const p of panels) p.classList.toggle('active', p.id === target);
       for (const t of triggers) t.setAttribute('aria-pressed', String(t.dataset.target === target));
       root.dataset.selected = target;
+      // Lets a figure with its own drawing code (the 3D ship) follow the selection.
+      root.dispatchEvent(new CustomEvent('explorer:select', { detail: { target } }));
     };
 
     for (const t of triggers) t.addEventListener('click', () => select(t.dataset.target!));

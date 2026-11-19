@@ -1,0 +1,141 @@
+---
+// The ship page's figure: Robert's 3D working model (src/scripts/ship-model.js). On wide screens with a
+// mouse it loads once the page is up; on phones and tablets the reader taps to load it, which saves data
+// and keeps the page fast. The flat side profile shows until then, and stays without JavaScript or WebGL.
+import Explorer from './Explorer.astro';
+import ShipProfile from './ShipProfile.astro';
+import { shipItems } from '../data/ship';
+---
+<Explorer
+  name="ship"
+  label="Ship systems"
+  items={shipItems}
+  aspect="16 / 9"
+  hotspots={false}
+  caption="Cooper’s Reach, working model. Drag to turn it. Compartment layout inside the hull is the author’s working inference, not a deck plan."
+>
+  <div class="stage" data-ship-stage>
+    <ShipProfile />
+  </div>
+
+  <div class="launch-row" slot="below">
+    <button type="button" class="btn btn--ghost" data-ship-launch>View the 3D model</button>
+  </div>
+
+  <div class="toolbar" data-ship-toolbar slot="below">
+    <div class="group" role="group" aria-label="Ship state">
+      <span class="rule-label">State</span>
+      <button type="button" data-state="coast" aria-pressed="true">Coasting</button>
+      <button type="button" data-state="cruise" aria-pressed="false">Cruise burn</button>
+      <button type="button" data-state="emergency" aria-pressed="false">Emergency burn</button>
+    </div>
+    <div class="group" role="group" aria-label="Camera">
+      <span class="rule-label">View</span>
+      <button type="button" data-cam="iso" aria-pressed="true">Three-quarter</button>
+      <button type="button" data-cam="side" aria-pressed="false">Profile</button>
+      <button type="button" data-cam="aft" aria-pressed="false">From astern</button>
+      <button type="button" data-cam="drum" aria-pressed="false">Spin ring</button>
+    </div>
+    <p class="readout muted" data-readout aria-live="polite"></p>
+  </div>
+</Explorer>
+
+<script>
+  const stage = document.querySelector<HTMLElement>('[data-ship-stage]');
+  const root = document.querySelector<HTMLElement>('[data-explorer="ship"]');
+  const toolbar = document.querySelector<HTMLElement>('[data-ship-toolbar]');
+  const launch = document.querySelector<HTMLButtonElement>('[data-ship-launch]');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // keep in step with the CSS media query below
+  const auto = matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+
+  let started = false;
+  const start = async () => {
+    if (started || !stage || !root) return;
+    started = true;
+    if (launch) { launch.disabled = true; launch.textContent = 'Loading…'; }
+    try {
+      const { mountShip } = await import('../scripts/ship-model.js');
+      if (mountShip({ stage, root, toolbar, reducedMotion })) {
+        stage.classList.add('live');
+        root.classList.add('ship-live');
+        launch?.parentElement?.remove();
+        return;
+      }
+    } catch {}
+    // no WebGL: the flat profile stays, and the 3D controls go away
+    launch?.parentElement?.remove();
+    toolbar?.remove();
+  };
+
+  if (auto) {
+    if ('requestIdleCallback' in window) requestIdleCallback(() => start(), { timeout: 1500 });
+    else setTimeout(start, 200);
+  } else {
+    launch?.addEventListener('click', start);
+  }
+</script>
+
+<style>
+  .stage { position: absolute; inset: 0; }
+  .stage :global(canvas) { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+  .stage.live :global(.profile) { display: none; }
+
+  /* Shown by CSS (not script) where the reader loads the model by hand, so it's there from the first paint. */
+  .launch-row { display: none; margin-top: 0.75rem; }
+  @media not all and (min-width: 900px) and (pointer: fine) {
+    :global(html.js) .launch-row { display: block; }
+  }
+
+  /* The flat profile is wide; the 3D model gets a square frame on narrow screens. The reader's tap
+     causes that change, so it isn't an unexpected layout shift. */
+  @media not all and (min-width: 900px) and (pointer: fine) {
+    :global([data-explorer='ship'] .canvas) { aspect-ratio: 840 / 250 !important; }
+    :global([data-explorer='ship'].ship-live .canvas) { aspect-ratio: 16 / 10 !important; }
+  }
+  @media (max-width: 640px) {
+    :global([data-explorer='ship'].ship-live .canvas) { aspect-ratio: 1 / 1 !important; }
+  }
+
+  .stage :global(.model-labels) { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .stage :global(.model-tag) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    padding: 1px 6px;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: #cfeeff;
+    background: rgba(11, 15, 21, 0.75);
+    border: 1px solid rgba(127, 212, 255, 0.35);
+    border-radius: 2px;
+  }
+
+  /* Controls: hidden until the model is live. Where the model loads by itself, their space is held
+     from the first paint so nothing below them jumps. */
+  .toolbar { display: none; gap: 0.5rem; margin-top: 0.75rem; }
+  :global(.ship-live) .toolbar { display: grid; }
+  @media (min-width: 900px) and (pointer: fine) {
+    :global(html.js) .toolbar { display: grid; visibility: hidden; }
+    :global(html.js .ship-live) .toolbar { visibility: visible; }
+  }
+  .group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
+  .group .rule-label { min-width: 3.5rem; }
+  .group .rule-label::after { display: none; }
+  .group button {
+    min-height: 44px;
+    padding: 0.4rem 0.75rem;
+    background: var(--panel);
+    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    cursor: pointer;
+  }
+  .group button:hover { color: var(--text); border-color: var(--line-strong); }
+  .group button[aria-pressed='true'] { color: var(--text); border-color: var(--accent); background: #1a2330; }
+  .readout { margin: 0; font-size: 0.9rem; min-height: 3em; }
+</style>

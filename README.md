@@ -54,7 +54,9 @@ src/config.ts               placeholders and site constants
 src/data/ship.ts            Cooper's Reach hotspot facts
 src/data/places.ts          Jovian map facts and geometry
 src/components/Explorer     shared shell for the two interactive diagrams
-src/components/ShipCutaway  ship side-profile SVG
+src/components/ShipModel    ship page figure: 3D model, with the flat profile as fallback
+src/scripts/ship-model.js   the 3D model (three.js), ported from the vault's working model
+src/components/ShipProfile  flat side-profile SVG
 src/components/JovianMap    system map SVG
 src/pages/                  home, book, ship, world, about, thank-you, 404
 docs/canon-check.md         fact-by-fact sources
