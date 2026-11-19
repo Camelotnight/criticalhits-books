@@ -43,6 +43,27 @@ If a number changes in the vault, change it here and in `src/data/` together.
 | Caretaker in a crash-rated black box on the keel | Dossier L105 |
 | Caretaker advises; humans keep the levers | Dossier L106 |
 
+### 3D model (`src/scripts/ship-model.js`, `src/components/ShipModel.astro`)
+
+The model is ported from Robert's working model in the vault (`Series Bible/Locations/The Cooper's Reach — Working Model.html`, 2026-11-10). Only its geometry and motion came across; every visible label and line of text is held to the facts above.
+
+| Shown in the model | Source |
+|---|---|
+| Hull proportions: 74 m long, 15 m high, sponsons amidships | Dossier L38 (shape of the bow wedge and aft taper inferred in the working model) |
+| Drum: 16 m, one turn every 7.2 s | Dossier L76; **LOCKED** row |
+| Drum collapses and locks during a burn | Dossier L76 |
+| Medbay, galley, quarters on the ring | Dossier L77 (their order around the ring is the working model's inference; the caption says so) |
+| Worn spot on the guide race, passed once a turn | Dossier L115 |
+| Command deck forward, outside the ring | Dossier L77 |
+| Caretaker's box on the keel, between the drum bearing and engineering | Dossier L105 |
+| Engineering aft, against the torch | Dossier L105 ("engineering bulkhead") |
+| Torch plume; RCS flashes green; droplet radiators deploy aft | Dossier L59, L65, L69 |
+| Plasma lance at the bow | Dossier L91 |
+| Readout: "six-tenths of a g on its floor, none on the command deck" | Dossier L76–77; **LOCKED** row |
+| Readout: cruise burn 0.2–0.5 g; emergency burn 1.2–1.5 g and up | Dossier L60 |
+
+Left out of the port on purpose: crew and couch assignments, compartments the dossier doesn't name for readers, scene citations, burn profiles for particular legs of the story, and the working model's sound and physics panels.
+
 Spin gravity (0.6 g) and thrust gravity (0.2–0.5 g cruise, 1.2–1.5 g+ emergency) appear in separate panels and are never mixed, per the LOCKED row.
 
 Deliberately left off the site: the ring's crew couch assignments, the shotguns in the arms locker, replacement value, Caretaker's place in the wider mesh, and the dossier's Continuity Log rows beyond the crossing.
