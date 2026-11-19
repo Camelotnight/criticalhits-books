@@ -1,0 +1,165 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { SECTIONS } from '../../content.config';
+import { TERMS } from '../../data/glossary';
+
+const all = await getCollection('wiki');
+const bySection = (Object.keys(SECTIONS) as (keyof typeof SECTIONS)[]).map((key) => ({
+  key,
+  ...SECTIONS[key],
+  items: all
+    .filter((e) => e.data.section === key)
+    .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)),
+}));
+
+const index = [
+  ...all.map((e) => ({
+    t: e.data.title,
+    k: [e.data.title, ...(e.data.aka ?? []), e.data.summary].join(' ').toLowerCase(),
+    s: e.data.summary,
+    h: `/wiki/${e.id}/`,
+    tag: SECTIONS[e.data.section].title,
+  })),
+  ...TERMS.map((t) => ({
+    t: t.term,
+    k: [t.term, ...(t.also ?? []), t.def].join(' ').toLowerCase(),
+    s: t.def,
+    h: `/wiki/glossary/#${t.term.toLowerCase().normalize('NFKD').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`,
+    tag: 'Glossary',
+  })),
+];
+---
+<Base
+  title="Encyclopedia"
+  description="A spoiler-free encyclopedia of the world of The Jovian Crisis: the powers, places, science and people of the Jovian system in 2325."
+>
+  <section class="section hero">
+    <div class="wrap">
+      <header class="prose">
+        <p class="eyebrow">The Jovian system, 2325</p>
+        <h1>Encyclopedia</h1>
+        <p class="lede">
+          The world behind <em>The Jovian Crisis</em>: who holds the fuel, who does the work, and the physics none of
+          them can argue with. Every article is background. Nothing here spoils the story.
+        </p>
+        <p class="muted">
+          Look for the <span class="tag-science">Behind the science</span> boxes: the real research each piece of the
+          world is built on.
+        </p>
+      </header>
+
+      <div class="search">
+        <label for="wiki-q" class="visually-hidden">Search the encyclopedia</label>
+        <input id="wiki-q" type="search" placeholder="Search articles and words: shu, Capa, gecko, Tharsis…" autocomplete="off" spellcheck="false" />
+        <ul class="results" data-results hidden></ul>
+      </div>
+    </div>
+  </section>
+
+  {bySection.map((s) => (
+    <section class="section portal" id={s.key}>
+      <div class="wrap">
+        <h2>{s.title}</h2>
+        <p class="muted portal-blurb">{s.blurb}</p>
+        <ul class="cards">
+          {s.items.map((e) => (
+            <li>
+              <a class="card" href={`/wiki/${e.id}/`}>
+                <span class="card-title">{e.data.title}</span>
+                <span class="card-sum">{e.data.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="section portal">
+    <div class="wrap">
+      <h2>Quick glossary</h2>
+      <p class="muted portal-blurb">
+        Short, plain-English definitions for the words you meet in the opening chapters. Good for readers reading in a
+        second language.
+      </p>
+      <a class="btn btn--ghost" href="/wiki/glossary/">Open the glossary</a>
+    </div>
+  </section>
+
+  <script is:inline type="application/json" id="wiki-index" set:html={JSON.stringify(index)} />
+</Base>
+
+<script>
+  type Item = { t: string; k: string; s: string; h: string; tag: string };
+  const data: Item[] = JSON.parse(document.getElementById('wiki-index')!.textContent!);
+  const q = document.getElementById('wiki-q') as HTMLInputElement;
+  const out = document.querySelector<HTMLUListElement>('[data-results]')!;
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
+  q.addEventListener('input', () => {
+    const words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    if (!words.length) { out.hidden = true; out.innerHTML = ''; return; }
+    const hits = data
+      .filter((d) => words.every((w) => d.k.includes(w)))
+      .sort((a, b) => Number(!a.t.toLowerCase().startsWith(words[0])) - Number(!b.t.toLowerCase().startsWith(words[0])))
+      .slice(0, 12);
+    out.innerHTML = hits.length
+      ? hits.map((d) => `<li><a href="${d.h}"><strong>${esc(d.t)}</strong> <span class="r-tag">${esc(d.tag)}</span><span class="r-sum">${esc(d.s)}</span></a></li>`).join('')
+      : '<li class="none">Nothing yet. Try a shorter word.</li>';
+    out.hidden = false;
+  });
+</script>
+
+<style>
+  .hero { padding-bottom: 2rem; }
+  .tag-science { color: var(--signal); font-weight: 600; }
+  .search { margin-top: 2rem; max-width: 44rem; position: relative; }
+  .search input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+  }
+  .results {
+    list-style: none;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-2);
+    max-height: 26rem;
+    overflow: auto;
+  }
+  .results :global(li a) { display: block; padding: 0.7rem 0.9rem; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--line); }
+  .results :global(li a:hover), .results :global(li a:focus) { background: var(--panel); }
+  .results :global(.r-tag) { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--signal); margin-left: 0.4rem; }
+  .results :global(.r-sum) { display: block; font-size: 0.88rem; color: var(--muted); }
+  .results :global(.none) { padding: 0.7rem 0.9rem; color: var(--muted); }
+
+  .portal { padding-block: 2.5rem; }
+  .portal h2 { margin-bottom: 0.3rem; }
+  .portal-blurb { margin-bottom: 1.25rem; }
+  .cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .cards { grid-template-columns: 1fr 1fr 1fr; } }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 1rem 1.1rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .card:hover, .card:focus-visible { border-color: var(--accent); }
+  .card-title { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--accent); }
+  .card-sum { font-size: 0.92rem; color: var(--muted); line-height: 1.5; }
+</style>

@@ -21,9 +21,13 @@ const nav = [
   { href: '/book/', label: 'The Book' },
   { href: '/ship/', label: 'The Ship' },
   { href: '/world/', label: 'The World' },
+  { href: '/wiki/', label: 'Encyclopedia' },
   { href: '/about/', label: 'About' },
 ];
-const isCurrent = (href: string) => (href.replace(/\/$/, '') || '/') === path;
+const isCurrent = (href: string) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return h === path || (h === '/wiki' && path.startsWith('/wiki/'));
+};
 ---
 <!doctype html>
 <html lang="en">
