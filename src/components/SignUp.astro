@@ -1,7 +1,7 @@
 ---
 // Kit sign-up. A plain HTML form posting to Kit's form endpoint: no script, no cookies.
 // Set KIT_FORM_ID in src/config.ts and point the form's success redirect at /thank-you/ in Kit.
-import { KIT_FORM_ID, isPlaceholder } from '../config';
+import { KIT_FORM_ID, RELEASE, isPlaceholder } from '../config';
 
 interface Props {
   id?: string;
@@ -15,7 +15,7 @@ const inputId = `${id}-email`;
 <section class="signup" id={id} aria-labelledby={`${id}-title`}>
   <h2 id={`${id}-title`}>{heading}</h2>
   <p>
-    I'm Robert Hasleton. <em>The Jovian Crisis</em>, Book One of The Capa Incident, lands this December.
+    I'm Robert Hasleton. <em>The Jovian Crisis</em>, Book One of The Capa Incident, lands {RELEASE}.
     Join the list for release news, early chapters of Book Two, and the occasional look behind the science.
   </p>
   <p class="muted">No spam. One email when there's something worth saying.</p>
