@@ -19,11 +19,10 @@ Node 22.22 or newer.
 
 | What | Where | Until then |
 |---|---|---|
-| **Cover image** (approved `The_Jovian_Crisis_eCover_2.jpg`) | Copy it to `src/assets/cover.jpg` | A typographic stand-in renders. Once the file is there, it's picked up and optimized automatically. |
 | **Kit form ID** | `KIT_FORM_ID` in `src/config.ts` | The sign-up form shows but is disabled, with "Sign-up opens shortly." |
 | **Amazon pre-order link** `[AMAZON LINK]` | `AMAZON_URL` in `src/config.ts` | The Book page shows "Pre-order link coming soon." |
 
-Also: once the cover is in, check the palette in `src/styles/global.css` against it. The current colors were chosen without the cover in hand.
+The cover lives at `src/assets/cover.jpg`; the home page, The Book page and link previews all use it.
 
 ## Kit setup
 
