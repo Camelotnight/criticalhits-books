@@ -4,6 +4,8 @@ import '@fontsource/ibm-plex-sans/latin-400.css';
 import '@fontsource/ibm-plex-sans/latin-400-italic.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
 import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import coverSrc from '../assets/cover.jpg';
 
 interface Props {
   title: string;
@@ -12,6 +14,9 @@ interface Props {
 }
 
 const { title, description, noindex = false } = Astro.props;
+// Link previews (texts, social posts) show the cover.
+const ogCover = await getImage({ src: coverSrc, width: 800, format: 'jpg' });
+const ogImage = new URL(ogCover.src, Astro.site);
 const fullTitle = title === 'Home' ? 'Robert Hasleton · The Jovian Crisis' : `${title} · Robert Hasleton`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -43,7 +48,9 @@ const isCurrent = (href: string) => {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Cover of The Jovian Crisis by Robert Hasleton" />
+    <meta name="twitter:card" content="summary_large_image" />
     {noindex && <meta name="robots" content="noindex" />}
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
