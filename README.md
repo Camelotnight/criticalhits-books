@@ -20,7 +20,6 @@ Node 22.22 or newer.
 | What | Where | Until then |
 |---|---|---|
 | **Kit form ID** | `KIT_FORM_ID` in `src/config.ts` | The sign-up form shows but is disabled, with "Sign-up opens shortly." |
-| **Amazon pre-order link** `[AMAZON LINK]` | `AMAZON_URL` in `src/config.ts` | The Book page shows "Pre-order link coming soon." |
 
 The cover lives at `src/assets/cover.jpg`; the home page, The Book page and link previews all use it.
 

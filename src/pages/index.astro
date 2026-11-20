@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import SignUp from '../components/SignUp.astro';
-import { RELEASE, TAGLINE } from '../config';
+import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE } from '../config';
 ---
 <Base title="Home" description={`${TAGLINE} The Jovian Crisis, Book One of The Capa Incident, by Robert Hasleton. ${RELEASE}.`}>
   <section class="hero">
@@ -20,9 +20,10 @@ import { RELEASE, TAGLINE } from '../config';
           system where a captain buried in debt can still make the math work. When a dead ship's beacon lights his
           board, he logs first-responder rights under the Belt Code and goes in.
         </p>
-        <p class="release"><span class="rule-label">Release</span> <span class="date">{RELEASE}</span></p>
+        <p class="release"><span class="rule-label">Release</span> <time class="date" datetime={RELEASE_ISO}>{RELEASE}</time></p>
         <div class="actions">
-          <a class="btn" href="#signup">Join the list</a>
+          <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+          <a class="btn btn--ghost" href="#signup">Join the list</a>
           <a class="btn btn--ghost" href="/book/">About the book</a>
         </div>
       </div>

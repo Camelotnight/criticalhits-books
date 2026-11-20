@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
-import { AMAZON_URL, RELEASE, isPlaceholder } from '../config';
+import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, isPlaceholder } from '../config';
 const preorderLive = !isPlaceholder(AMAZON_URL);
 ---
 <Base title="The Book" description={`The Jovian Crisis, Book One of The Capa Incident. Hard science fiction from the edge of Jupiter. ${RELEASE}.`}>
@@ -11,10 +11,10 @@ const preorderLive = !isPlaceholder(AMAZON_URL);
         <Cover width={340} />
         <dl class="facts">
           <dt>Series</dt><dd>The Capa Incident, Book One</dd>
-          <dt>Release</dt><dd>{RELEASE}</dd>
+          <dt>Release</dt><dd><time datetime={RELEASE_ISO}>{RELEASE}</time></dd>
         </dl>
         {preorderLive ? (
-          <a class="btn buy" href={AMAZON_URL} rel="noopener">Pre-order on Amazon</a>
+          <a class="btn buy" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
         ) : (
           <span class="btn buy" aria-disabled="true">Pre-order link coming soon</span>
         )}
