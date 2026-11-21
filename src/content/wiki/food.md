@@ -2,7 +2,7 @@
 title: "Food"
 section: life
 order: 3
-summary: "What a Minerva kiosk serves, why everything comes with chili, and what Ganymede ships in from the Thaw."
+summary: "What a Minerva kiosk serves, why everything comes with chili, and what Ganymede ships in from its Rodwells."
 aka: ["food", "menu", "kiosk", "skyr", "jerky", "congee", "hot sauce", "Ganymede fish"]
 infobox:
   - ["Everyday", "Vat-cultured skyr, cricket jerky, paste"]
@@ -48,8 +48,8 @@ Nothing on a station menu comes from a field. It is grown under lights, fermente
 <div class="mc-sec">
 <p class="mc-title">From Ganymede</p>
 <ul>
-<li><b>Thaw fish</b><span>Bred in Ganymede’s warm reservoir and freeze-dried in the cold outside the wall.</span></li>
-<li><b>Mussels</b><span>The Thaw’s filter feeders.</span></li>
+<li><b>Rodwell fish</b><span>Bred in one of Ganymede’s Rodwells and freeze-dried in the cold outside the wall.</span></li>
+<li><b>Mussels</b><span>Filter feeders from the same warm water.</span></li>
 <li><b>Mushroom meat</b><span>Ganymede’s signature: salt and the meaty taste of mushrooms.</span></li>
 </ul>
 </div>
@@ -72,7 +72,7 @@ In low weight, the body’s fluids drift toward the head. The sinuses fill and t
 
 ## Ganymede’s table
 
-Ganymede has more water than it can use, and a warm reservoir, the Thaw, where the fishery began. Its surplus is shared with Callisto. Its signature is salt and the meaty taste of mushrooms. Mussels, mushroom meat and vat-cultured skyr are everyday food, and a plain whey drink stands in for water. The company spirit is cheap and very strong.
+Ganymede has more water than it can use, and Rodwells, warm reservoirs melted into the ice, where the fishery began. Its surplus is shared with Callisto. Its signature is salt and the meaty taste of mushrooms. Mussels, mushroom meat and vat-cultured skyr are everyday food, and a plain whey drink stands in for water. The company spirit is cheap and very strong.
 
 The ice carries bitter magnesium salts, so local water and local salt have a taste newcomers dislike and lifers miss. There is no open flame anywhere, because the air is thin and oxygen-rich. Nothing is charred or smoked, water boils cooler, tea comes out weak, and cooking is done under pressure. With vacuum and cold just outside the wall, freeze-drying costs nothing.
 
