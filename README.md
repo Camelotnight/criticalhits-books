@@ -15,13 +15,11 @@ npm run check:spoilers   # fails if a banned term appears anywhere
 
 Node 22.22 or newer.
 
-## Placeholders
+## Sign-up
 
-| What | Where | Until then |
-|---|---|---|
-| **Kit mailing-list form ID** | `KIT_FORM_ID` in `src/config.ts` | The "Join the list" forms show but are disabled, with "Sign-up opens shortly." |
+One Kit form serves the whole site: `KIT_FORM_ID` (`10222508`, the ARC list) in `src/config.ts`. Every sign-up box and "Count me in" button posts to it, and its success redirect points at `https://books.criticalhits.net/thank-you/`.
 
-The ARC form is live: `KIT_ARC_FORM_ID` (`10222508`) in `src/config.ts`, used by the ARC box on the home page. Each Kit form's success redirect points at `https://books.criticalhits.net/thank-you/`.
+`SIGNUP_MODE` is `'arc'`, so the box asks for advance reader copies. **On or after December 22, 2026:** set `KIT_FORM_ID` to the newsletter form, set `SIGNUP_MODE` to `'newsletter'` (the approved list copy), and redeploy.
 
 ## Kit setup
 

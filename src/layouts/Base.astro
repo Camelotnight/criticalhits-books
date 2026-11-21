@@ -4,6 +4,7 @@ import '@fontsource/ibm-plex-sans/latin-400.css';
 import '@fontsource/ibm-plex-sans/latin-400-italic.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
 import '../styles/global.css';
+import { SIGNUP_CTA } from '../config';
 import { getImage } from 'astro:assets';
 import coverSrc from '../assets/cover.jpg';
 
@@ -82,7 +83,7 @@ const isCurrent = (href: string) => {
     <footer class="site-footer">
       <div class="wrap foot">
         <p>© 2026 Robert Hasleton. All rights reserved.</p>
-        <p class="muted"><a href="/about/#signup">Join the list</a></p>
+        <p class="muted"><a href="/about/#signup">{SIGNUP_CTA}</a></p>
       </div>
     </footer>
   </body>
