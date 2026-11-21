@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import SignUp from '../components/SignUp.astro';
-import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE } from '../config';
+import KitForm from '../components/KitForm.astro';
+import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, KIT_ARC_FORM_ID } from '../config';
 ---
 <Base title="Home" description={`${TAGLINE} The Jovian Crisis, Book One of The Capa Incident, by Robert Hasleton. ${RELEASE}.`}>
   <section class="hero">
@@ -36,8 +37,8 @@ import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE } from '../conf
       <aside class="arc" aria-labelledby="arc-title">
         <p class="eyebrow">Advance reader copies</p>
         <h2 id="arc-title">ARC readers wanted</h2>
-        <p>Advance copies open around October 26. Join the list and you'll get the invitation first.</p>
-        <a class="btn btn--ghost" href="#signup">Sign up for the ARC</a>
+        <p>Advance copies are going out now. Join the list to request one.</p>
+        <KitForm formId={KIT_ARC_FORM_ID} id="arc" />
       </aside>
     </div>
   </section>

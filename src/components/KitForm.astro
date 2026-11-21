@@ -1,0 +1,54 @@
+---
+// One Kit form: a plain HTML form posting to Kit's endpoint. No script, no cookies.
+// Each Kit form's success redirect should point at https://books.criticalhits.net/thank-you/.
+import { isPlaceholder } from '../config';
+
+interface Props {
+  formId: string;
+  /** Unique per page, for the label. */
+  id: string;
+  button?: string;
+}
+const { formId, id, button = 'Count me in' } = Astro.props;
+const live = !isPlaceholder(formId);
+const inputId = `${id}-email`;
+---
+<form action={live ? `https://app.kit.com/forms/${formId}/subscriptions` : undefined} method="post" class="kit-form">
+  <label for={inputId} class="visually-hidden">Email address</label>
+  <input
+    id={inputId}
+    type="email"
+    name="email_address"
+    autocomplete="email"
+    required
+    placeholder="you@example.com"
+    disabled={!live}
+  />
+  <button class="btn" type="submit" disabled={!live}>{button}</button>
+</form>
+<p class="fine muted">
+  {live ? 'Unsubscribe any time with one click.' : 'Sign-up opens shortly. Unsubscribe any time with one click.'}
+</p>
+
+<style>
+  .kit-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+  }
+  input {
+    flex: 1 1 14rem;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.6rem 0.8rem;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    font: inherit;
+  }
+  input::placeholder { color: #6d7a89; }
+  input:disabled { opacity: 0.6; }
+  .fine { font-size: 0.85rem; margin: 0.75rem 0 0; }
+</style>

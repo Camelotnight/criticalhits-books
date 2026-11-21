@@ -1,16 +1,13 @@
 ---
-// Kit sign-up. A plain HTML form posting to Kit's form endpoint: no script, no cookies.
-// Set KIT_FORM_ID in src/config.ts and point the form's success redirect at /thank-you/ in Kit.
-import { KIT_FORM_ID, RELEASE, isPlaceholder } from '../config';
+// Mailing-list sign-up (Kit). Set KIT_FORM_ID in src/config.ts.
+import KitForm from './KitForm.astro';
+import { KIT_FORM_ID, RELEASE } from '../config';
 
 interface Props {
   id?: string;
   heading?: string;
 }
 const { id = 'signup', heading = 'Join the list' } = Astro.props;
-const live = !isPlaceholder(KIT_FORM_ID);
-const action = `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`;
-const inputId = `${id}-email`;
 ---
 <section class="signup" id={id} aria-labelledby={`${id}-title`}>
   <h2 id={`${id}-title`}>{heading}</h2>
@@ -20,22 +17,7 @@ const inputId = `${id}-email`;
   </p>
   <p class="muted">No spam. One email when there's something worth saying.</p>
 
-  <form action={live ? action : undefined} method="post" class="form">
-    <label for={inputId} class="visually-hidden">Email address</label>
-    <input
-      id={inputId}
-      type="email"
-      name="email_address"
-      autocomplete="email"
-      required
-      placeholder="you@example.com"
-      disabled={!live}
-    />
-    <button class="btn" type="submit" disabled={!live}>Count me in</button>
-  </form>
-  <p class="fine muted">
-    {live ? 'Unsubscribe any time with one click.' : 'Sign-up opens shortly. Unsubscribe any time with one click.'}
-  </p>
+  <KitForm formId={KIT_FORM_ID} id={id} />
 </section>
 
 <style>
@@ -47,23 +29,4 @@ const inputId = `${id}-email`;
     padding: clamp(1.25rem, 4vw, 2rem);
     max-width: 40rem;
   }
-  .form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 1.25rem;
-  }
-  input {
-    flex: 1 1 14rem;
-    min-height: 44px;
-    padding: 0.6rem 0.8rem;
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    font: inherit;
-  }
-  input::placeholder { color: #6d7a89; }
-  input:disabled { opacity: 0.6; }
-  .fine { font-size: 0.85rem; margin: 0.75rem 0 0; }
 </style>
