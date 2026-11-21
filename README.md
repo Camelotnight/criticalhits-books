@@ -15,13 +15,13 @@ npm run check:spoilers   # fails if a banned term appears anywhere
 
 Node 22.22 or newer.
 
-## Placeholders still to fill
+## Placeholders
 
 | What | Where | Until then |
 |---|---|---|
-| **Kit form ID** | `KIT_FORM_ID` in `src/config.ts` | The sign-up form shows but is disabled, with "Sign-up opens shortly." |
+| **Kit mailing-list form ID** | `KIT_FORM_ID` in `src/config.ts` | The "Join the list" forms show but are disabled, with "Sign-up opens shortly." |
 
-The cover lives at `src/assets/cover.jpg`; the home page, The Book page and link previews all use it.
+The ARC form is live: `KIT_ARC_FORM_ID` (`10222508`) in `src/config.ts`, used by the ARC box on the home page. Each Kit form's success redirect points at `https://books.criticalhits.net/thank-you/`.
 
 ## Kit setup
 
