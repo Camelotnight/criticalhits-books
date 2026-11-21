@@ -92,12 +92,18 @@ The `inshort` field in an article's front matter fills the "New to the book?" bo
 
 Rules: world facts only, never plot; nothing the book treats as a reveal; no Book 2. The `sources` field in each file records where every fact came from in the vault and is never shown on the site. The quick glossary (`/wiki/glossary/`) lives in `src/data/glossary.ts`.
 
+## The World page
+
+`/world/` is `src/components/WorldApproach.astro`: one self-contained file (markup, styles, script) with four scales, the system, the Trojans, the corridor and Minerva's tiers. Minerva, Hercules I and Hercules II sit at the corners of an equal-sided triangle, about 50,000 km a side; Hercules is drawn far larger than Minerva, never to scale.
+
+Beside the map runs the **Minerva Traffic** channel: in-world radio calls that change with the scale (`AMBIENT` in the script). *Cooper's Reach* departs once per visit on the corridor (`REACH_ARC`), with Cassandra on comms, and her marker moves on the map. The channel stops when it is off screen, and stays still under reduced motion. Calls are new writing in the book's register, never manuscript text. Ship names: *Cooper's Reach* and *Haldane's Theorem* (canon), *Bad Penny*, *Dauntless* and *Cold Comfort*. Deep links: `?stop=2&calls=8`.
+
 ## Layout
 
 ```
 src/config.ts               placeholders and site constants
 src/data/ship.ts            Cooper's Reach hotspot facts
-src/data/places.ts          Jovian map facts and geometry
+src/data/places.ts          old Jovian map facts (JovianMap, no longer on /world/)
 src/components/Explorer     shared shell for the two interactive diagrams
 src/components/ShipModel    ship page figure: 3D model, with the flat profile as fallback
 src/scripts/ship-model.js   the 3D model (three.js), ported from the vault's working model

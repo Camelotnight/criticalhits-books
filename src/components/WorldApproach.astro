@@ -1,0 +1,645 @@
+---
+// The World page's map: four scales from the solar system to Minerva's tiers, with the
+// Minerva Traffic channel beside it. Self-contained (markup, styles, script); see README.
+---
+  <div id="ap" class="ap">
+    <nav class="rail" aria-label="Scale">
+      <button type="button" data-stop="0"><span class="n">01</span><span class="t">The system</span><span class="s">5.2 AU</span></button>
+      <button type="button" data-stop="1"><span class="n">02</span><span class="t">The Trojans</span><span class="s">L4</span></button>
+      <button type="button" data-stop="2"><span class="n">03</span><span class="t">The corridor</span><span class="s">~50,000 km</span></button>
+      <button type="button" data-stop="3"><span class="n">04</span><span class="t">Minerva</span><span class="s">axis to skin</span></button>
+      <span class="zoomctl">
+        <button type="button" id="zout" aria-label="Zoom out one scale">−</button>
+        <button type="button" id="zin" aria-label="Zoom in one scale">+</button>
+      </span>
+    </nav>
+
+    <div class="approach">
+      <figure style="margin:0">
+        <div class="canvas" id="canvas">
+          <div class="hud" aria-hidden="true"><span class="field" id="field"></span><span class="lag">Light, L4 to Jupiter · 43 min</span></div>
+
+          <!-- 01 SYSTEM -->
+          <svg class="layer" data-layer="0" viewBox="0 0 800 560" aria-hidden="true">
+            <circle cx="400" cy="560" r="80" fill="#e3a857" fill-opacity=".12" stroke="#e3a857" stroke-opacity=".4"/>
+            <text x="400" y="548" text-anchor="middle" class="lbl-a" style="font-size:10.5px">SUN ↓ 5.2 AU</text>
+            <path class="orbit" d="M 83.1 455.5 A 320 320 0 0 1 716.9 455.5"/>
+            <line class="thin" x1="400" y1="500" x2="400" y2="180"/>
+            <line class="thin" x1="400" y1="500" x2="122.9" y2="340"/>
+            <line class="thin" x1="400" y1="500" x2="677.1" y2="340"/>
+            <line class="thin" x1="122.9" y1="340" x2="400" y2="180" stroke-dasharray="3 5"/>
+            <text class="lbl-c" transform="translate(252 248) rotate(-30)" text-anchor="middle">5.2 AU · 43 LIGHT-MIN</text>
+            <text x="354" y="440" class="lbl-s">60°</text><text x="430" y="440" class="lbl-s">60°</text>
+            <g id="cloud4"></g><g id="cloud5"></g>
+            <g fill="none" stroke="#243142"><circle cx="400" cy="180" r="38"/><circle cx="400" cy="180" r="56"/><circle cx="400" cy="180" r="80"/><circle cx="400" cy="180" r="112"/></g>
+            <circle cx="400" cy="180" r="22" fill="#c58b52"/>
+            <path d="M379 174H421M378 182H422M381 190H419" stroke="#8f5a32" stroke-width="3" stroke-opacity=".7"/>
+            <text x="400" y="56" text-anchor="middle" class="lbl" style="fill:#dde3ea;letter-spacing:.24em">JUPITER</text>
+            <g fill="#b9c3cf"><circle cx="435.7" cy="193" r="3"/><circle cx="390.3" cy="235.1" r="3"/><circle cx="461.3" cy="128.6" r="3"/><circle cx="294.8" cy="218.3" r="4.5"/></g>
+            <g class="lbl-s"><text x="443" y="197">Io</text><text x="398" y="246">Europa</text><text x="469" y="126">Ganymede</text><text x="286" y="214" text-anchor="end">Callisto</text></g>
+            <rect x="131.9" y="325" width="10" height="10" fill="#e3a857" transform="rotate(45 136.9 330)"/>
+            <text x="150" y="318" class="lbl-a">MINERVA</text>
+            <g stroke="#e3a857" stroke-width="1.5" fill="none" opacity=".85">
+              <path d="M66 290h-0v0M66 290v14M66 290h14M196 290h-14M196 290v14M66 396v-14M66 396h14M196 396h-14M196 396v-14"/>
+            </g>
+            <text x="66" y="412" class="lbl-s">L4 · LEADING TROJANS</text>
+            <text x="677" y="412" text-anchor="middle" class="lbl-s">L5 · TRAILING TROJANS</text>
+          </svg>
+
+          <!-- 02 LEADING TROJANS -->
+          <svg class="layer" data-layer="1" viewBox="0 0 800 560" aria-hidden="true">
+            <g id="swarm"></g>
+            <!-- Minerva, Hercules I and Hercules II: an equal-sided triangle, ~50,000 km a side (Robert, 2026-11-20) -->
+            <g class="corr"><path d="M240 370 L352 178"/><path d="M246 380 L424 380"/><path d="M372 178 L484 360"/></g>
+            <text class="lbl-c" transform="translate(282 268) rotate(-60)" text-anchor="middle">~50,000 KM</text>
+            <text class="lbl-c" x="335" y="398" text-anchor="middle">CORRIDOR · ~50,000 KM</text>
+            <text class="lbl-c" transform="translate(442 262) rotate(59)" text-anchor="middle">~50,000 KM</text>
+            <g transform="translate(230 380)"><rect x="-12" y="-4" width="24" height="8" rx="2" fill="#e3a857"/><ellipse cx="12" cy="0" rx="1.6" ry="4" fill="#f0bb70"/></g>
+            <text x="230" y="406" text-anchor="middle" class="lbl-a">MINERVA</text>
+            <g transform="translate(362 155)"><rect x="-62" y="-19" width="124" height="38" rx="4" class="clad"/><ellipse cx="-62" cy="0" rx="5" ry="19" fill="#8a7864"/></g>
+            <text x="362" y="124" text-anchor="middle" class="lbl">HERCULES I</text>
+            <g transform="translate(490 380)"><rect x="-62" y="-19" width="124" height="38" rx="4" class="lattice" stroke-dasharray="3 3"/></g>
+            <text x="490" y="420" text-anchor="middle" class="lbl">HERCULES II</text>
+            <text x="490" y="436" text-anchor="middle" class="lbl-s">UNDER CONSTRUCTION</text>
+            <g fill="#6d7f95" transform="translate(-70 46)"><rect x="178" y="420" width="10" height="7"/><rect x="192" y="416" width="7" height="11"/><rect x="183" y="430" width="14" height="5"/></g>
+            <text x="120" y="502" text-anchor="middle" class="lbl">ACHILLES</text>
+            <g fill="#8d97a3" transform="translate(40 -4)"><ellipse cx="630" cy="440" rx="20" ry="13"/><ellipse cx="652" cy="436" rx="15" ry="11"/></g>
+            <text x="682" y="466" text-anchor="middle" class="lbl">HEKTOR</text>
+            <g stroke="#6d7f95" fill="none" stroke-width="1.2"><path d="M700 92h80M772 86l8 6-8 6"/><path d="M700 520l70 0M762 514l8 6-8 6"/></g>
+            <text x="780" y="80" text-anchor="end" class="lbl-s">JUPITER · 5.2 AU</text>
+            <text x="780" y="508" text-anchor="end" class="lbl-s">SUN · INNER SYSTEM</text>
+            <text x="24" y="534" class="lbl-s">EQUAL SIDES · POSITIONS STYLIZED</text>
+          </svg>
+
+          <!-- 03 THE CORRIDOR -->
+          <svg class="layer" data-layer="2" viewBox="0 0 800 560" aria-hidden="true">
+            <!-- The triangle, closer in: Minerva bottom left, Hercules II bottom right, Hercules I at the apex -->
+            <g class="corr"><path d="M176 415 L300 200"/><path d="M370 200 L477 385"/></g>
+            <text class="lbl-c" transform="translate(222 300) rotate(-60)" text-anchor="middle">~50,000 KM</text>
+            <text class="lbl-c" transform="translate(444 288) rotate(60)" text-anchor="middle">~50,000 KM</text>
+            <!-- Minerva, side-on -->
+            <rect x="70" y="440" width="80" height="40" fill="#141c27" stroke="#e3a857" stroke-opacity=".7"/>
+            <g stroke="#e3a857" stroke-opacity=".18"><path d="M70 448H150M70 472H150"/></g>
+            <ellipse cx="150" cy="460" rx="5" ry="20" fill="#10161f" stroke="#e3a857" stroke-opacity=".8"/>
+            <line x1="40" y1="460" x2="300" y2="460" stroke="#e3a857" stroke-opacity=".3" stroke-dasharray="1 4"/>
+            <text x="40" y="428" class="lbl-a">MINERVA STATION</text>
+            <circle cx="172" cy="460" r="10" fill="none" stroke="#9aa7b6"/><circle cx="196" cy="460" r="8" fill="none" stroke="#6d7f95"/>
+            <circle class="strobe" cx="172" cy="450" r="2"/><circle class="strobe b" cx="196" cy="468" r="2"/>
+            <text x="84" y="500" class="lbl-s">COLLARS</text>
+            <g fill="#b9c3cf"><path d="M222 456l8 4-8 4z"/><path d="M238 448l8 4-8 4z"/><path d="M238 464l8 4-8 4z"/><path d="M256 456l8 4-8 4z"/><path d="M272 448l8 4-8 4z"/><path d="M272 468l8 4-8 4z"/><path d="M290 458l8 4-8 4z"/></g>
+            <text x="212" y="436" class="lbl-s">HOLDING STACK</text>
+            <!-- lanes -->
+            <g class="lane"><g class="lane-dot"><circle cx="250" cy="418" r="1.8"/><circle cx="310" cy="418" r="1.8"/><circle cx="370" cy="418" r="1.8"/><circle cx="430" cy="418" r="1.8"/></g></g>
+            <g class="lane back"><g class="lane-dot"><circle cx="240" cy="504" r="1.8"/><circle cx="300" cy="504" r="1.8"/><circle cx="360" cy="504" r="1.8"/><circle cx="420" cy="504" r="1.8"/><circle cx="480" cy="504" r="1.8"/></g></g>
+            <!-- Cooper's Reach, shown when she is on the traffic channel -->
+            <g id="reachmk" class="reachmk" transform="translate(246 512)" opacity="0">
+              <path d="M-7 -4 L7 0 L-7 4 Z" fill="#ffd48a"/><circle r="11" fill="none" stroke="#ffd48a" stroke-opacity=".6"/>
+              <text x="0" y="24" text-anchor="middle" class="lbl-a" style="font-size:10px;fill:#ffd48a">COOPER’S REACH</text>
+            </g>
+            <!-- burn and coast, along the corridor side of the triangle -->
+            <rect x="331" y="454" width="12" height="12" fill="none" stroke="#e3a857" transform="rotate(45 337 460)"/>
+            <line class="burn" x1="348" y1="460" x2="392" y2="460"/>
+            <text x="318" y="486" class="lbl-a" style="font-size:10.5px">IGNITION</text>
+            <text x="318" y="442" class="lbl-a" style="font-size:10.5px">90 S · 1.2 GEE</text>
+            <path class="corr" d="M392 460 L500 460"/>
+            <text x="398" y="486" class="lbl-c">COAST · ~14 H</text>
+            <text x="250" y="552" class="lbl-c">CORRIDOR · ~50,000 KM</text>
+            <!-- Hercules I, clad, at the apex -->
+            <rect x="245" y="85" width="200" height="110" rx="6" class="clad"/>
+            <g stroke="#5f4f40" stroke-width="1" opacity=".8"><path d="M285 85v110M325 85v110M365 85v110M405 85v110"/></g>
+            <ellipse cx="245" cy="140" rx="14" ry="55" fill="#8a7864" stroke="#a89077"/>
+            <circle class="strobe" cx="236" cy="98" r="2.4"/><circle class="strobe b" cx="236" cy="182" r="2.4"/>
+            <text x="245" y="72" class="lbl">HERCULES I</text>
+            <!-- Hercules II: bare lattice inside its envelope -->
+            <rect x="490" y="386" width="270" height="148" class="env"/>
+            <g class="lattice"><rect x="520" y="400" width="220" height="120" rx="6"/>
+              <path d="M550 400v120M580 400v120M610 400v120M640 400v120M670 400v120M700 400v120M520 430H740M520 460H740M520 490H740"/>
+              <path d="M520 400l40 120M580 400l40 120M640 400l40 120" stroke-opacity=".35"/>
+              <ellipse cx="520" cy="460" rx="15" ry="60"/></g>
+            <g class="drones"><circle cx="600" cy="412" r="2" fill="#dde3ea"/><circle cx="700" cy="505" r="2" fill="#dde3ea"/></g>
+            <g class="drones b"><circle cx="560" cy="480" r="2" fill="#dde3ea"/><circle cx="660" cy="440" r="2" fill="#dde3ea"/></g>
+            <text x="490" y="374" class="lbl">HERCULES II</text>
+            <text x="560" y="552" class="lbl-c">CONSTRUCTION ENVELOPE</text>
+            <!-- Venus convoy, inbound -->
+            <g stroke="#e3a857" stroke-opacity=".6" fill="none"><path d="M790 236 L712 330" stroke-dasharray="4 4"/><path d="M712 318l0 12 11 -4"/></g>
+            <g fill="#e3a857" fill-opacity=".8"><circle cx="764" cy="268" r="3"/><circle cx="751" cy="284" r="3"/><circle cx="738" cy="300" r="3"/></g>
+            <text x="780" y="222" text-anchor="end" class="lbl-s" style="fill:#b98a4d">VENUS FEEDSTOCK CONVOY</text>
+            <text x="780" y="52" text-anchor="end" class="lbl-s">EQUAL SIDES, ~50,000 KM EACH · NOT TO SCALE</text>
+            <text x="780" y="68" text-anchor="end" class="lbl-s">HERCULES IS FAR LARGER THAN MINERVA</text>
+          </svg>
+
+          <!-- 04 MINERVA TIERS -->
+          <svg class="layer" data-layer="3" viewBox="0 0 800 560" aria-hidden="true">
+            <defs><linearGradient id="weight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc8dc" stop-opacity=".02"/><stop offset="1" stop-color="#e3a857" stop-opacity=".16"/></linearGradient></defs>
+            <path id="wedge" fill="url(#weight)" stroke="#34465c"/>
+            <g id="tiers"></g>
+            <line x1="400" y1="64" x2="400" y2="510" stroke="#6d7f95" stroke-dasharray="2 4"/>
+            <g class="car" id="car"><rect x="391" y="-9" width="18" height="18" rx="2" fill="#dde3ea"/><text x="-14" y="5" text-anchor="end" class="lbl-a" id="carg" style="font-size:13px">0 GEE</text></g>
+            <circle cx="400" cy="64" r="5" fill="#e3a857"/>
+            <text x="420" y="68" class="lbl-a">AXIS · 0 GEE</text>
+            <g stroke="#6d7f95" fill="none"><path d="M200 290v-60M194 238l6-8 6 8"/><path d="M200 370v60M194 422l6 8 6-8"/></g>
+            <text x="200" y="218" text-anchor="middle" class="lbl-s">UP · LIGHTER</text>
+            <text x="200" y="450" text-anchor="middle" class="lbl-s">DOWN · HEAVIER</text>
+            <text x="200" y="326" text-anchor="middle" class="lbl-s">TIERS ARE</text>
+            <text x="200" y="340" text-anchor="middle" class="lbl-s">KILOMETERS APART</text>
+            <!-- inset: whole cross-section -->
+            <circle cx="80" cy="110" r="42" fill="none" stroke="#34465c"/>
+            <path d="M80 110 L62.9 148.4 A42 42 0 0 0 97.1 148.4Z" fill="#e3a857" fill-opacity=".3"/>
+            <circle cx="80" cy="110" r="2" fill="#e3a857"/>
+            <g class="spinarrow"><path d="M80 60 a50 50 0 0 1 38 17" fill="none" stroke="#6d7f95"/><path d="M114 71l5 7-8 1" fill="none" stroke="#6d7f95"/></g>
+            <text x="80" y="174" text-anchor="middle" class="lbl-s">CROSS-SECTION</text>
+            <text x="24" y="534" class="lbl-s">NOT TO SCALE · TIERS SPACED IN PROPORTION TO WEIGHT</text>
+          </svg>
+
+          <div id="hots"></div>
+        </div>
+        <p class="rule-label chips-label" id="listlabel">Places</p>
+        <ul class="items chips" id="items" aria-labelledby="listlabel"></ul>
+        <div class="below"><p class="keys">Keys: <kbd>+</kbd> and <kbd>−</kbd> change scale. Every place is also in the list.</p><button type="button" class="motion" id="motion" aria-pressed="false">Motion: on</button></div>
+      </figure>
+
+      <div class="console">
+        <section class="traffic" id="traffic" aria-labelledby="trafficlabel">
+          <div class="tr-head">
+            <p class="tr-title" id="trafficlabel"><span class="live" aria-hidden="true"></span>Minerva Traffic</p>
+            <span class="tr-clock" id="trclock">Second shift</span>
+          </div>
+          <ol class="tr-log" id="trlog" role="log" aria-live="off" aria-label="Minerva Traffic channel"></ol>
+          <p class="sr-only" id="trsay" aria-live="polite"></p>
+          <p class="tr-idle" id="tridle">Zoom in on the Trojans to listen in on Minerva Traffic.</p>
+          <div class="tr-ctl">
+            <button type="button" id="trpause" aria-pressed="false">Pause</button>
+            <button type="button" id="trnext">Next call</button>
+          </div>
+        </section>
+        <div class="card" id="card" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+<style is:global>
+@keyframes ap-ping{0%{box-shadow:0 0 0 2px rgba(227,168,87,.45)}100%{box-shadow:0 0 0 14px rgba(227,168,87,0)}}
+@keyframes ap-blink{50%{opacity:.25}}
+@keyframes ap-fadein{from{opacity:0;transform:translateY(4px)}}
+@keyframes ap-strobe{50%{opacity:.15}}
+@keyframes ap-drift{from{transform:translateX(0)}to{transform:translateX(60px)}}
+@keyframes ap-driftback{from{transform:translateX(0)}to{transform:translateX(-60px)}}
+@keyframes ap-spin{to{transform:rotate(360deg)}}
+.ap {
+/* Scale rail */
+.rail{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:.75rem;background:var(--bg-2)}
+.rail button{all:unset;cursor:pointer;padding:.65rem .9rem;border-right:1px solid var(--line);font-family:var(--font-display);position:relative;min-height:44px}
+.rail button .n{font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-right:.4rem}
+.rail button .t{font-size:.95rem;color:var(--muted)}
+.rail button .s{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#6d7f95}
+.rail button[aria-current="step"]{background:var(--panel)}
+.rail button[aria-current="step"] .t{color:var(--text)}
+.rail button[aria-current="step"]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
+.rail button:focus-visible{outline:2px solid var(--focus);outline-offset:-3px}
+.zoomctl{display:flex;align-items:stretch}
+.zoomctl button{padding:.4rem .9rem;font-size:1.3rem;color:var(--signal);border-right:0;border-left:1px solid var(--line);text-align:center;min-width:44px}
+.zoomctl button[disabled]{color:#3b4f68;cursor:default}
+
+/* Stage */
+.approach{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:1.25rem;align-items:start}
+.canvas{position:relative;aspect-ratio:800/560;border:1px solid var(--line);border-radius:4px;overflow:hidden;
+  background:var(--bg-2);
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:10% 14.2857%;background-position:-1px -1px}
+.canvas::before{content:'';position:absolute;inset:0;background:rgba(16,22,31,.72);pointer-events:none}
+.layer{position:absolute;inset:0;width:100%;height:100%;opacity:0;visibility:hidden;transition:transform .65s cubic-bezier(.3,.1,.2,1),opacity .5s ease,visibility 0s linear .65s}
+.layer.on{opacity:1;visibility:visible;transition:transform .65s cubic-bezier(.3,.1,.2,1),opacity .5s ease .1s,visibility 0s}
+.hud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;gap:1rem;padding:.6rem .8rem;font-family:var(--font-display);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;z-index:3}
+.hud .field{color:var(--accent)}
+.hud .lag{color:#6d7f95;text-align:right}
+.crumbs{position:absolute;left:.8rem;bottom:.55rem;font-family:var(--font-display);font-size:.68rem;letter-spacing:.14em;color:#6d7f95;text-transform:uppercase;z-index:3;pointer-events:none}
+.crumbs b{color:var(--signal);font-weight:500}
+.below{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:.4rem}
+.motion{white-space:nowrap;font-family:var(--font-display);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;background:var(--bg);color:var(--muted);border:1px solid var(--line-strong);border-radius:3px;padding:.3rem .55rem;cursor:pointer;min-height:28px}
+.hot{position:absolute;z-index:2;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0}
+.hot::before{content:'';position:absolute;inset:9px;border-radius:50%;border:1.5px solid var(--signal);box-shadow:0 0 0 4px rgba(124,200,220,.12)}
+.hot[aria-pressed="true"]::before{border-color:var(--accent);box-shadow:0 0 0 5px rgba(227,168,87,.22);animation:ap-ping 2.4s ease-out infinite}
+.hot .tip{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%);white-space:nowrap;background:var(--bg);border:1px solid var(--line-strong);font-size:.75rem;padding:.1rem .4rem;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .15s}
+.hot:hover .tip{opacity:1}
+
+
+/* Console */
+.console{display:flex;flex-direction:column;gap:.9rem}
+.rule-label{display:flex;align-items:center;gap:.75rem;font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0}
+.rule-label::after{content:'';flex:1;height:1px;background:var(--line)}
+.items{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+.items button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;gap:.6rem;align-items:baseline;padding:.5rem .75rem;border:1px solid var(--line);border-radius:3px;background:var(--panel);color:var(--muted);min-height:44px}
+.items button .n{font-family:var(--font-display);font-size:.72rem;color:var(--accent)}
+.items button[aria-pressed="true"]{border-color:var(--accent);color:var(--text)}
+.items button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.card{border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:4px;background:var(--panel);padding:1.1rem 1.2rem}
+.card .kicker{font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 .35rem}
+.card h2{font-family:var(--font-display);font-size:1.3rem;font-weight:600;margin:0 0 .5rem}
+.card p{margin:0 0 .8rem;font-size:1rem}
+.card .sci{font-size:.88rem;color:var(--muted);border-left:2px solid var(--line-strong);padding-left:.7rem}
+.facts{display:grid;grid-template-columns:minmax(0,8.5rem) 1fr;gap:.25rem .9rem;margin:.2rem 0 .9rem;padding:.7rem .8rem;background:var(--bg-2);border:1px solid var(--line);border-radius:3px}
+.facts dt{font-family:var(--font-display);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#6d7f95;padding-top:.18rem}
+.facts dd{margin:0;font-family:var(--font-display);font-size:.92rem;color:var(--signal);font-variant-numeric:tabular-nums}
+.stripes{display:flex;gap:.4rem;flex-wrap:wrap;margin:0 0 .8rem}
+.stripes span{font-size:.8rem;padding:.1rem .5rem;border-radius:2px;border-left:6px solid;background:var(--bg-2)}
+.actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;padding:.5rem 1rem;border:1px solid var(--accent);border-radius:4px;background:transparent;color:var(--accent);font-family:var(--font-display);font-weight:600;font-size:.95rem;cursor:pointer}
+.btn:hover{background:rgba(227,168,87,.1)}
+.wiki{font-size:.9rem}
+.keys{font-size:.8rem;color:#6d7f95;margin:.2rem 0 0}
+kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-radius:3px;padding:0 .3rem;font-size:.75rem;color:var(--muted)}
+
+/* Place chips under the map */
+.chips-label{margin:.9rem 0 .5rem}
+.items.chips{grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr))}
+.items.chips button{min-height:40px;padding:.4rem .65rem;font-size:.92rem}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Traffic channel */
+.traffic{border:1px solid var(--line);border-radius:4px;background:#0d131b;padding:.7rem .8rem .6rem;font-family:var(--font-display)}
+.tr-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.45rem}
+.tr-title{margin:0;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);display:flex;align-items:center;gap:.45rem}
+.live{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 3px rgba(124,200,220,.18);animation:ap-blink 2s steps(2) infinite}
+
+.tr-clock{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#6d7f95}
+.tr-log{list-style:none;margin:0;padding:0;height:15rem;overflow-y:auto;display:flex;flex-direction:column;gap:.45rem;scrollbar-width:thin;
+  mask-image:linear-gradient(to bottom,transparent 0,#000 1.6rem)}
+.tr-log li{font-size:.8rem;line-height:1.4;color:var(--muted);animation:ap-fadein .5s ease}
+.tr-log li .ts{color:#4f6076;font-variant-numeric:tabular-nums;margin-right:.35rem}
+.tr-log li .cs{color:var(--text);letter-spacing:.08em;font-size:.72rem;text-transform:uppercase;margin-right:.3rem}
+.tr-log li.reach{color:#f3d9ad}
+.tr-log li .cs a{color:inherit;text-decoration:none;border-bottom:1px dotted #4f6076}
+.tr-log li .cs a:hover{color:var(--signal)}
+.tr-log li.reach .cs,.tr-log li.reach .cs a{color:#ffd48a}
+.tr-log li .ship{font-style:italic}
+.tr-log li .who{color:#b98a4d;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+
+.tr-idle{margin:.2rem 0 .3rem;font-size:.8rem;color:#6d7f95}
+.tr-ctl{display:flex;gap:.4rem;margin-top:.55rem}
+.tr-ctl button{font-family:var(--font-display);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;background:var(--bg);color:var(--muted);border:1px solid var(--line-strong);border-radius:3px;padding:.3rem .55rem;cursor:pointer;min-height:32px}
+.traffic.idle .tr-log,.traffic.idle .tr-ctl{display:none}
+.traffic:not(.idle) .tr-idle{display:none}
+.reachmk{transition:transform 2.4s cubic-bezier(.4,.1,.2,1),opacity .6s ease}
+.still .live,.still .tr-log li{animation:none!important}
+.still .reachmk{transition:opacity .2s}
+
+/* SVG */
+svg text{font-family:var(--font-display)}
+.lbl{fill:#9aa7b6;font-size:12px;letter-spacing:.14em}
+.lbl-s{fill:#6d7f95;font-size:10.5px;letter-spacing:.12em}
+.lbl-a{fill:#e3a857;font-size:12px;letter-spacing:.16em}
+.lbl-c{fill:#7cc8dc;font-size:10.5px;letter-spacing:.12em}
+.orbit{fill:none;stroke:#3b4f68;stroke-width:1.2;stroke-dasharray:6 6}
+.thin{fill:none;stroke:#243142;stroke-width:1}
+.rock{fill:#9aa7b6;fill-opacity:.5}
+.corr{stroke:#7cc8dc;stroke-width:1.3;stroke-dasharray:2 6;stroke-linecap:round;fill:none}
+.burn{stroke:#e3a857;stroke-width:4;stroke-linecap:round}
+.clad{fill:#7d6c5a;stroke:#a89077;stroke-width:1}
+.lattice{fill:none;stroke:#7cc8dc;stroke-opacity:.55;stroke-width:.8}
+.env{fill:rgba(124,200,220,.04);stroke:#7cc8dc;stroke-opacity:.5;stroke-dasharray:5 5}
+.lane-dot{fill:#b9c3cf}
+.strobe{fill:#ffd48a;animation:ap-strobe 1.6s steps(2) infinite}
+.strobe.b{animation-delay:.8s}
+
+.lane{animation:ap-drift 26s linear infinite}
+.lane.back{animation:ap-driftback 34s linear infinite}
+
+
+.drones{transform-box:view-box;transform-origin:630px 460px;animation:ap-spin 18s linear infinite}
+.drones.b{animation-duration:27s;animation-direction:reverse}
+.spinarrow{transform-box:view-box;transform-origin:80px 110px;animation:ap-spin 40s linear infinite}
+
+.car{transition:transform .7s cubic-bezier(.3,.1,.2,1)}
+.tier{fill:none;stroke:#34465c;stroke-width:1.2}
+.tier.sel{stroke:#e3a857;stroke-width:2}
+.still .strobe,.still .lane,.still .drones,.still .spinarrow,.still .hot[aria-pressed="true"]::before{animation:none!important}
+.still .layer,.still .car{transition:opacity .15s!important}
+@media (prefers-reduced-motion:reduce){
+  .layer,.layer.on,.car{transition:opacity .15s!important}
+}
+
+/* Phone */
+@media (max-width:760px){
+  .approach{grid-template-columns:1fr}
+  .rail{grid-template-columns:repeat(4,1fr)}
+  .rail button{padding:.5rem .4rem;text-align:center}
+  .rail button .n{display:block;margin:0}
+  .rail button .t{font-size:.78rem}
+  .rail button .s{display:none}
+  .zoomctl{display:none}
+  .hud{font-size:.58rem;padding:.4rem .5rem}
+  .hud .lag{display:none}
+  .crumbs{display:none}
+  .items{grid-template-columns:1fr 1fr}
+  .keys{display:none}
+  .tr-log{height:12rem}
+  .items button{font-size:.92rem;padding:.45rem .6rem}
+}
+
+}
+</style>
+
+<script is:inline>
+
+(() => {
+  const W = 800, H = 560;
+  const pc = (x, y) => [+(x / W * 100).toFixed(2), +(y / H * 100).toFixed(2)];
+  const WIKI = 'https://books.criticalhits.net/wiki/';
+
+  // Stop 4 geometry: distance from the axis is proportional to weight (spin gravity grows with radius).
+  const APEX = [400, 64], D = (g) => 440 * g / 1.2, HALF = 24 * Math.PI / 180;
+  const tierHot = (g) => { const d = D(g), x = 470; return [x, APEX[1] + Math.sqrt(d * d - (x - 400) ** 2)]; };
+
+  const STOPS = [
+    { name: 'The system', field: 'Field · Sun, Jupiter, L4 · not to scale', crumbs: ['Sun'], focus: pc(131, 343), items: [
+      { id: 'minerva', label: 'Minerva Station (L4)', at: pc(136.9, 330), kicker: 'Jupiter L4 · leading Trojans', title: 'Minerva Station',
+        html: '<p>Sixty degrees ahead of Jupiter on its orbit, in the leading Trojan swarm. L4, Jupiter and the Sun form an equilateral triangle, so Minerva sits as far from Jupiter as Jupiter sits from the Sun.</p>',
+        facts: [['To Jupiter', '5.2 AU · 778 million km'], ['Light to Jupiter', '43 minutes'], ['Light to Geneva', '41 minutes']],
+        wiki: ['minerva-station', 'Minerva Station'], zoom: [1, 'Zoom in on the leading Trojans'] },
+      { id: 'jupiter', label: 'Jupiter', at: pc(400, 180), kicker: 'The fuel tank', title: 'Jupiter',
+        html: '<p>Helium-3 in Jupiter’s atmosphere fuels the system. Its radiation belts decide where people can live: the closer the moon, the shorter the stay.</p>',
+        facts: [['Io', 'about 3,600 rem a day'], ['Europa', 'about 540 rem a day'], ['Ganymede', 'about 8 rem a day'], ['Callisto', 'about 0.01 rem a day']],
+        wiki: ['jovian-system', 'The Jovian system'] },
+      { id: 'callisto', label: 'Callisto', at: pc(294.8, 218.3), kicker: 'Galilean moon · Green Zone', title: 'Callisto',
+        html: '<p>The USN’s capital at Jupiter and the only place helium-3 is refined. A claim started at Minerva is finished here, in person, at the Jovian Claim Registry.</p>',
+        facts: [['From Jupiter', '1.88 million km'], ['Surface dose', 'about 0.01 rem a day'], ['Light to Ceres', '40 minutes'], ['Light to Luna City', '49 minutes']],
+        wiki: ['callisto', 'Callisto'] },
+      { id: 'l5', label: 'The Trojans (L5)', at: pc(677.1, 340), kicker: 'Jupiter L5 · trailing Trojans', title: 'The trailing Trojans',
+        html: '<p>The back door. The USN keeps a nominal presence; the Capa run it. Patroclus is the hub, with habitats spread through the swarm in clusters.</p>',
+        facts: [['To Jupiter', '5.2 AU']], wiki: ['the-trojans', 'The Trojans'] },
+    ]},
+    { name: 'Leading Trojans', field: 'Field · L4, the leading Trojans · stylized', crumbs: ['Sun', 'L4'], focus: pc(360, 300), items: [
+      { id: 'minerva', label: 'Minerva Station', at: pc(230, 380), kicker: 'USN anchor at L4', title: 'Minerva Station',
+        html: '<p>A McKendree cylinder of carbon weave, small beside the Hercules cylinders: port, registry, seat of government and factory floor. Its Arachne spinnery weaves the filament that is building Hercules.</p>',
+        facts: [['Type', 'McKendree cylinder'], ['Gravity', '0 at the axis to 1.2 gee at the skin'], ['Governed by', 'The Directorate (USN)']],
+        wiki: ['minerva-station', 'Minerva Station'], zoom: [2, 'Zoom in on the corridor'] },
+      { id: 'hercules', label: 'Hercules I', at: pc(362, 155), kicker: 'The Hercules yards · finished', title: 'Hercules I',
+        html: '<p>The largest construction project in human history: habitat cylinders built from Trojan rock and Venusian carbon, each far bigger than Minerva. Hercules I is finished and clad. Minerva and the two cylinders sit at the corners of a triangle, about 50,000 km on a side.</p>',
+        facts: [['Builder', 'Hercules Construction Authority'], ['From Minerva', 'about 50,000 km'], ['Entry', 'Waiting list · USN settlers first']],
+        wiki: ['hercules', 'Hercules'], zoom: [2, 'Zoom in on the corridor'] },
+      { id: 'twin', label: 'Hercules II', at: pc(490, 380), kicker: 'The Hercules yards · under construction', title: 'Hercules II',
+        html: '<p>The second cylinder, still bare lattice, the same distance from Minerva as from Hercules I. Ships bound for the yards cross the corridor to reach it.</p>',
+        facts: [['From Minerva', 'about 50,000 km'], ['From Hercules I', 'about 50,000 km'], ['Status', 'active cladding runs']],
+        wiki: ['hercules', 'Hercules'], zoom: [2, 'Zoom in on the corridor'] },
+      { id: 'achilles', label: 'Achilles', at: pc(120, 470), kicker: 'USN customs and parts', title: 'Achilles',
+        html: '<p>The USN’s customs complex and parts depot, where certified parts are sold at certified prices.</p>',
+        wiki: ['the-trojans', 'The Trojans'] },
+      { id: 'hektor', label: 'Hektor', at: pc(682, 436), kicker: 'Titan Technate depot', title: 'Hektor',
+        html: '<p>Where Titan’s nitrogen tankers deliver the air of L4. Minerva breathes nitrogen and oxygen shipped in through here.</p><p class="sci">624 Hektor is a real asteroid, the largest known Jupiter Trojan: a Trojan hero that ended up in the Greek camp.</p>',
+        wiki: ['titan-technate', 'Titan Technate Collective'] },
+    ]},
+    { name: 'The corridor', field: 'Field · Minerva to Hercules · ~50,000 km', crumbs: ['Sun', 'L4', 'Corridor'], focus: pc(160, 460), items: [
+      { id: 'stack', label: 'The holding stack', at: pc(250, 460), kicker: 'Minerva endcap · zero gee', title: 'The holding stack',
+        html: '<p>Ships queue off Minerva’s endcap for the locks, under strobing collar lights. On a bad day the stack backs up past the secondary collar, and a corporate hauler, dark on the public registry, can still cut straight to the front.</p>',
+        facts: [['Cleared by', 'Minerva Traffic'], ['Weight', 'zero, on the docking axis']],
+        wiki: ['minerva-station', 'Minerva Station'], zoom: [3, 'Zoom in on Minerva’s tiers'] },
+      { id: 'burn', label: 'Ignition marker', at: pc(362, 460), kicker: 'Minerva Traffic · cleared', title: 'Out to the yards',
+        html: '<p>Traffic queues your vector and gives you a window to reach the ignition marker before the next freighter comes through your lane. Then it is short and hot: one hard burn, and a long coast on momentum, because thrust costs fuel and fuel costs shu.</p>',
+        facts: [['Insertion burn', '90 seconds at 1.2 gee'], ['Coast', 'about 14 hours'], ['Distance', 'about 50,000 km']],
+        wiki: ['fusion-torch', 'The fusion torch'] },
+      { id: 'hercules', label: 'Hercules I', at: pc(245, 140), kicker: 'Finished · regolith clad', title: 'Hercules I',
+        html: '<p>The finished cylinder turns slowly against the stars, plated in rock mined from the Trojan swarm and fused into a grey-brown skin. Docking traffic cycles at the endcap under strobing collar lights.</p>',
+        facts: [['Frame', 'carbon-nanotube filament'], ['Skin', 'regolith cladding, Trojan rock'], ['Entry', 'waiting list · USN settlers first']],
+        wiki: ['hercules', 'Hercules'] },
+      { id: 'twin', label: 'Hercules II', at: pc(520, 460), kicker: 'Under construction · bare lattice', title: 'Hercules II',
+        html: '<p>What Hercules I looked like before the cladding went on: bare composite weave open to vacuum, with construction drones tracing patient arcs across the lattice. Capa crews do the work drones can’t, for a hazard premium on top of the shift rate.</p>',
+        facts: [['Status', 'active cladding runs'], ['Nearest USN response', 'six hours out'], ['Safety net', 'a Capa rescue ship on contract']],
+        wiki: ['search-and-rescue', 'Search and rescue'] },
+      { id: 'convoy', label: 'Venus convoy', at: pc(751, 284), kicker: 'Inbound from Venus', title: 'The feedstock convoy',
+        html: '<p>Raw carbon from the cloud platforms of Venus, sent the long way on a Hohmann transfer. The spinnery at Minerva turns it into the filament Hercules is built from.</p>',
+        facts: [['From', 'the cloud platforms of Venus'], ['Route', 'a slow Hohmann transfer']],
+        wiki: ['arachne-weavers', 'Arachne weavers'] },
+    ]},
+    { name: 'Minerva', field: 'Field · Minerva, axis to skin · not to scale', crumbs: ['Sun', 'L4', 'Corridor', 'Minerva'], items: [
+      { id: 'axis', g: 0, label: 'The axis · 0 gee', at: pc(400, 64), kicker: '0 gee', title: 'The docking axis',
+        html: '<p>Weightless. The holding stack, the Minerva locks and the endcap collars. Corridors run off the axis on radial arms, and radial elevators carry you down toward the skin.</p>',
+        facts: [['Weight', 'zero']], wiki: ['spin-gravity', 'Spin gravity'] },
+      { id: 'general', g: 0.8, label: 'Minerva General · 0.8 gee', kicker: '0.8 gee', title: 'Minerva General',
+        html: '<p>The station hospital, up where the weight is gentle.</p>', facts: [['Weight', '0.8 gee']], wiki: ['minerva-station', 'Minerva Station'] },
+      { id: 'admin', g: 0.9, label: 'Administrative tier · 0.9 gee', kicker: '0.9 gee', title: 'The administrative tier',
+        html: '<p>Offices sit where the gravity is gentle and the air is quiet. Weight here is also class. Up here the ground is a terrace or a garden.</p>', facts: [['Weight', '0.9 gee'], ['Ground', 'terrace · garden']], wiki: ['minerva-station', 'Minerva Station'] },
+      { id: 'senior', g: 1.0, label: 'Senior offices · 1.0 gee', kicker: '1.0 gee', title: 'Senior offices',
+        html: '<p>One tier down from the administrative tier. Going toward the skin, from a lighter tier to a heavier one, is going <em>down</em>.</p>', facts: [['Weight', '1.0 gee']], wiki: ['minerva-station', 'Minerva Station'] },
+      { id: 'sump', g: 1.2, label: 'The Sump · 1.2 gee', kicker: '1.2 gee · the skin', title: 'The Sump',
+        html: '<p>The outer industrial ring: heat, roar and sweet, resin-thick air, with the spinnery extruders throbbing through the floor. People born here grow thick-boned to carry 1.2 gee all their lives. Down here the ground is a floor or a concourse.</p><div class="stripes"><span style="border-color:#8b96a3">grey · line crews</span><span style="border-color:#e3a857">amber · supervisors</span><span style="border-color:#5f8fd6">blue · skips the queue</span></div>',
+        facts: [['Weight', '1.2 gee'], ['Industry', 'the Arachne spinnery']], wiki: ['arachne-weavers', 'Arachne weavers'] },
+    ]},
+  ];
+  STOPS[3].items.forEach((it) => { if (it.g) it.at = pc(...tierHot(it.g)); });
+
+  // Deterministic scatter (same seed, same sky).
+  const rng = (seed) => { let s = seed; return () => ((s = (s * 16807) % 2147483647) - 1) / 2147483646; };
+  const NS = 'http://www.w3.org/2000/svg';
+  const dot = (g, x, y, r, cls = 'rock') => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x.toFixed(1)); c.setAttribute('cy', y.toFixed(1)); c.setAttribute('r', r.toFixed(2)); c.setAttribute('class', cls); g.appendChild(c); };
+  [['cloud4', -150, 4242], ['cloud5', -30, 2525]].forEach(([id, deg0, seed]) => {
+    const g = document.getElementById(id), r = rng(seed);
+    for (let i = 0; i < 130; i++) { const d = (deg0 + (r() - .5) * 44) * Math.PI / 180, R = 320 + (r() - .5) * 70; dot(g, 400 + R * Math.cos(d), 500 + R * Math.sin(d), .8 + r() * 1.3); }
+  });
+  { const g = document.getElementById('swarm'), r = rng(777);
+    for (let i = 0; i < 420; i++) dot(g, r() * 800, 40 + r() * 500, .6 + r() * r() * 3.2); }
+  { // tiers wedge
+    const [ax, ay] = APEX, d = D(1.2) + 6;
+    document.getElementById('wedge').setAttribute('d', `M${ax} ${ay} L${ax - d * Math.sin(HALF)} ${ay + d * Math.cos(HALF)} A${d} ${d} 0 0 0 ${ax + d * Math.sin(HALF)} ${ay + d * Math.cos(HALF)} Z`);
+    const g = document.getElementById('tiers');
+    STOPS[3].items.filter((t) => t.g).forEach((t) => {
+      const r = D(t.g), p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', `M${ax - r * Math.sin(HALF)} ${ay + r * Math.cos(HALF)} A${r} ${r} 0 0 0 ${ax + r * Math.sin(HALF)} ${ay + r * Math.cos(HALF)}`);
+      p.setAttribute('class', 'tier'); p.dataset.tier = t.id; g.appendChild(p);
+      const tx = document.createElementNS(NS, 'text');
+      tx.setAttribute('x', ax + r * Math.sin(HALF) + 14); tx.setAttribute('y', ay + r * Math.cos(HALF) + 4);
+      tx.setAttribute('class', t.id === 'sump' ? 'lbl-a' : 'lbl'); tx.textContent = t.title.toUpperCase().replace('THE ', '');
+      g.appendChild(tx);
+    });
+  }
+
+  // State and rendering
+  const root = document.getElementById('ap');
+  const layers = [...document.querySelectorAll('.layer')];
+  const railBtns = [...document.querySelectorAll('.rail [data-stop]')];
+  const itemsEl = document.getElementById('items'), card = document.getElementById('card'), hots = document.getElementById('hots');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let stop = 0, sel = 0;
+  const still = () => root.classList.contains('still');
+
+  function renderItems() {
+    const s = STOPS[stop];
+    itemsEl.innerHTML = ''; hots.innerHTML = '';
+    s.items.forEach((it, i) => {
+      const li = document.createElement('li'), b = document.createElement('button');
+      b.type = 'button'; b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span>${it.label}`;
+      b.setAttribute('aria-pressed', i === sel); b.onclick = () => select(i); li.appendChild(b); itemsEl.appendChild(li);
+      const h = document.createElement('button');
+      h.type = 'button'; h.className = 'hot'; h.tabIndex = -1; h.setAttribute('aria-hidden', 'true');
+      h.style.left = it.at[0] + '%'; h.style.top = it.at[1] + '%'; h.setAttribute('aria-pressed', i === sel);
+      h.innerHTML = `<span class="tip">${it.label}</span>`; h.onclick = () => select(i); hots.appendChild(h);
+    });
+    document.getElementById('listlabel').textContent = s.name;
+    document.getElementById('field').textContent = s.field;
+    railBtns.forEach((b) => b.removeAttribute('aria-current'));
+    railBtns[stop].setAttribute('aria-current', 'step');
+    document.getElementById('zout').disabled = stop === 0;
+    document.getElementById('zin').disabled = stop === STOPS.length - 1;
+  }
+
+  function select(i, focusCard) {
+    sel = i; const it = STOPS[stop].items[i];
+    [...itemsEl.querySelectorAll('button')].forEach((b, j) => b.setAttribute('aria-pressed', j === i));
+    [...hots.children].forEach((b, j) => b.setAttribute('aria-pressed', j === i));
+    const facts = it.facts ? `<dl class="facts">${it.facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : '';
+    const zoom = it.zoom ? `<button type="button" class="btn" data-zoom="${it.zoom[0]}" data-from="${i}">${it.zoom[1]} <span aria-hidden="true">→</span></button>` : '';
+    card.innerHTML = `<p class="kicker">${it.kicker}</p><h2>${it.title}</h2>${it.html}${facts}<div class="actions">${zoom}<a class="wiki" href="${WIKI}${it.wiki[0]}/">Encyclopedia: ${it.wiki[1]}</a></div>`;
+    const zb = card.querySelector('[data-zoom]'); if (zb) zb.onclick = () => go(+zb.dataset.zoom);
+    if (stop === 3) { // ride the radial car
+      const g = it.g || 0, y = g ? APEX[1] + D(g) : APEX[1];
+      document.getElementById('car').setAttribute('transform', `translate(0 ${y})`);
+      document.getElementById('carg').textContent = g ? g.toFixed(1) + ' GEE' : '0 GEE';
+      document.querySelectorAll('.tier').forEach((t) => t.classList.toggle('sel', t.dataset.tier === it.id));
+    }
+  }
+
+  function place(el, scale, origin) {
+    el.style.transformOrigin = origin ? `${origin[0]}% ${origin[1]}%` : '50% 50%';
+    el.style.transform = `scale(${scale})`;
+  }
+  let go = function (n) {
+    if (n === stop || n < 0 || n >= STOPS.length) return;
+    const from = stop, out = layers[from], inn = layers[n], deeper = n > from;
+    const animate = !(reduce.matches || still());
+    if (animate) {
+      // Outgoing layer dives toward (or pulls away from) the focus point; incoming arrives from the other side.
+      inn.style.transition = 'none';
+      place(inn, deeper ? 0.3 : 3.2, deeper ? null : STOPS[n].focus);
+      inn.getBoundingClientRect();
+      inn.style.transition = '';
+      place(out, deeper ? 3.2 : 0.3, deeper ? STOPS[from].focus : null);
+    }
+    out.classList.remove('on'); inn.classList.add('on');
+    requestAnimationFrame(() => { inn.style.transform = 'scale(1)'; });
+    stop = n; sel = 0; renderItems(); select(0);
+  };
+
+  railBtns.forEach((b) => (b.onclick = () => go(+b.dataset.stop)));
+  document.getElementById('zin').onclick = () => go(stop + 1);
+  document.getElementById('zout').onclick = () => go(stop - 1);
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input,textarea')) return;
+    if (e.key === '+' || e.key === '=') { go(stop + 1); e.preventDefault(); }
+    if (e.key === '-' || e.key === '_') { go(stop - 1); e.preventDefault(); }
+  });
+  const motionBtn = document.getElementById('motion');
+  let setStill = (on) => { root.classList.toggle('still', on); motionBtn.textContent = on ? 'Motion: off' : 'Motion: on'; motionBtn.setAttribute('aria-pressed', on); };
+  motionBtn.onclick = () => setStill(!still());
+  setStill(reduce.matches);
+
+  // ---- Minerva Traffic: an in-world radio channel that changes with the scale. ----
+  // New writing in the book's register; nothing is quoted from the manuscript.
+  // Callsigns: Minerva Traffic (CH 01), Minerva Civilian Control (CH 09), Hercules II construction command (CH 02),
+  // Achilles and Hektor (the-trojans.md). Ship names: Cooper's Reach and Haldane's Theorem are canon; Bad Penny,
+  // Dauntless (Robert, 2026-11-20) and Cold Comfort (invented) are new.
+  const LINK = { TRAFFIC: '/wiki/minerva-station/', CIVIL: '/wiki/minerva-station/', ACHILLES: '/wiki/the-trojans/',
+    CONSTRUCTION: '/wiki/hercules/', REACH: '/ship/', THEOREM: '/wiki/tharsis-republic/', PENNY: '/wiki/capa/',
+    DAUNTLESS: '/wiki/the-belt/', COMFORT: '/wiki/hercules/' };
+  const CS = { TRAFFIC: 'Minerva Traffic', CIVIL: 'Minerva Civilian Control', ACHILLES: 'Achilles',
+    CONSTRUCTION: 'Hercules II construction command', REACH: 'Cooper’s Reach', THEOREM: 'Haldane’s Theorem',
+    PENNY: 'Bad Penny', DAUNTLESS: 'Dauntless', COMFORT: 'Cold Comfort' };
+  const SHIPS = ['REACH', 'THEOREM', 'PENNY', 'DAUNTLESS', 'COMFORT'];
+  // Ambient calls by scale: 1 = the Trojans, 2 = the corridor, 3 = Minerva's tiers.
+  const AMBIENT = {
+    1: [
+      ['ACHILLES', 'Inbound from the inner system, report to Achilles for certification before you enter the Minerva lanes.'],
+      ['THEOREM', 'Minerva Traffic, Tharsis Republic vessel Haldane’s Theorem, transiting L4. No docking requested.'],
+      ['TRAFFIC', 'Haldane’s Theorem, copy your transit. Keep clear of the Hercules corridor.'],
+      ['DAUNTLESS', 'Achilles, Dauntless. Certification complete. Proceeding to Minerva.'],
+      ['TRAFFIC', 'Titan tanker for Hektor, you are clear of the Minerva lanes.'],
+      ['COMFORT', 'Minerva Traffic, Cold Comfort, inbound with a settler manifest for Hercules I.'],
+      ['TRAFFIC', 'Cold Comfort, copy. USN manifests clear first.'],
+      ['TRAFFIC', 'Venus feedstock convoy, you are logged on approach.'],
+    ],
+    2: [
+      ['TRAFFIC', 'All stations, the holding stack is running long. Hold your positions.'],
+      ['PENNY', 'Minerva Traffic, Bad Penny. Still holding. Any word on the locks?'],
+      ['TRAFFIC', 'Bad Penny, you are third in the stack. Hold position.'],
+      ['CONSTRUCTION', 'Corridor traffic, cladding run in progress. Keep clear of the envelope.'],
+      ['DAUNTLESS', 'Minerva Traffic, Dauntless, Belt freighter in the corridor. Requesting a lane.'],
+      ['TRAFFIC', 'Dauntless, lane assigned. Keep your plume off the stack.'],
+      ['PENNY', 'Minerva Traffic, Bad Penny. We have been holding since first shift.'],
+      ['TRAFFIC', 'Bad Penny, so has everyone. Hold position.'],
+      ['COMFORT', 'Minerva Traffic, Cold Comfort. Settler manifest aboard for Hercules I.'],
+      ['TRAFFIC', 'Cold Comfort, cleared to the Hercules I endcap.'],
+      ['CONSTRUCTION', 'Cladding run complete. The envelope remains active.'],
+      ['TRAFFIC', 'Bad Penny, you are cleared to the secondary collar.'],
+    ],
+    3: [
+      ['CIVIL', 'All tiers, shift change on the bell. Radial elevators to the Sump will run full.'],
+      ['CIVIL', 'First shift to the spinnery floor. Second shift, clear the transit benches.'],
+      ['CIVIL', 'Minerva General, medical sled inbound from the docking axis.'],
+      ['CIVIL', 'Long Quarter, the pit opens on the bell.'],
+    ],
+  };
+  // Cooper's Reach departs once per visit, on the corridor channel, woven between ambient calls.
+  const REACH_ARC = [
+    ['REACH', 'Minerva Traffic, Cooper’s Reach. On contract to Hercules II construction command. Standing by in the stack.', 'stack'],
+    ['TRAFFIC', 'Cooper’s Reach, copy. Your construction contract is on the board.'],
+    ['REACH', 'Minerva Traffic, Cooper’s Reach. Ready to depart for the Hercules II yards.'],
+    ['TRAFFIC', 'Cooper’s Reach, cleared to depart. Your departure vector is on your board.', 'ignite'],
+    ['REACH', 'Copy. Cooper’s Reach departing.'],
+    ['TRAFFIC', 'Cooper’s Reach, burn confirmed. Safe coast.', 'coast'],
+  ];
+  const REACH_AT = { stack: 'translate(246 512)', ignite: 'translate(362 512)', coast: 'translate(452 512)' };
+  const SAY = { stack: 'Cooper’s Reach is on the map, holding in the stack.', ignite: 'Cooper’s Reach is cleared and moving to its ignition marker.', coast: 'Cooper’s Reach has burned and is coasting out to the Hercules yards.' };
+  const tr = document.getElementById('traffic'), log = document.getElementById('trlog'), say = document.getElementById('trsay');
+  const pauseBtn = document.getElementById('trpause'), nextBtn = document.getElementById('trnext');
+  const reachMk = document.getElementById('reachmk');
+  const idx = { 1: 0, 2: 0, 3: 0 };
+  let reachStep = 0, beat = 0, mins = 6 * 60 + 12, timer = null, paused = false, onScreen = true;
+  const stamp = () => { const h = Math.floor(mins / 60) % 24, m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
+  const shipify = (t) => SHIPS.reduce((acc, k) => acc.split(CS[k]).join(`<span class="ship">${CS[k]}</span>`), t);
+  function nextCall() {
+    // On the corridor, every third call advances the Reach's departure until it is done.
+    if (stop === 2 && reachStep < REACH_ARC.length && beat % 3 === 0) return REACH_ARC[reachStep++];
+    const list = AMBIENT[stop]; const c = list[idx[stop] % list.length]; idx[stop]++; return c;
+  }
+  function call() {
+    if (stop === 0) return;
+    const [who, text, reachPos] = nextCall(); beat++;
+    const isReach = who === 'REACH';
+    const li = document.createElement('li'); if (isReach) li.className = 'reach';
+    const name = CS[who], nm = SHIPS.includes(who) ? `<span class="ship">${name}</span>` : name;
+    li.innerHTML = `<span class="ts">${stamp()}</span><span class="cs"><a href="${LINK[who]}">${nm}</a></span>${isReach ? '<span class="who">Cassandra · </span>' : ''}${shipify(text)}`;
+    log.appendChild(li);
+    while (log.children.length > 30) log.firstElementChild.remove();
+    log.scrollTop = log.scrollHeight;
+    if (reachPos) { reachMk.setAttribute('opacity', 1); reachMk.setAttribute('transform', REACH_AT[reachPos]); say.textContent = SAY[reachPos]; }
+    mins += 1 + (beat % 3);
+  }
+  const running = () => stop > 0 && !paused && onScreen && !document.hidden && !(reduce.matches || still());
+  let shownStop = -1;
+  function sync() {
+    tr.classList.toggle('idle', stop === 0);
+    if (stop > 0 && stop !== shownStop) {
+      document.getElementById('trafficlabel').lastChild.textContent = stop === 3 ? 'Minerva Civilian Control' : 'Minerva Traffic';
+      if (!log.children.length || shownStop !== stop) { call(); call(); }
+      shownStop = stop;
+    }
+    clearInterval(timer); timer = null;
+    if (running()) timer = setInterval(call, 7000);
+    pauseBtn.textContent = paused ? 'Resume' : 'Pause'; pauseBtn.setAttribute('aria-pressed', paused);
+    pauseBtn.hidden = reduce.matches || still();
+  }
+  new IntersectionObserver((es) => { onScreen = es[0].isIntersecting; sync(); }).observe(tr);
+  document.addEventListener('visibilitychange', sync);
+  pauseBtn.onclick = () => { paused = !paused; sync(); };
+  nextBtn.onclick = () => call();
+  const _go = go; go = (n) => { _go(n); sync(); };
+  const _setStill = setStill; setStill = (on) => { _setStill(on); sync(); };
+  motionBtn.onclick = () => setStill(!still());
+
+  // Deep links: ?stop=2&item=3 (also used for screenshots).
+  const q = new URLSearchParams(location.search);
+  stop = Math.min(3, +q.get('stop') || 0); layers[stop].classList.add('on');
+  renderItems(); select(Math.min(+q.get('item') || 0, STOPS[stop].items.length - 1));
+  for (let i = 0; i < (+q.get('calls') || 0); i++) call();
+  sync();
+})();
+
+</script>

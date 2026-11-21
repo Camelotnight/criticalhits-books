@@ -7,7 +7,9 @@ import { join } from 'node:path';
 
 const banned = new Set([
   '6f130cfc098f8676', '7766bdb93180f4c2', 'd5f29c56ba0bd969', '50b636a7a4a60650', '7cbf602f73599bcd',
-  'd579eb4efafcd212', '153b3cec6c6b9f99', '56fa46221dbb017a', '12707aa39fecfb88', '725229a9cda16588',
+  'd579eb4efafcd212', '153b3cec6c6b9f99', '12707aa39fecfb88',
+  // 'hercules ii' retired 2026-11-20: Robert cleared the name for the World page. The other spellings stay banned.
+  '725229a9cda16588',
 ]);
 const hash = (s) => createHash('sha256').update(s).digest('hex').slice(0, 16);
 
