@@ -272,6 +272,9 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .tr-log li .cs a:hover{color:var(--signal)}
 .tr-log li.reach .cs,.tr-log li.reach .cs a{color:#ffd48a}
 .tr-log li .ship{font-style:italic}
+.tr-log li .lagtag{display:inline-block;margin-right:.35rem;padding:0 .3rem;border:1px solid #34465c;border-radius:2px;font-family:var(--font-display);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#7cc8dc}
+.tr-log li.relay{color:#b3bfcc}
+.tr-log li.weak{font-style:italic;opacity:.75}
 .tr-log li .who{color:#b98a4d;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
 
 .tr-idle{margin:.2rem 0 .3rem;font-size:.8rem;color:#6d7f95}
@@ -532,97 +535,206 @@ svg text{font-family:var(--font-display)}
   setStill(reduce.matches);
 
   // ---- Minerva Traffic: an in-world radio channel that changes with the scale. ----
-  // New writing in the book's register; nothing is quoted from the manuscript.
-  // Callsigns: Minerva Traffic (CH 01), Minerva Civilian Control (CH 09), Hercules II construction command (CH 02),
-  // Achilles and Hektor (the-trojans.md). Ship names: Cooper's Reach and Haldane's Theorem are canon; Bad Penny,
-  // Dauntless (Robert, 2026-11-20) and Cold Comfort (invented) are new.
-  const LINK = { TRAFFIC: '/wiki/minerva-station/', CIVIL: '/wiki/minerva-station/', ACHILLES: '/wiki/the-trojans/',
-    CONSTRUCTION: '/wiki/hercules/', REACH: '/ship/', THEOREM: '/wiki/tharsis-republic/', PENNY: '/wiki/capa/',
-    DAUNTLESS: '/wiki/the-belt/', COMFORT: '/wiki/hercules/' };
-  const CS = { TRAFFIC: 'Minerva Traffic', CIVIL: 'Minerva Civilian Control', ACHILLES: 'Achilles',
-    CONSTRUCTION: 'Hercules II construction command', REACH: 'Cooper’s Reach', THEOREM: 'Haldane’s Theorem',
-    PENNY: 'Bad Penny', DAUNTLESS: 'Dauntless', COMFORT: 'Cold Comfort' };
-  const SHIPS = ['REACH', 'THEOREM', 'PENNY', 'DAUNTLESS', 'COMFORT'];
-  // Ambient calls by scale: 1 = the Trojans, 2 = the corridor, 3 = Minerva's tiers.
-  const AMBIENT = {
-    1: [
-      ['ACHILLES', 'Inbound from the inner system, report to Achilles for certification before you enter the Minerva lanes.'],
-      ['THEOREM', 'Minerva Traffic, Tharsis Republic vessel Haldane’s Theorem, transiting L4. No docking requested.'],
-      ['TRAFFIC', 'Haldane’s Theorem, copy your transit. Keep clear of the Hercules corridor.'],
-      ['DAUNTLESS', 'Achilles, Dauntless. Certification complete. Proceeding to Minerva.'],
-      ['TRAFFIC', 'Titan tanker for Hektor, you are clear of the Minerva lanes.'],
-      ['COMFORT', 'Minerva Traffic, Cold Comfort, inbound with a settler manifest for Hercules I.'],
-      ['TRAFFIC', 'Cold Comfort, copy. USN manifests clear first.'],
-      ['TRAFFIC', 'Venus feedstock convoy, you are logged on approach.'],
+  // New writing in the book's register; nothing is quoted from the manuscript. Every call is a world fact or
+  // flagged invention (see README). Calls play as whole exchanges (call, clearance, readback), shuffled each day.
+  // Light lag is canon: Callisto (Hell One) to L4 is 43 minutes, Geneva to Minerva 41. No canon figure exists for
+  // the Belt, so Belt messages carry no lag. Guardrails: no distress calls, no strikes or claims, no missing ships;
+  // the futures talk stays on finished runs versus scrubbed dives (scripts/spoiler-check.mjs checks the words).
+  const WK = '/wiki/';
+  // key: [display name, link, ship name to italicize (or ''), prefix]
+  const REG = {
+    TRAFFIC: ['Minerva Traffic', WK + 'minerva-station/'], CIVIL: ['Minerva Civilian Control', WK + 'minerva-station/'],
+    INFO: ['Minerva Information', WK + 'minerva-station/'], ACHILLES: ['Achilles', WK + 'the-trojans/'],
+    CONSTRUCTION: ['Hercules II construction command', WK + 'hercules/'], PIT: ['Long Quarter pit board', WK + 'minerva-station/'],
+    HELLONE: ['Relay · Hell One', WK + 'callisto/'], GENEVA: ['Relay · Geneva', WK + 'united-solar-nations/'],
+    UNKNOWN: ['Unknown station', ''],
+    REACH: ['Cooper’s Reach', '/ship/', 'Cooper’s Reach'], THEOREM: ['Haldane’s Theorem', WK + 'tharsis-republic/', 'Haldane’s Theorem'],
+    PENNY: ['Bad Penny', WK + 'capa/', 'Bad Penny'], COMFORT: ['Cold Comfort', WK + 'hercules/', 'Cold Comfort'],
+    BACKPAY: ['Back Pay', WK + 'capa/', 'Back Pay'], PAID: ['Paid in Full', WK + 'the-belt/', 'Paid in Full'],
+    SHORTRATION: ['Short Ration', WK + 'the-belt/', 'Short Ration'], LONGDIV: ['Long Division', WK + 'the-belt/', 'Long Division'],
+    OPENTAP: ['Open Tap', WK + 'the-belt/', 'Open Tap'], SHORTODDS: ['Short Odds', WK + 'qern/', 'Short Odds'],
+    BARGAIN: ['Hard Bargain', WK + 'capa/', 'Hard Bargain'], PUNGA: ['Punga', WK + 'titan-technate/', 'Punga'],
+    BARTON: ['USNS Barton', WK + 'united-solar-nations/', 'Barton', 'USNS'],
+    // USN support hulls (USNS) are named for founders of rescue and relief; Directorate Security Service cutters
+    // (DSSC, LEX-04) for treaties that claimed sovereignty. Cutters never hail Capa ships or the Reach.
+    DUNANT: ['USNS Dunant', WK + 'united-solar-nations/', 'Dunant', 'USNS'], EDHI: ['USNS Edhi', WK + 'united-solar-nations/', 'Edhi', 'USNS'],
+    DAUNTLESS: ['DSSC Dauntless', WK + 'united-solar-nations/', 'Dauntless', 'DSSC'],
+    WESTPHALIA: ['DSSC Westphalia', WK + 'united-solar-nations/', 'Westphalia', 'DSSC'], TORDESILLAS: ['DSSC Tordesillas', WK + 'united-solar-nations/', 'Tordesillas', 'DSSC'],
+  };
+  const SHIPNAMES = Object.values(REG).map((r) => r[2]).filter(Boolean).concat(['Low Bar', 'Fair Shares', 'Tare Weight']);
+  // An exchange is a list of [who, text, opts]. opts: lag (minutes, relays), pos (Reach marker), story/step (in order).
+  const EX = {
+    1: [ // The Trojans: long-range traffic, arrivals and departures, relays
+      [['ACHILLES', 'All inbound from the inner system, parts manifests to Achilles before you enter the Minerva lanes.']],
+      [['OPENTAP', 'Achilles, Open Tap, inbound from Hygiea. Parts manifest sent.'],
+       ['ACHILLES', 'Open Tap, manifest received. Certification complete. Proceed to the Minerva lanes.'],
+       ['OPENTAP', 'Certification complete, proceeding to the Minerva lanes. Open Tap.']],
+      [['ACHILLES', 'Bad Penny, Achilles. Your drive bell is not on the certified list. Declare it or hold for inspection.'],
+       ['PENNY', 'Achilles, Bad Penny. Declaring it. That bell has never let us down.'],
+       ['ACHILLES', 'Bad Penny, declaration logged. Proceed.']],
+      [['PUNGA', 'Minerva Traffic, Technate tanker Punga, passing your lanes for Hektor. No services required.'],
+       ['TRAFFIC', 'Punga, copy. Pass clear of the corridor.']],
+      [['THEOREM', 'Minerva Traffic, Tharsis Republic vessel Haldane’s Theorem, transiting L4. No docking requested.'],
+       ['TRAFFIC', 'Haldane’s Theorem, copy your transit. Keep clear of the Hercules corridor.']],
+      [['COMFORT', 'Minerva Traffic, Cold Comfort, settler transport inbound from Luna City for Hercules I.'],
+       ['TRAFFIC', 'Cold Comfort, report to Achilles first.'],
+       ['COMFORT', 'Achilles first. Cold Comfort.']],
+      [['GENEVA', 'Inner-system lanes open as scheduled. Notices posted to the station board.', { lag: 41 }]],
+      [['GENEVA', 'USN Atmospheric Division. Venus feedstock schedule confirmed for this cycle.', { lag: 41 }]],
+      [['DUNANT', 'Minerva Traffic, USNS Dunant, relief stores for the Hercules I settlers. Request a berth at the axis.'],
+       ['TRAFFIC', 'USNS Dunant, cleared to the docking axis.'],
+       ['DUNANT', 'Cleared to the docking axis. USNS Dunant.']],
+      [['TRAFFIC', 'USN courier for Earth, cleared as filed. The lane is yours.']],
+      [['TORDESILLAS', 'Minerva Traffic, DSSC Tordesillas, ready to depart the Minerva lanes for patrol. Request a departure vector.'],
+       ['TRAFFIC', 'DSSC Tordesillas, departure vector sent.'],
+       ['TORDESILLAS', 'Vector received. Tordesillas.']],
+      [['WESTPHALIA', 'Minerva Traffic, DSSC Westphalia, on station at the Achilles approach. No services required.'],
+       ['TRAFFIC', 'DSSC Westphalia, copy.']],
+      [['DAUNTLESS', 'Achilles, DSSC Dauntless, inbound. Certification waived on Directorate authority.'],
+       ['ACHILLES', 'DSSC Dauntless, copy. Proceed to the Minerva lanes.']],
+      [['TRAFFIC', 'USN freighter for Luna City, cleared for your departure burn.']],
+      [['SHORTRATION', 'Minerva Traffic, Short Ration, Vesta registry. Outbound for Vesta, ready to depart.'],
+       ['TRAFFIC', 'Short Ration, stand by. Outbound traffic ahead of you.'],
+       ['TRAFFIC', 'Short Ration, cleared out of the Minerva lanes. Departure vector sent.'],
+       ['SHORTRATION', 'Cleared out of the lanes, vector received. Short Ration.']],
+      [['LONGDIV', 'Minerva Traffic, Long Division, Pallas registry. Request departure for Pallas.'],
+       ['TRAFFIC', 'Long Division, cleared to Pallas as filed. Contact Achilles on departure.'],
+       ['LONGDIV', 'Cleared to Pallas as filed, Achilles on departure. Long Division.'],
+       ['TRAFFIC', 'Long Division, readback correct.']],
+      [['HELLONE', 'Scoop ship Low Bar, clear of the well, inbound to Callisto with a full plant.', { lag: 43 }]],
     ],
-    2: [
-      ['TRAFFIC', 'All stations, the holding stack is running long. Hold your positions.'],
-      ['PENNY', 'Minerva Traffic, Bad Penny. Still holding. Any word on the locks?'],
-      ['TRAFFIC', 'Bad Penny, you are third in the stack. Hold position.'],
-      ['CONSTRUCTION', 'Corridor traffic, cladding run in progress. Keep clear of the envelope.'],
-      ['DAUNTLESS', 'Minerva Traffic, Dauntless, Belt freighter in the corridor. Requesting a lane.'],
-      ['TRAFFIC', 'Dauntless, lane assigned. Keep your plume off the stack.'],
-      ['PENNY', 'Minerva Traffic, Bad Penny. We have been holding since first shift.'],
-      ['TRAFFIC', 'Bad Penny, so has everyone. Hold position.'],
-      ['COMFORT', 'Minerva Traffic, Cold Comfort. Settler manifest aboard for Hercules I.'],
-      ['TRAFFIC', 'Cold Comfort, cleared to the Hercules I endcap.'],
-      ['CONSTRUCTION', 'Cladding run complete. The envelope remains active.'],
-      ['TRAFFIC', 'Bad Penny, you are cleared to the secondary collar.'],
+    2: [ // The corridor: live traffic in the stack, the yards, the Reach
+      [['INFO', 'Minerva Information @INFO@. Holding stack running long. Secondary collar in use. Construction envelope active in the corridor. Advise on first contact you have @INFO@.']],
+      [['BACKPAY', 'Minerva Traffic, Back Pay, Capa tender, in the stack. Request a lock.'],
+       ['TRAFFIC', 'Back Pay, no locks free. Hold in the stack, expect delay.'],
+       ['BACKPAY', 'Hold in the stack, Back Pay.']],
+      [['PAID', 'Minerva Traffic, Paid in Full, holding in the stack. Request departure for Ceres.'],
+       ['TRAFFIC', 'Paid in Full, cleared for departure, Ceres. Leave the stack by the secondary collar, burn at your marker. Read back.'],
+       ['PAID', 'Cleared Ceres. Out by the secondary collar, burn at the marker. Paid in Full.'],
+       ['TRAFFIC', 'Readback correct.']],
+      [['TRAFFIC', 'Paid in Full, burn observed. Traffic service ends. Good coast.']],
+      [['CONSTRUCTION', 'Safety call, safety call. All corridor traffic, cladding run under way. Keep clear of the envelope.']],
+      [['CONSTRUCTION', 'All corridor traffic, cladding run complete. The construction envelope remains active.']],
+      [['PENNY', 'Minerva Traffic, Bad Penny. Still holding. Any word on the locks?'],
+       ['TRAFFIC', 'Bad Penny, no word. Hold position.'], { story: 'penny', step: 1 }],
+      [['TRAFFIC', 'All stations, priority traffic inbound to the locks. Hold your positions until it clears.'],
+       ['PENNY', 'Minerva Traffic, Bad Penny. We just watched that one go straight to the front.'],
+       ['TRAFFIC', 'Bad Penny, priority traffic. You are number two. Hold position.'], { story: 'penny', step: 2 }],
+      [['TRAFFIC', 'Bad Penny, a lock is free. Cleared to the secondary collar.'],
+       ['PENNY', 'Cleared to the secondary collar. Bad Penny. About time.'], { story: 'penny', step: 3 }],
+      [['EDHI', 'Minerva Traffic, USNS Edhi, medical supply run for Minerva General. Holding in the stack.'],
+       ['TRAFFIC', 'USNS Edhi, copy. Hold in the stack, expect delay.']],
+      [['BARTON', 'Minerva Traffic, USNS Barton, holding station off the corridor, monitoring this channel.'],
+       ['TRAFFIC', 'USNS Barton, copy.']],
+      [['UNKNOWN', '…ygiea… [unreadable] …CPA reg… [unreadable] …the stack.'],
+       ['TRAFFIC', 'Station calling Minerva Traffic, you are unreadable. Say again, slowly.'],
+       ['BARGAIN', 'Minerva Traffic, Hard Bargain, Hard Bargain, CPA registry. Antenna fouled. Inbound from Hygiea for the stack.'],
+       ['TRAFFIC', 'Hard Bargain, readable now. Join the stack, expect delay.']],
+      [['SHORTODDS', 'Minerva Traffic, Short Odds. Our QERN for the day is spent. Request you laser our departure notice to Hygiea.'],
+       ['TRAFFIC', 'Short Odds, notice queued on the laser. Hygiea’s answer will be a while. Hold position.']],
+      [['TRAFFIC', 'Cold Comfort, cleared to Hercules I. Follow the collar lights.'],
+       ['COMFORT', 'Cleared to Hercules I, collar lights. Cold Comfort.']],
+      [['HELLONE', 'Fair Shares, climbing out of the well. Shielding held. Catch logged for Callisto intake.', { lag: 43 }]],
+      [['HELLONE', 'Tare Weight, dive scrubbed. Climbing out with a part catch, crew well.', { lag: 43 }]],
     ],
-    3: [
-      ['CIVIL', 'All tiers, shift change on the bell. Radial elevators to the Sump will run full.'],
-      ['CIVIL', 'First shift to the spinnery floor. Second shift, clear the transit benches.'],
-      ['CIVIL', 'Minerva General, medical sled inbound from the docking axis.'],
-      ['CIVIL', 'Long Quarter, the pit opens on the bell.'],
+    3: [ // Minerva's tiers: the station band
+      [['CIVIL', 'All tiers, shift bell in five. Grey stripes to the spinnery floor. Amber to the shift board. Blue, the queue is yours.']],
+      [['CIVIL', 'Radial car to the Sump boarding at the promenade. Full weight at the bottom.']],
+      [['CIVIL', 'Minerva General, patient transfer coming down from the docking axis on the next car.']],
+      [['PIT', 'Callisto scoop board in. Helium-3 contracts trading on the floor.']],
+      [['PIT', 'Helium-3, Callisto delivery: one run in full, one run short.']],
+      [['PIT', 'Spinnery shifts, next bell: offered. Rare-earth futures: quiet.']],
+      [['PIT', 'Reminder: no autonomous units on the active floor.']],
+      [['PIT', 'The pit opens on the bell.']],
+      [['GENEVA', 'Mail from Geneva posted to the station board.', { lag: 41 }]],
     ],
   };
-  // Cooper's Reach departs once per visit, on the corridor channel, woven between ambient calls.
-  const REACH_ARC = [
-    ['REACH', 'Minerva Traffic, Cooper’s Reach. On contract to Hercules II construction command. Standing by in the stack.', 'stack'],
-    ['TRAFFIC', 'Cooper’s Reach, copy. Your construction contract is on the board.'],
-    ['REACH', 'Minerva Traffic, Cooper’s Reach. Ready to depart for the Hercules II yards.'],
-    ['TRAFFIC', 'Cooper’s Reach, cleared to depart. Your departure vector is on your board.', 'ignite'],
-    ['REACH', 'Copy. Cooper’s Reach departing.'],
-    ['TRAFFIC', 'Cooper’s Reach, burn confirmed. Safe coast.', 'coast'],
+  // Cooper's Reach departs once per visit on the corridor, as three exchanges woven into the shuffle.
+  const REACH_EX = [
+    [['REACH', 'Minerva Traffic, Cooper’s Reach. On contract to Hercules II construction command. Standing by in the stack.', { pos: 'stack' }],
+     ['TRAFFIC', 'Cooper’s Reach, copy. Your construction contract is on the board.']],
+    [['REACH', 'Minerva Traffic, Cooper’s Reach. Ready to depart for the Hercules II yards.'],
+     ['TRAFFIC', 'Cooper’s Reach, cleared to depart. Your departure vector is on your board.', { pos: 'ignite' }],
+     ['REACH', 'Cleared to depart, vector received. Cooper’s Reach.']],
+    [['TRAFFIC', 'Cooper’s Reach, burn confirmed. Safe coast to the yards.', { pos: 'coast' }]],
   ];
   const REACH_AT = { stack: 'translate(246 512)', ignite: 'translate(362 512)', coast: 'translate(452 512)' };
   const SAY = { stack: 'Cooper’s Reach is on the map, holding in the stack.', ignite: 'Cooper’s Reach is cleared and moving to its ignition marker.', coast: 'Cooper’s Reach has burned and is coasting out to the Hercules yards.' };
+  // A fresh order each day, the same all day: seeded from the date.
+  const today = new Date(), daySeed = today.getFullYear() * 1000 + Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 864e5);
+  const trng = ((a) => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; })(daySeed);
+  const PHON = ['Alfa', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliett', 'Kilo', 'Lima', 'Mike', 'November', 'Oscar', 'Papa', 'Quebec', 'Romeo', 'Sierra', 'Tango', 'Uniform', 'Victor', 'Whiskey', 'X-ray', 'Yankee', 'Zulu'];
+  const infoLetter = PHON[daySeed % 26];
+  function shuffle(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(trng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    // Story exchanges keep their shuffled slots but play in step order.
+    const slots = a.map((x, i) => (x.at(-1).story ? i : -1)).filter((i) => i >= 0);
+    const story = slots.map((i) => a[i]).sort((x, y) => x.at(-1).step - y.at(-1).step);
+    slots.forEach((i, k) => { a[i] = story[k]; });
+    return a;
+  }
+  const calls = (ex) => ex.filter((c) => Array.isArray(c));
+  const queue = { 1: [], 2: [], 3: [] };
+  let reachDone = 0;
+  function refill(scale) {
+    const order = shuffle(EX[scale]);
+    if (scale === 2 && reachDone === 0) { // weave the Reach in near the start of the first corridor visit
+      order.splice(1, 0, REACH_EX[0]); order.splice(4, 0, REACH_EX[1]); order.splice(6, 0, REACH_EX[2]); reachDone = 1;
+    }
+    order.forEach((ex) => calls(ex).forEach((c, k) => queue[scale].push([...c, k > 0])));
+  }
   const tr = document.getElementById('traffic'), log = document.getElementById('trlog'), say = document.getElementById('trsay');
   const pauseBtn = document.getElementById('trpause'), nextBtn = document.getElementById('trnext');
   const reachMk = document.getElementById('reachmk');
-  const idx = { 1: 0, 2: 0, 3: 0 };
-  let reachStep = 0, beat = 0, mins = 6 * 60 + 12, timer = null, paused = false, onScreen = true;
-  const stamp = () => { const h = Math.floor(mins / 60) % 24, m = mins % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`; };
-  const shipify = (t) => SHIPS.reduce((acc, k) => acc.split(CS[k]).join(`<span class="ship">${CS[k]}</span>`), t);
-  function nextCall() {
-    // On the corridor, every third call advances the Reach's departure until it is done.
-    if (stop === 2 && reachStep < REACH_ARC.length && beat % 3 === 0) return REACH_ARC[reachStep++];
-    const list = AMBIENT[stop]; const c = list[idx[stop] % list.length]; idx[stop]++; return c;
+  let mins = 6 * 60 + 12, timer = null, paused = false, onScreen = true, beat = 0;
+  const hhmm = (m) => { m = ((m % 1440) + 1440) % 1440; return `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`; };
+  const fill = (t) => t.replaceAll('@INFO@', infoLetter);
+  const shipify = (t) => SHIPNAMES.reduce((acc, n) => acc.split(n).join(`<span class="ship">${n}</span>`), t);
+  function nameHtml(key) {
+    const [name, , ship, pre] = REG[key];
+    if (!ship) return fill(name);
+    return pre ? `${pre} <span class="ship">${ship}</span>` : `<span class="ship">${ship}</span>`;
   }
+  let nextIsReply = false;
   function call() {
     if (stop === 0) return;
-    const [who, text, reachPos] = nextCall(); beat++;
-    const isReach = who === 'REACH';
-    const li = document.createElement('li'); if (isReach) li.className = 'reach';
-    const name = CS[who], nm = SHIPS.includes(who) ? `<span class="ship">${name}</span>` : name;
-    li.innerHTML = `<span class="ts">${stamp()}</span><span class="cs"><a href="${LINK[who]}">${nm}</a></span>${isReach ? '<span class="who">Cassandra · </span>' : ''}${shipify(text)}`;
+    if (!queue[stop].length) refill(stop);
+    const [who, text, opts, reply] = (() => { const c = queue[stop].shift(); return c.length === 3 ? [c[0], c[1], {}, c[2]] : [c[0], c[1], c[2] || {}, c[3]]; })();
+    beat++;
+    const li = document.createElement('li');
+    if (who === 'REACH') li.className = 'reach';
+    if (opts.lag) li.classList.add('relay');
+    if (who === 'UNKNOWN') li.classList.add('weak');
+    const link = REG[who][1];
+    const cs = link ? `<a href="${link}">${nameHtml(who)}</a>` : nameHtml(who);
+    const lag = opts.lag ? `<span class="lagtag">sent ${hhmm(mins - opts.lag)} · ${opts.lag} min by light</span>` : '';
+    li.innerHTML = `<span class="ts">${hhmm(mins)}</span><span class="cs">${cs}</span>${who === 'REACH' ? '<span class="who">Cassandra · </span>' : ''}${lag}${shipify(fill(text))}`;
     log.appendChild(li);
-    while (log.children.length > 30) log.firstElementChild.remove();
+    while (log.children.length > 40) log.firstElementChild.remove();
     log.scrollTop = log.scrollHeight;
-    if (reachPos) { reachMk.setAttribute('opacity', 1); reachMk.setAttribute('transform', REACH_AT[reachPos]); say.textContent = SAY[reachPos]; }
-    mins += 1 + (beat % 3);
+    if (opts.pos) { reachMk.setAttribute('opacity', 1); reachMk.setAttribute('transform', REACH_AT[opts.pos]); say.textContent = SAY[opts.pos]; }
+    mins += 1;
+    nextIsReply = !!(queue[stop][0] && queue[stop][0][queue[stop][0].length - 1]);
   }
   const running = () => stop > 0 && !paused && onScreen && !document.hidden && !(reduce.matches || still());
+  function tick() { call(); schedule(); }
+  function schedule() {
+    clearTimeout(timer); timer = null;
+    if (!running()) return;
+    // Replies come quickly; a new exchange waits longer, so the channel breathes unevenly like a real one.
+    const gap = nextIsReply ? 2600 + trng() * 1800 : 6000 + trng() * 5000;
+    timer = setTimeout(tick, gap);
+  }
   let shownStop = -1;
   function sync() {
     tr.classList.toggle('idle', stop === 0);
     if (stop > 0 && stop !== shownStop) {
       document.getElementById('trafficlabel').lastChild.textContent = stop === 3 ? 'Minerva Civilian Control' : 'Minerva Traffic';
-      if (!log.children.length || shownStop !== stop) { call(); call(); }
+      call(); if (nextIsReply) call();
       shownStop = stop;
     }
-    clearInterval(timer); timer = null;
-    if (running()) timer = setInterval(call, 7000);
+    schedule();
     pauseBtn.textContent = paused ? 'Resume' : 'Pause'; pauseBtn.setAttribute('aria-pressed', paused);
     pauseBtn.hidden = reduce.matches || still();
   }
@@ -641,5 +753,4 @@ svg text{font-family:var(--font-display)}
   for (let i = 0; i < (+q.get('calls') || 0); i++) call();
   sync();
 })();
-
 </script>

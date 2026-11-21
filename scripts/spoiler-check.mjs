@@ -34,6 +34,15 @@ const walk = (dir) => {
 };
 walk('.');
 
+// The Minerva Traffic channel on /world/ stays off plot: no strikes, claims or missing ships, and the
+// futures talk stays on finished runs versus scrubbed dives. These words fail the build inside its call data only.
+{
+  const src = readFileSync('src/components/WorldApproach.astro', 'utf8');
+  const data = src.slice(src.indexOf('const EX = {'), src.indexOf('const REACH_AT'));
+  const offPlot = /\b(strike|strikes|claim|claims|claimed|assay|concentration|preliminary|overdue|missing|lost|mayday|shu)\b|qern burst/i;
+  data.split('\n').forEach((line, i) => { if (offPlot.test(line)) hits.push(`WorldApproach.astro channel data, line ${i + 1}: ${line.trim().slice(0, 80)}`); });
+}
+
 if (hits.length) {
   console.error('Spoiler check FAILED at:\n' + [...new Set(hits)].join('\n'));
   process.exit(1);
