@@ -92,7 +92,7 @@ Rules: world facts only, never plot; nothing the book treats as a reveal; no Boo
 
 ## The one approved excerpt
 
-`/read/the-rescue/` carries all of Chapter Four, “The Rescue”, as text (`src/data/the-rescue.ts`) and as AI narration (`public/audio/read/the-rescue.mp3`, Kokoro voice Onyx, 64k mono). Robert approved it on 2026-11-21 as the site’s single exception to the no-manuscript rule; it is his prose, unedited. Keep it the only excerpt (KDP Select allows a sample of up to 10%). The lead-in, share text and pull quotes never use the chapter’s clues about the *Second Chance*, never feature the spool, and never name the survivors.
+`/read/the-rescue/` carries all of Chapter Four, “The Rescue”, as text (`src/data/the-rescue.ts`) and as AI narration (`public/audio/read/the-rescue.mp3`, Kokoro voice Onyx, 64k mono). Robert approved it on 2026-11-21 as the site’s single exception to the no-manuscript rule; it is his prose, unedited. Keep it the only excerpt (KDP Select allows a sample of up to 10%). Beside the text runs Kade's **suit display**, a visual readout (clocks, an abstract path through the *Second Chance*, the Bees, the survivors' traces) driven by the narration or by scroll position. It is folded only from cues at or before the current paragraph, so it never runs ahead of the text; red's gate keeps the captain, bodies, breaker bar, lockout, spool and flight recorder off it. The lead-in, share text and pull quotes never use the chapter’s clues about the *Second Chance*, never feature the spool, and never name the survivors.
 
 ## The World page
 
