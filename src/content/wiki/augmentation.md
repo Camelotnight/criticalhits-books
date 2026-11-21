@@ -13,11 +13,11 @@ related: ["capa", "zero-g-medicine", "spin-gravity", "jovian-leasehold"]
 sources: ["Jovian Leasehold Doctrine §1 (Adaptation Gap; bioskin, vestibular stabilizers)", "Act 1 CH 01-B 03, CH 03-B 01, CH 03-B 02"]
 ---
 
-In 2325 many people carry technology inside their bodies, and out past Mars most working spacers do. **Augmentation** is the general word. Most of it is practical, and much of it is voluntary.
+In 2325 many people carry technology inside their bodies, and out past Mars most people who work there do. **Augmentation** is the general word. Most of it is practical, and much of it is voluntary.
 
 ## Common augments
 
-- **Vestibular implants.** They support the inner ear, the body’s balance sense. They correct the spin of a ring or the slam of a burn a half-step before the body would. A spacer with a good implant steps off a spoke onto a spinning floor already steady. They help; they don’t make anyone immune. After a long, hard burn, an augmented crew still waits before unstrapping.
+- **Vestibular implants.** They support the inner ear, the body’s balance sense. They correct the spin of a ring or the slam of a burn a half-step before the body would. Someone with a good implant steps off a spoke onto a spinning floor already steady. They help; they don’t make anyone immune. After a long, hard burn, an augmented crew still waits before unstrapping.
 - **Dermal regulation and dermal plating.** “Dermal” means skin. These implants help the skin move and shed heat and protect it, so a worker can take a heat load through their suit joints and keep going.
 - **Radiation hardening.** Many Capa carry adaptations, both cybernetic and genetic, that let their bodies endure radiation that would wear down baseline people. This is the root of the [Adaptation Gap](/wiki/jovian-leasehold/).
 - **Neural trunks.** Some pilots carry an interface that links the brain to the ship’s controls. A pilot synced to the trunk steers the engine nozzle straight off the cortex, faster than any hand on a stick.

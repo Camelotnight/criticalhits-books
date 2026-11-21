@@ -28,12 +28,12 @@ The leading camp, also called the **Greek camp**, is where traffic from the inne
 
 The trailing camp, the **Trojan camp**, is the natural departure point for Saturn and the outer system. It is also the back door into the Belt for anyone who would rather not pass USN customs. The USN keeps a nominal presence. The Capa run it.
 
-- **Patroclus** is the hub of the spacer population at Jupiter: docks, an administrative block and a chartered terminal.
+- **Patroclus** is the hub of the Capa at Jupiter: docks, an administrative block and a chartered terminal.
 - Capa habitats are built as **distributed clusters** spread through the swarm, not one big station.
 - Independent repair yards keep the aging Belt fleet flying with work the USN calls non-compliant.
 - Religious breakaway communities and wandering fleets live out here too. They often act as neutral ground between USN and Capa.
 
-Beyond L5 lie **the Wilds**: empty, lawless space where a ship can go to disappear. Spacers call the open volume beyond the lanes and the law the **deep void**.
+Beyond L5 lie **the Wilds**: empty, lawless space where a ship can go to disappear. The Capa call the open volume beyond the lanes and the law the **deep void**.
 
 ## What the rock is made of
 

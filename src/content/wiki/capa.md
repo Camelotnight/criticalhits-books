@@ -25,7 +25,7 @@ You will meet three words for the same people:
 
 - **Capa** is the people and their things: *Capa crews*, *a Capa vessel*, *Capa caf*. This is the word you will see most.
 - **CPA** is the official side: the alliance and its law, as in *CPA registry* or *CPA Maritime Code*.
-- **The Belt Code** is custom: the working rules spacers live by, whatever the law books say. See [Search and rescue](/wiki/search-and-rescue/).
+- **The Belt Code** is custom: the working rules the Capa live by, whatever the law books say. See [Search and rescue](/wiki/search-and-rescue/).
 
 ## Bodies built for out here
 

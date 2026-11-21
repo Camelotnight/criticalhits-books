@@ -10,6 +10,8 @@ const banned = new Set([
   'd579eb4efafcd212', '153b3cec6c6b9f99', '12707aa39fecfb88',
   // 'hercules ii' retired 2026-11-20: Robert cleared the name for the World page. The other spellings stay banned.
   '725229a9cda16588',
+  // Robert, 2026-11-20: never the generic word for people who live in space; it is Capa.
+  '7eab5c413c968728', 'bd89deb908b31659',
 ]);
 const hash = (s) => createHash('sha256').update(s).digest('hex').slice(0, 16);
 

@@ -13,7 +13,7 @@ related: ["titan-technate", "the-trojans", "minerva-station", "water-and-closed-
 sources: ["Asteroid Feedstock §3.3, §4", "Minerva Station §2 (atmosphere)", "LEX-12"]
 ---
 
-Everyone worries about oxygen. Spacers worry about **nitrogen**.
+Everyone worries about oxygen. The Capa worry about **nitrogen**.
 
 Earth’s air is 78 percent nitrogen. It is the inert buffer that lets people breathe oxygen without fire risk and without oxygen poisoning. Plants need it to make protein. Habitats need it to keep pressure. And unlike water or carbon, the outer system has very little of it within easy reach.
 

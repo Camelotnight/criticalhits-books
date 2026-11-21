@@ -29,7 +29,7 @@ Smart backpackers can change how their skin radiates heat: dark and glowing to s
 
 ## A suit inside a suit
 
-Spacers wear a backpacker over a [Slick suit](/wiki/slick-suit/). If the hard shell is lost or has to be abandoned, the Slick underneath still holds the body together. Capa engineers are paranoid about redundancy, and people who have climbed out of a dead backpacker are grateful for it. In the chest bay rides a **Last Breath**: a transparent emergency pressure hood folded to the size of a datapad.
+Capa crews wear a backpacker over a [Slick suit](/wiki/slick-suit/). If the hard shell is lost or has to be abandoned, the Slick underneath still holds the body together. Capa engineers are paranoid about redundancy, and people who have climbed out of a dead backpacker are grateful for it. In the chest bay rides a **Last Breath**: a transparent emergency pressure hood folded to the size of a datapad.
 
 ## Backpacker or slick?
 

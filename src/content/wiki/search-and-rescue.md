@@ -18,7 +18,7 @@ Space is big, help is far, and the nearest navy ship can be hours out. Across th
 
 ## The Belt Code
 
-The **Belt Code** is the working law of spacers. It is older and more personal than any statute. Among its rules:
+The **Belt Code** is the working law of the Capa. It is older and more personal than any statute. Among its rules:
 
 - **First responder.** The first rescue-rated ship to log a claim on an emergency gets the right to the rescue and to any **salvage**. The claim is logged with a timestamp on someone else’s board, so nobody can say later that they got there first.
 - **Payment.** Rescue is billed by the hour, plus a hazard premium, from first contact.

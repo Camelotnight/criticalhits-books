@@ -17,7 +17,7 @@ Most people in the outer system aren’t captains or diplomats. They are hydropo
 
 ## Caf
 
-**Capa caf** is the drink of working people: caffeine and protein pressed into one thick, bitter charge, drunk from a sealed **bulb** because a cup would float away. It feeds you and wakes you in the same mouthful. Everything aboard has to earn its mass twice. Nobody claims to like it. Spacers say it is *an acquired taste*, and the joke never gets old.
+**Capa caf** is the drink of working people: caffeine and protein pressed into one thick, bitter charge, drunk from a sealed **bulb** because a cup would float away. It feeds you and wakes you in the same mouthful. Everything aboard has to earn its mass twice. Nobody claims to like it. The Capa say it is *an acquired taste*, and the joke never gets old.
 
 Real coffee exists. On Minerva the hydroponic ring grows arabica, and a promenade stall sells it: *Real soil. Real beans.* It costs what you would expect.
 

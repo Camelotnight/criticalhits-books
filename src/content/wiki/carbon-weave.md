@@ -14,7 +14,7 @@ related: ["arachne-weavers", "gecko-grip", "hercules", "heat"]
 sources: ["WORLD-01", "LEX-22", "Carbon Allotropes §2, §4, §8", "Minerva Station §2 (acoustics)", "Act 1 CH 01-B 02 (carbonized seams), CH 02 (weave dust)"]
 ---
 
-**Weave** is what spacers call the material their world is made of: hulls, bulkheads, station frames, suits and tools. **Carbon weave**, **composite weave** and **weave composite** all mean the same thing. Engineers call it carbon-nanotube composite. Nobody else does.
+**Weave** is the everyday word for the material their world is made of: hulls, bulkheads, station frames, suits and tools. **Carbon weave**, **composite weave** and **weave composite** all mean the same thing. Engineers call it carbon-nanotube composite. Nobody else does.
 
 ## Why carbon
 
@@ -24,7 +24,7 @@ Weight is everything in space. Every kilogram has to be pushed, and a spinning h
 
 ## A world without iron
 
-Because almost nothing is ferrous, **magnets are useless on hulls**. There are no magnetic boots. Spacers walk on [gecko grip](/wiki/gecko-grip/) instead. Magnets survive where they make sense: door mag-locks, docking clamps, a sled brake, the occasional old station deck. Real iron hulls belong to antique inner-system freighters and scrap.
+Because almost nothing is ferrous, **magnets are useless on hulls**. There are no magnetic boots. Crews walk on [gecko grip](/wiki/gecko-grip/) instead. Magnets survive where they make sense: door mag-locks, docking clamps, a sled brake, the occasional old station deck. Real iron hulls belong to antique inner-system freighters and scrap.
 
 ## What it feels like
 

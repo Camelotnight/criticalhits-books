@@ -33,7 +33,7 @@ The Technate barely needs Jupiter’s [helium-3](/wiki/helium-3/). Its reactors 
 
 ## The augments
 
-Nobody outside Titan has a straight answer about what Technate systems look like under the augments. Their machines don’t work the way anyone else’s do, and they don’t explain them. Spacers have nicknames for that silence: **Null** and **Void**.
+Nobody outside Titan has a straight answer about what Technate systems look like under the augments. Their machines don’t work the way anyone else’s do, and they don’t explain them. The Capa have nicknames for that silence: **Null** and **Void**.
 
 
 <aside class="science">

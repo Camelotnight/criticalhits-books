@@ -14,7 +14,7 @@ related: ["carbon-weave", "slick-suit", "backpacker"]
 sources: ["LEX-01", "WORLD-01", "EVA Technical Standards §4", "Combat EVA §4", "Act 1 CH 04 (worn setae)"]
 ---
 
-Hulls in this world are [carbon weave](/wiki/carbon-weave/), and magnets don’t stick to carbon. So nobody wears magnetic boots. Spacers walk on **gecko grip**.
+Hulls in this world are [carbon weave](/wiki/carbon-weave/), and magnets don’t stick to carbon. So nobody wears magnetic boots. Everyone who works a hull walks on **gecko grip**.
 
 ## How it works
 
