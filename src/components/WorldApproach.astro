@@ -402,7 +402,7 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .tk-name{margin:0;font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 .tk-unit{font-family:var(--font-display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#6d7f95;text-align:right}
 .tk-tape{overflow:hidden;border-block:1px solid var(--line);padding:.35rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.tk-run{display:inline-flex;gap:1.4rem;white-space:nowrap;animation:ap-tape 60s linear infinite;font-family:var(--font-display);font-size:.8rem}
+.tk-run{display:inline-flex;gap:1.4rem;white-space:nowrap;animation:ap-tape 30s linear infinite;font-family:var(--font-display);font-size:.8rem}
 .tk-tape:hover .tk-run{animation-play-state:paused}
 .tk-item{display:inline-flex;gap:.4rem;align-items:baseline}
 .tk-sym{color:var(--text);font-weight:600;letter-spacing:.04em}
@@ -410,7 +410,7 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .tk-r{color:#e3a857;font-size:.6rem;letter-spacing:.05em}
 .tk-px{color:var(--text);font-variant-numeric:tabular-nums}
 .tk-ch{font-size:.7rem;font-variant-numeric:tabular-nums}
-.tk-ch.up{color:var(--signal)} .tk-ch.dn{color:#e3a857}
+.tk-ch.up{color:#4ade80} .tk-ch.dn{color:#f87171}
 .tk-note{margin:.45rem 0 0;font-size:.74rem;line-height:1.45;color:var(--muted)}
 .still .tk-run{animation:none;flex-wrap:wrap;white-space:normal;row-gap:.35rem}
 .tk-dup{display:contents}
@@ -1129,7 +1129,7 @@ svg text{font-family:var(--font-display)}
   function tkSync() {
     tkRender();
     clearInterval(tkTimer); tkTimer = null;
-    if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 3200);
+    if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 1800);
   }
 
   function sync() {
