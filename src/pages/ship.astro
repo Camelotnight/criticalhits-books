@@ -1,4 +1,5 @@
 ---
+import BookStrip from '../components/BookStrip.astro';
 import Base from '../layouts/Base.astro';
 import ShipModel from '../components/ShipModel.astro';
 ---
@@ -12,10 +13,12 @@ import ShipModel from '../components/ShipModel.astro';
           A <em>Lifeline</em>-class heavy rescue cutter flying a civilian search-and-rescue charter. Built to reach
           people in trouble and bring them home. Pick a system to look closer.
         </p>
+        <p><a href="/crew/">Meet the crew who fly her →</a></p>
       </header>
       <ShipModel />
     </div>
   </section>
+  <BookStrip />
 </Base>
 
 <style>

@@ -1,0 +1,111 @@
+---
+// The crew of Cooper's Reach as a reader meets them in Chapter 1. Roles, stations and one trait each:
+// no fates, no relationships past Chapter 1, nobody who comes aboard later. Couches follow WORLD-09.
+import Base from '../layouts/Base.astro';
+import BookStrip from '../components/BookStrip.astro';
+
+type Member = { name: string; role: string; text: string; wiki?: [string, string] };
+const deck: { station: string; note: string; crew: Member[] }[] = [
+  {
+    station: 'Command deck',
+    note: 'Unspun, outside the ring. Four crash couches.',
+    crew: [
+      { name: 'Kade Holloway', role: 'Captain',
+        text: 'Flies rescue out of Minerva because it is the one place left where his debt still adds up. He reads a damaged hull the way other people read a face. His father’s handwriting still turns up in the drive notes.' },
+      { name: 'Gunnar Ward', role: 'Pilot',
+        text: 'Came up through Hatcher’s Drift with Kade’s father, and the two are as good as family. He honestly likes Capa caf.',
+        wiki: ['daily-life', 'Daily life'] },
+      { name: 'Cassandra Graves', role: 'Comms and traffic',
+        text: 'Works the radio and the docking queue. Her cousin spent eighteen months nudging rock into place for Hercules, and is still on the waiting list to live inside it.',
+        wiki: ['hercules', 'Hercules'] },
+      { name: 'Dustin Cabot', role: 'Rescue technician',
+        text: 'Owns the gear: Slick suits, liners, scout drones and the medical sled, all checked before anyone leaves the hull. When Kade goes out the airlock, Dustin is on the other end of the tether.',
+        wiki: ['slick-suit', 'Slick suit'] },
+    ],
+  },
+  {
+    station: 'Medbay',
+    note: 'Out on the spin ring. Four crash couches.',
+    crew: [
+      { name: 'Carrie', role: 'Medic',
+        text: 'The medbay is hers, down to the warm amber light in the corridor outside it. She clears every rescuer before a job, and she does not tolerate loitering.',
+        wiki: ['zero-g-medicine', 'Zero-g medicine'] },
+      { name: 'Paul Wagner', role: 'Engineer',
+        text: 'Runs the systems and the pre-burn checklist. He knows what a USN-certified part costs, and why the Reach still pays it.',
+        wiki: ['fusion-torch', 'Fusion torch'] },
+      { name: 'Jeff', role: 'Rescue crew',
+        text: 'Has carried dermal plating since he was six, so he can work through a heat load that would stop anyone else. He missed one tether point, years ago.',
+        wiki: ['augmentation', 'Augmentation'] },
+      { name: 'Barry', role: 'Rescue crew',
+        text: 'Jeff’s brother, and the keeper of that missed tether point. He has no plans to let it go.' },
+    ],
+  },
+];
+---
+<Base title="The Crew" description="The crew of Cooper’s Reach, a heavy rescue cutter out of Minerva Station: eight people and a ship’s mind.">
+  <section class="section">
+    <div class="wrap">
+      <header class="prose head">
+        <p class="eyebrow">The Crew</p>
+        <h1>The crew of <em>Cooper’s Reach</em></h1>
+        <p class="lede">
+          Eight people and a ship’s mind on a rescue cutter at Minerva Station, flying to work off the captain’s debt.
+          The first rule aboard: <em>my air is your air</em>.
+        </p>
+      </header>
+
+      {deck.map((d) => (
+        <section class="station" aria-labelledby={`st-${d.station.replace(/\W+/g, '-')}`}>
+          <div class="station-head">
+            <h2 id={`st-${d.station.replace(/\W+/g, '-')}`}>{d.station}</h2>
+            <p>{d.note}</p>
+          </div>
+          <ul class="crew">
+            {d.crew.map((m) => (
+              <li class="member">
+                <p class="role">{m.role}</p>
+                <h3>{m.name}</h3>
+                <p>{m.text.split('the Reach').map((part, i) => i === 0 ? part : [<em>the Reach</em>, part])}</p>
+                {m.wiki && <a class="more" href={`/wiki/${m.wiki[0]}/`}>Encyclopedia: {m.wiki[1]}</a>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+
+      <section class="station" aria-labelledby="st-mind">
+        <div class="station-head">
+          <h2 id="st-mind">Everywhere aboard</h2>
+          <p>No couch needed.</p>
+        </div>
+        <ul class="crew">
+          <li class="member mind">
+            <p class="role">Ship’s mind</p>
+            <h3>Caretaker</h3>
+            <p>Watches every system, flags the wear, reads out the burn numbers and gives advice when asked. The crew makes the decisions.</p>
+            <a class="more" href="/wiki/caretaker/">Encyclopedia: Caretaker</a>
+          </li>
+        </ul>
+      </section>
+
+      <p class="tour"><a href="/ship/">Tour the ship they fly →</a></p>
+    </div>
+  </section>
+  <BookStrip />
+</Base>
+
+<style>
+  .head { margin-bottom: 2rem; }
+  .station { margin: 2.25rem 0; }
+  .station-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1rem; border-bottom: 1px solid var(--line); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+  .station-head h2 { margin: 0; font-size: 0.85rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .station-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .crew { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+  .member { border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem 1.1rem; background: rgba(255, 255, 255, 0.015); }
+  .member .role { margin: 0 0 0.2rem; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .member h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+  .member p { margin: 0; line-height: 1.55; }
+  .member .more { display: inline-block; margin-top: 0.7rem; font-size: 0.85rem; }
+  .mind { border-color: rgba(124, 200, 220, 0.35); }
+  .tour { margin-top: 2rem; }
+</style>

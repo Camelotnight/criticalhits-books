@@ -1,0 +1,32 @@
+---
+// A slim "this is a novel" strip for the deep pages (World, Ship, Crew, Encyclopedia). It points only to
+// the Book page on this site; the Book page is where a reader chooses to pre-order or join the list.
+import Cover from './Cover.astro';
+import { RELEASE, RELEASE_ISO } from '../config';
+---
+<aside class="bookstrip" aria-label="About the novel">
+  <div class="wrap bs">
+    <a class="bs-cover" href="/book/" tabindex="-1" aria-hidden="true"><Cover width={72} /></a>
+    <div class="bs-text">
+      <p class="bs-kicker">This world is the setting of a novel</p>
+      <p class="bs-title"><em>The Jovian Crisis</em> · Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></p>
+      <p class="bs-hook">Some distress calls should stay unanswered.</p>
+    </div>
+    <a class="btn btn--ghost bs-btn" href="/book/">About the book</a>
+  </div>
+</aside>
+
+<style>
+  .bookstrip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(227, 168, 87, 0.04); margin-top: 2.5rem; }
+  .bs { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem 1.25rem; padding-block: 1rem; }
+  .bs-cover { display: block; width: 72px; line-height: 0; }
+  .bs-cover :global(img) { width: 72px; height: auto; border-radius: 2px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); }
+  .bs-text p { margin: 0; }
+  .bs-kicker { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .bs-title { margin-top: 0.2rem !important; font-size: 1rem; }
+  .bs-hook { margin-top: 0.2rem !important; color: var(--accent); font-size: 0.95rem; }
+  @media (max-width: 40rem) {
+    .bs { grid-template-columns: auto 1fr; }
+    .bs-btn { grid-column: 1 / -1; justify-self: start; }
+  }
+</style>

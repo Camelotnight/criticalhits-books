@@ -1,4 +1,5 @@
 ---
+import BookStrip from '../../components/BookStrip.astro';
 import Base from '../../layouts/Base.astro';
 import { KINDS, TERMS, type Kind } from '../../data/glossary';
 
@@ -85,6 +86,7 @@ const startHere = TERMS.filter((t) => t.start).sort((a, b) => a.start! - b.start
       <p class="empty muted" data-empty hidden>No words match that. Try a shorter search.</p>
     </div>
   </section>
+  <BookStrip />
 </Base>
 
 <script>
