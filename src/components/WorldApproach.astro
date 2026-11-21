@@ -349,9 +349,9 @@
 /* Scale rail */
 .rail{display:grid;grid-template-columns:repeat(var(--n,4),1fr) auto;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:.75rem;background:var(--bg-2)}
 .rail button{all:unset;cursor:pointer;padding:.65rem .9rem;border-right:1px solid var(--line);font-family:var(--font-display);position:relative;min-height:44px}
-.rail button .n{font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-right:.4rem}
-.rail button .t{font-size:.95rem;color:var(--muted)}
-.rail button .s{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#6d7f95}
+.rail button .t{display:block;font-size:.95rem;color:var(--muted)}
+.rail button .s{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+#railstops button+button::before{content:'›';position:absolute;left:-.35em;top:50%;transform:translateY(-50%);color:#4f6076;font-size:1rem;pointer-events:none}
 .rail button[aria-current="step"]{background:var(--panel)}
 .rail button[aria-current="step"] .t{color:var(--text)}
 .rail button[aria-current="step"]::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
@@ -389,7 +389,7 @@
 .rule-label::after{content:'';flex:1;height:1px;background:var(--line)}
 .items{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
 .items button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;gap:.6rem;align-items:baseline;padding:.5rem .75rem;border:1px solid var(--line);border-radius:3px;background:var(--panel);color:var(--muted);min-height:44px}
-.items button .n{font-family:var(--font-display);font-size:.72rem;color:var(--accent)}
+.items button .f{margin-left:auto;padding-left:.5rem;font-family:var(--font-display);font-size:.72rem;letter-spacing:.06em;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
 .items button[aria-pressed="true"]{border-color:var(--accent);color:var(--text)}
 .items button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .card{border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:4px;background:var(--panel);padding:1.1rem 1.2rem}
@@ -546,9 +546,8 @@ svg text{font-family:var(--font-display)}
   .routes .rl{display:none}
   .routes button{font-size:.74rem;padding:.4rem .3rem;text-align:center}
   .rail button{padding:.5rem .4rem;text-align:center}
-  .rail button .n{display:block;margin:0}
   .rail button .t{font-size:.78rem}
-  .rail button .s{display:none}
+  .rail button .s{font-size:.62rem;letter-spacing:.08em}
   .zoomctl{display:none}
   .hud{font-size:.58rem;padding:.4rem .5rem}
   .hud .lag{display:none}
@@ -764,7 +763,7 @@ svg text{font-family:var(--font-display)}
   const PARENT = [null, 0, 1, 2, 0, 4, 0];
   const ROUTES = { minerva: [0, 1, 2, 3], callisto: [0, 4, 5], patroclus: [0, 6] };
   const RAIL = [['The system', '5.2 AU'], ['The Trojans', 'L4'], ['The corridor', '~50,000 km'], ['Minerva', 'axis to skin'],
-    ['Callisto', 'Hell One'], ['Skuld City', 'rim to rim'], ['Patroclus', 'L5']];
+    ['Callisto', '1.88M km'], ['Skuld City', '90 km'], ['Patroclus', 'L5']];
   const FOCUS_IN = { 1: STOPS[0].focus, 2: STOPS[1].focus, 3: STOPS[2].focus, 4: pc(294.8, 218.3), 5: pc(395, 262), 6: pc(677.1, 340) };
   let route = 'minerva';
   const routeOf = (n) => (n === 0 ? route : Object.keys(ROUTES).find((r) => ROUTES[r].includes(n)));
@@ -777,7 +776,7 @@ svg text{font-family:var(--font-display)}
     railEl.parentElement.style.setProperty('--n', path.length);
     path.forEach((n, i) => {
       const b = document.createElement('button'); b.type = 'button';
-      b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span><span class="t">${RAIL[n][0]}</span><span class="s">${RAIL[n][1]}</span>`;
+      b.innerHTML = `<span class="s">${RAIL[n][1]}</span><span class="t">${RAIL[n][0]}</span>`;
       if (n === stop) b.setAttribute('aria-current', 'step');
       b.onclick = () => go(n); railEl.appendChild(b);
     });
@@ -792,12 +791,15 @@ svg text{font-family:var(--font-display)}
   }));
 
 
+  // One canon figure per place where the book has one; the rest stay bare (no numbering, no filler).
+  const FACT = { 'Zenith Apron': '1/8 gee', 'The turntable ring': '0.8 gee', 'The refineries': '2 K', 'The Registry': 'in person',
+    'Skuld City': '90 km', 'Callisto': '1/8 gee' };
   function renderItems() {
     const s = STOPS[stop];
     itemsEl.innerHTML = ''; hots.innerHTML = '';
     s.items.forEach((it, i) => {
       const li = document.createElement('li'), b = document.createElement('button');
-      b.type = 'button'; b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span>${it.label}`;
+      b.type = 'button'; b.innerHTML = `<span class="l">${it.label}</span>${FACT[it.label] ? `<span class="f">${FACT[it.label]}</span>` : ''}`;
       b.setAttribute('aria-pressed', i === sel); b.onclick = () => select(i); li.appendChild(b); itemsEl.appendChild(li);
       const h = document.createElement('button');
       h.type = 'button'; h.className = 'hot'; h.tabIndex = -1; h.setAttribute('aria-hidden', 'true');

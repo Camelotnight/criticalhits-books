@@ -23,14 +23,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const nav = [
-  { href: '/', label: 'Home' },
   { href: '/book/', label: 'The Book' },
-  { href: '/read/the-rescue/', label: 'Read', pill: true },
+  { href: '/read/the-rescue/', label: 'Read Ch. 4', mark: true },
   { href: '/ship/', label: 'The Ship' },
   { href: '/crew/', label: 'The Crew' },
   { href: '/world/', label: 'The World' },
   { href: '/wiki/', label: 'Encyclopedia' },
-  { href: '/about/', label: 'About' },
 ];
 const isCurrent = (href: string) => {
   const h = href.replace(/\/$/, '') || '/';
@@ -65,15 +63,34 @@ const isCurrent = (href: string) => {
           <span class="brand-name">Robert Hasleton</span>
           <span class="brand-sub">The Capa Incident</span>
         </a>
-        <nav aria-label="Main">
+        <nav class="nav-wide" aria-label="Main">
           <ul>
             {nav.map((item) => (
               <li>
-                <a href={item.href} class={item.pill ? 'pill' : undefined} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+                <a href={item.href} class={item.mark ? 'mark' : undefined} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
               </li>
             ))}
           </ul>
         </nav>
+        <div class="nav-phone">
+          <a class="mark" href="/read/the-rescue/" aria-current={isCurrent('/read/the-rescue/') ? 'page' : undefined}>Read Ch. 4</a>
+          <details class="menu">
+            <summary>Menu</summary>
+            <nav aria-label="Main">
+              <ul>
+                {nav.filter((item) => !item.mark).map((item) => (
+                  <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+                ))}
+                <li><a href="/about/" aria-current={isCurrent('/about/') ? 'page' : undefined}>About</a></li>
+              </ul>
+            </nav>
+          </details>
+        </div>
+        <script is:inline>
+          // Close the phone menu on an outside tap or Escape.
+          document.addEventListener('click', (e) => { const m = document.querySelector('.menu[open]'); if (m && !m.contains(e.target)) m.open = false; });
+          document.addEventListener('keydown', (e) => { const m = document.querySelector('.menu[open]'); if (m && e.key === 'Escape') { m.open = false; m.querySelector('summary').focus(); } });
+        </script>
       </div>
     </header>
 
@@ -84,7 +101,7 @@ const isCurrent = (href: string) => {
     <footer class="site-footer">
       <div class="wrap foot">
         <p>© 2026 Robert Hasleton. All rights reserved.</p>
-        <p class="muted"><a href="/about/#signup">{SIGNUP_CTA}</a></p>
+        <p class="muted"><a href="/about/">About</a> · <a href="/about/#signup">{SIGNUP_CTA}</a></p>
       </div>
     </footer>
   </body>
@@ -150,8 +167,25 @@ const isCurrent = (href: string) => {
     border-bottom: 2px solid transparent;
   }
   nav a:hover { color: var(--text); }
-  nav a.pill { color: var(--accent); border: 1px solid rgba(227, 168, 87, 0.55); border-radius: 999px; padding-inline: 0.75rem; }
-  nav a.pill:hover { background: rgba(227, 168, 87, 0.1); }
+  /* Read Ch. 4: same size as every other link, marked by a small amber dot (amber underline still means "you are here"). */
+  .bar a.mark::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 0.45rem; border-radius: 50%; background: var(--accent); vertical-align: 0.12em; }
+  .nav-phone { display: none; align-items: center; gap: 0.25rem; }
+  .nav-phone > a.mark { padding: 0.55rem 0.6rem; min-height: 44px; line-height: 1.8; color: var(--text); text-decoration: none; font-family: var(--font-display); font-size: 0.92rem; border-bottom: 2px solid transparent; }
+  .nav-phone > a.mark[aria-current='page'] { border-bottom-color: var(--accent); }
+  .menu { position: relative; }
+  .menu summary { list-style: none; cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: 0 0.8rem; font-family: var(--font-display); font-size: 0.92rem; color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--radius); }
+  .menu summary::-webkit-details-marker { display: none; }
+  .menu summary::after { content: ''; margin-left: 0.5rem; width: 0.45rem; height: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); }
+  .menu[open] summary::after { transform: rotate(-135deg) translateY(-1px); }
+  .menu nav { position: absolute; right: 0; top: calc(100% + 0.4rem); min-width: 13rem; background: #0e131a; border: 1px solid var(--line-strong); border-radius: var(--radius); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); padding: 0.35rem 0; z-index: 20; }
+  .menu nav ul { flex-direction: column; gap: 0; }
+  .menu nav a { display: block; padding: 0.55rem 1rem; }
+  .menu nav a[aria-current='page'] { border-bottom-color: transparent; color: var(--text); box-shadow: inset 2px 0 0 var(--accent); }
+  @media (max-width: 719px) {
+    .nav-wide { display: none; }
+    .nav-phone { display: flex; }
+    .bar { flex-wrap: nowrap; }
+  }
   nav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--accent); }
 
   main:focus { outline: none; }
