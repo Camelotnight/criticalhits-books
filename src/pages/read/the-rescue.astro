@@ -45,7 +45,7 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
             <p class="pl-label">AI narration, not the audiobook. Tap any paragraph to listen from there.</p>
           </div>
         <aside class="hud2" id="hud" aria-label="Kade’s suit display">
-          <div class="strip"><span class="sb">BINGO <b id="strip-bingo">··</b></span><span>GEL <b id="strip-gel">··</b></span><span>QUENCH <b id="strip-quench">··</b></span><span id="strip-status">STANDBY</span><button type="button" id="strip-open">Wireframe</button></div>
+          <div class="strip"><span class="sb">BINGO <b id="strip-bingo">··</b></span><span hidden>GEL <b id="strip-gel">··</b></span><span>QUENCH <b id="strip-quench">··</b></span><span id="strip-status">STANDBY</span><button type="button" id="strip-open">Wireframe</button></div>
           <div class="hud-head"><p class="hud-title">Suit display</p><button type="button" id="therm" aria-pressed="true" disabled title="Thermal overlay (T)">Thermal</button><button type="button" id="hud-collapse" aria-expanded="true" aria-controls="hud-panel">Hide wireframe</button></div>
           <div id="hud-panel">
             <svg id="hudsvg" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
@@ -55,8 +55,9 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
     <path class="visor" d="M18 4 H342 L356 18 V282 L342 296 H18 L4 282 V18 Z"/>
     <path class="glare" d="M24 12 Q 180 2 336 12"/>
     <g id="bingo-row" class="row"><text x="14" y="26" class="rl">BINGO</text><rect x="72" y="18" width="214" height="8" class="track"/><rect id="bingo-fill" x="72" y="18" width="0" height="8" class="fill"/><text id="bingo-val" x="346" y="26" class="rv">··</text><g id="ticks"></g></g>
-    <g id="gel-row" class="row"><text x="14" y="50" class="rl">GEL</text><rect x="72" y="42" width="214" height="8" class="track"/><rect id="gel-fill" x="72" y="42" width="0" height="8" class="fill cool"/><text id="gel-val" x="346" y="50" class="rv">··</text></g>
-    <g id="quench-row" class="row"><text x="14" y="74" class="rl">QUENCH</text><rect x="72" y="66" width="214" height="8" class="track"/><rect id="quench-fill" x="72" y="66" width="0" height="8" class="fill hot"/><text id="quench-val" x="346" y="74" class="rv">··</text></g>
+    <g id="gel-row" class="row" style="display:none"><text x="14" y="50" class="rl">GEL</text><rect x="72" y="42" width="214" height="8" class="track"/><rect id="gel-fill" x="72" y="42" width="0" height="8" class="fill cool"/><text id="gel-val" x="346" y="50" class="rv">··</text></g>
+    <g id="pod-row" class="podrow"><text x="14" y="74" class="rl">POD</text><rect x="72" y="66" width="214" height="8" class="track"/><rect id="pod-fill" x="72" y="66" width="214" height="8" class="fill podfill"/><text id="pod-val" x="346" y="74" class="rv">2 ABOARD</text></g>
+    <g id="quench-row" class="row" transform="translate(0 -24)"><text x="14" y="74" class="rl">QUENCH</text><rect x="72" y="66" width="214" height="8" class="track"/><rect id="quench-fill" x="72" y="66" width="0" height="8" class="fill hot"/><text id="quench-val" x="346" y="74" class="rv">··</text></g>
     <line x1="12" y1="88" x2="348" y2="88" class="sep"/>
     <text x="14" y="104" class="tiny">SECOND CHANCE · ABSTRACT PATH, NOT A DECK PLAN</text>
     <g id="hull">
@@ -82,6 +83,13 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
     <g id="dustin" class="mk dustin"><circle r="3.6"/></g>
     <g id="kade" class="mk kade"><path d="M0 -6 L6 0 L0 6 L-6 0 Z"/></g>
     <g id="bees"></g>
+    <g id="triage"><rect x="270" y="154" width="60" height="72" rx="3" class="trbox"/>
+      <text x="276" y="164" class="tiny am">TRIAGE</text>
+      <g id="tr-dead"><rect x="276" y="169" width="6" height="6" class="tag-black"/><text x="286" y="175" class="tlbl">BLACK</text><text x="286" y="184" class="tlbl dimt">MULTIPLE</text></g>
+      <g id="tr-capt"><rect x="276" y="189" width="6" height="6" class="tag-black"/><text x="286" y="195" class="tlbl">CAPTAIN</text></g>
+      <g id="tr-red"><rect x="276" y="201" width="6" height="6" class="tag-red"/><text x="286" y="207" class="tlbl red">T1 RED</text></g>
+      <g id="tr-t2"><rect x="276" y="213" width="6" height="6" class="tag-open"/><text x="286" y="219" class="tlbl">T2 BOARD</text></g>
+    </g>
     <g id="traces"><rect x="12" y="232" width="124" height="60" rx="3" class="tbox"/>
       <text id="pod" x="18" y="243" class="tiny cy">BEES FEED · 2 TRACES</text>
       <text x="18" y="261" class="tlbl">T1</text><g transform="translate(28 246) scale(1 .6)"><path class="wave weak" d="M4 20 h8 l2 -3 l2 5 l2 -2 h14 l2 -3 l2 5 l2 -2 h16"/></g><text id="t1-tag" x="98" y="261" class="tlbl">WEAK</text>
@@ -159,8 +167,8 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
     [4, 'GRIP LOCKED · R BOOT SLOW'], [5, 'HULL VIBRATION'], [6, 'OUTER LOCK JAMMED'], [7, 'SPREADER ANCHORED'], [8, 'COVER BREACHED'],
     [9, 'OUTER HATCH OPEN'], [11, 'OUTER HATCH SEALED · LAMPS'], [14, 'INNER HATCH OVERPRESSURE'], [15, 'BLEED VALVE SEIZED'],
     [17, 'CLEAR OF HATCH LINE'], [20, 'IMPACT · RCS BURST', 'red'], [21, 'SEAL GREEN · NO BREACH'], [22, 'DUSTIN: OK'],
-    [24, 'EXT TEMP RISING', 'amber'], [25, 'QUENCH 55 MIN'], [27, 'GEL 40 MIN · BINGO SET'], [29, 'BINGO LOCKED'],
-    [31, 'BEES 4 OUT'], [32, 'WIREFRAME LIVE · GEL PUMP STRAIN'], [33, 'VISOR FILM CLEAR'], [34, 'BOTTLENECK AHEAD'],
+    [24, 'EXT TEMP RISING', 'amber'], [25, 'QUENCH 55 MIN'], [27, 'BINGO SET'], [29, 'BINGO LOCKED'],
+    [31, 'BEES 4 OUT'], [32, 'WIREFRAME LIVE'], [33, 'VISOR FILM CLEAR'], [34, 'BOTTLENECK AHEAD'],
     [36, 'SLED STAGED'], [38, 'SLICK STRAIN · HOLDING'], [39, 'TEMP AMBER', 'amber'], [41, 'ANOMALY FORWARD'], [42, 'HEAT SHIMMER'],
     [43, 'FATALITIES LOGGED'], [53, '2 LIFE SIGNS · COMMAND DECK', 'red'], [56, 'DOOR MAG-LOCKED'], [60, 'T1 WEAK · T2 MOBILE'],
     [62, 'T2 MASS 61 KG'], [63, 'PATCH STAGED'], [64, 'SLED ON SITE'], [67, 'DOOR OPEN'], [71, 'THRUSTER BURST'], [73, 'T2 SEDATED'],
@@ -253,6 +261,10 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
     g('pod').textContent = p >= 82 ? 'POD SEALED' : p >= 80 ? 'POD · 2 ABOARD' : 'BEES FEED · 2 TRACES';
     // ending
     show('reachship', p >= 103); show('plume', p >= 108);
+    // Triage tags, shown in the aft section as the text assigns them (Robert, 2026-11-21).
+    // The two survivors take the gel row's place once they are aboard the pod (Robert, 2026-11-21).
+    show('pod-row', p >= 80); g('pod-val').textContent = p >= 104 ? 'IN THE NET' : p >= 82 ? 'SEALED · 2' : '2 ABOARD';
+    show('triage', p >= 43 && p < 109); show('tr-dead', p >= 43); show('tr-capt', p >= 54); show('tr-red', p >= 78); show('tr-t2', p >= 79);
     svg.classList.toggle('whiteout', p >= 109 && p < 111); svg.classList.toggle('off', p >= 111);
     g('hull').classList.toggle('gone', p >= 109);
     // log and phone strip
@@ -395,7 +407,9 @@ const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
 .kade path{fill:#e3a857;stroke:#0a1118}.dustin circle{fill:#7cc8dc;stroke:#0a1118}.sled rect{fill:#0a1118;stroke:#dde3ea}
 .bee{opacity:0}.bee.on{opacity:1}.bee circle{fill:rgba(124,200,220,.18);stroke:#7cc8dc}.bee .core{fill:#7cc8dc;stroke:none}
 .bee.lost circle{stroke:#5f6f84;fill:none}.bee.lost .core{fill:#5f6f84}.bee.swept{opacity:.35}
-.tbox{fill:#0a1118;stroke:#22404d}.tlbl{font-size:7.5px;fill:#9cc7d3;letter-spacing:.1em}.tlbl.red{fill:#f08a72}
+.tbox{fill:#0a1118;stroke:#22404d}.podrow{opacity:0;transition:opacity .4s}.podrow.on{opacity:1}.fill.podfill{fill:#7fd3a8}
+.trbox{fill:rgba(10,17,24,.88);stroke:#6b5230}.tlbl.dimt{fill:#6d9fae}.tag-black{fill:#05080c;stroke:#dde3ea;stroke-width:.8}.tag-red{fill:#d0442b;stroke:#f08a72;stroke-width:.6}.tag-open{fill:none;stroke:#9cc7d3;stroke-width:.8;stroke-dasharray:1.5 1}
+#triage,#tr-dead,#tr-capt,#tr-red,#tr-t2{opacity:0;transition:opacity .4s}#triage.on,#tr-dead.on,#tr-capt.on,#tr-red.on,#tr-t2.on{opacity:1}.tlbl{font-size:7.5px;fill:#9cc7d3;letter-spacing:.1em}.tlbl.red{fill:#f08a72}
 .wave{fill:none;stroke-width:1.6}.wave.weak{stroke:#e3a857}.wave.fast{stroke:#7cc8dc}
 .reach{fill:#141c27;stroke:#e3a857}.plume{stroke:#ffd48a;stroke-width:3;stroke-linecap:round}
 .wo{fill:#fff;opacity:0;pointer-events:none;transition:opacity .5s}#hudsvg.whiteout .wo{opacity:.82}
