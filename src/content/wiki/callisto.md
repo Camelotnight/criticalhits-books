@@ -42,10 +42,12 @@ In orbit, Callisto Logistics Node One handles the moon’s heavy traffic. Everyo
 
 ## Behind the science
 
-Callisto is real, and its numbers hold. It orbits about 1.88 million kilometers from Jupiter, and its ancient surface is the most heavily cratered in the solar system. The ninety-kilometer crater is invented, but craters that size are common there.
+Callisto is real, and its numbers hold. It orbits about 1.88 million kilometers from Jupiter, and its ancient surface is the most heavily cratered in the solar system. Skuld is a real crater on Callisto, about 92 kilometers across, named in 1979 for the Norn of Norse myth who governs fate. The city inside it is invented.
 
 The refining method is real physics too. Below about 2.17 kelvin, helium-4 becomes a superfluid with no viscosity. It can creep through pores far too fine for anything else, including helium-3, which stays an ordinary liquid at that temperature. Engineers call a filter like this a “superleak.”
 
 Skuld City’s tilted floor is what you get when you spin a ring on a moon that already has gravity. The ring’s spin and the moon’s pull add together, and the floor is set square to the spin.
+
+<p class="further"><span>Further reading</span> <a href="https://science.nasa.gov/jupiter/jupiter-moons/callisto/" target="_blank" rel="noopener">Callisto, NASA<span class="visually-hidden"> (opens in a new tab)</span> ↗</a> · <a href="https://en.wikipedia.org/wiki/Callisto_(moon)" target="_blank" rel="noopener">Callisto, Wikipedia<span class="visually-hidden"> (opens in a new tab)</span> ↗</a> · <a href="https://planetarynames.wr.usgs.gov/Feature/5594" target="_blank" rel="noopener">Skuld crater, USGS<span class="visually-hidden"> (opens in a new tab)</span> ↗</a></p>
 
 </aside>

@@ -134,6 +134,24 @@ const siblings = all
     color: var(--signal);
   }
 
+  /* Further reading: real-world sources, out of the site in a new tab. Only inside science boxes. */
+  .body :global(.science .further) {
+    margin: 1.1rem 0 0.9rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(124, 200, 220, 0.25);
+    font-size: 0.86rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .body :global(.science .further > span:first-child) {
+    margin-right: 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+  }
+
   /* In-world sidebar: a researcher's field notes, set apart like a margin story in a sourcebook. */
   .body :global(.fieldnote) {
     clear: both;
