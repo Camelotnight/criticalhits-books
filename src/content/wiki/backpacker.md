@@ -43,13 +43,14 @@ Capa crews wear a backpacker over a [Slick suit](/wiki/slick-suit/). If the hard
 The trade is real. A hard shell has a fixed cross-section. Force it through a warped bulkhead gap and it wedges.
 
 
-<aside class="fieldnote">
+<aside class="fieldnote" id="field-note">
 
 ## Field notes
 
 ### Shell-loss drill
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
+<p class="sitenote">Gavin is a character made up for this website. He does not appear in the book.</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/backpacker.mp3" aria-label="Listen to this field note"></audio>

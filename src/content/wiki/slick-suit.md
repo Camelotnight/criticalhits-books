@@ -40,13 +40,14 @@ For hot work, a crew can strap a **firefighting rig** over the suit: hydrogel co
 A Slick is a short-trip suit for work and breaching. It gives **no ballistic protection**. For a long walk outside, a crew climbs into a [backpacker](/wiki/backpacker/), with the Slick still on underneath.
 
 
-<aside class="fieldnote">
+<aside class="fieldnote" id="field-note">
 
 ## Field notes
 
 ### Puncture response
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
+<p class="sitenote">Gavin is a character made up for this website. He does not appear in the book.</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/slick-suit.mp3" aria-label="Listen to this field note"></audio>

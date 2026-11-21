@@ -37,13 +37,14 @@ The beam itself is invisible. What you see is the blinding white flash at the fo
 It is ravenous for power, a megawatt or two per rig, all of it fusion. In vacuum there is no air to suck the cuttings out. A shroud seals the drill site, and the vaporized rock shoots up into a cold trap, where it freezes onto baffles as dust.
 
 
-<aside class="fieldnote">
+<aside class="fieldnote" id="field-note">
 
 ## Field notes
 
 ### Liner acceptance
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
+<p class="sitenote">Gavin is a character made up for this website. He does not appear in the book.</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/quantum-drilling.mp3" aria-label="Listen to this field note"></audio>

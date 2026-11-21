@@ -3,6 +3,7 @@ import BookStrip from '../../components/BookStrip.astro';
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { SECTIONS } from '../../content.config';
+import { extrasOf } from '../../lib/extras';
 
 export async function getStaticPaths() {
   const all = await getCollection('wiki');
@@ -13,6 +14,7 @@ const { entry, all } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const section = SECTIONS[d.section];
+const ex = extrasOf(entry.body);
 const related = d.related
   .map((id: string) => all.find((e) => e.id === id))
   .filter(Boolean);
@@ -31,6 +33,21 @@ const siblings = all
         <h1>{d.title}</h1>
         {d.aka && <p class="aka">Also: {d.aka.join(' · ')}</p>}
         <p class="lede">{d.summary}</p>
+
+        {(ex.note || ex.interactive) && (
+          <p class="extras">
+            {ex.note && (
+              <a class="extra-chip" href="#field-note" data-play-note>
+                <span aria-hidden="true">▶</span> Field note from Gavin{ex.note.length && ` · ${ex.note.length}`}
+              </a>
+            )}
+            {ex.interactive && (
+              <a class="extra-chip extra-chip--int" href={`#${ex.interactive.anchor}`}>
+                <span aria-hidden="true">◆</span> Interactive: {ex.interactive.title.split(':').pop()!.trim()}
+              </a>
+            )}
+          </p>
+        )}
 
         {d.inshort && (
           <aside class="inshort" aria-label="New to the book?">
@@ -76,6 +93,14 @@ const siblings = all
   <BookStrip />
 </Base>
 
+<script>
+  // The field-note chip jumps to the note and starts Gavin's audio (the click is the reader's choice to listen).
+  document.querySelector<HTMLAnchorElement>('[data-play-note]')?.addEventListener('click', () => {
+    const a = document.querySelector<HTMLAudioElement>('#field-note audio');
+    if (a) a.play().catch(() => {});
+  });
+</script>
+
 <style>
   .layout { display: grid; gap: 3rem; }
   @media (min-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr) 15rem; } }
@@ -120,6 +145,21 @@ const siblings = all
   .body :global(table) { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.92rem; }
   .body :global(th), .body :global(td) { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid var(--line); vertical-align: top; }
   .body :global(th) { color: var(--muted); font-weight: 600; }
+  /* Menu card: a Minerva kiosk menu, styled like the station's own displays. */
+  .body :global(.menu-card) { clear: both; margin: 1.75rem 0 2.25rem; padding: 1rem 1.2rem 0.9rem; border: 1px solid rgba(227, 168, 87, 0.45); border-radius: var(--radius); background: #0c1219; font-family: var(--font-display); }
+  .body :global(.menu-card p) { margin: 0; }
+  .body :global(.mc-head) { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--line); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+  .body :global(.mc-head span + span) { color: var(--muted); }
+  .body :global(.mc-sec) { padding: 0.75rem 0 0.4rem; border-bottom: 1px dashed var(--line); }
+  .body :global(.mc-title) { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--signal); margin-bottom: 0.4rem !important; }
+  .body :global(.mc-sec ul) { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+  .body :global(.mc-sec li) { display: grid; grid-template-columns: minmax(8.5rem, 11rem) 1fr; gap: 0.2rem 1rem; font-family: var(--font-body, inherit); font-size: 0.95rem; line-height: 1.45; }
+  .body :global(.mc-sec li b) { font-family: var(--font-display); font-weight: 600; color: var(--text); }
+  .body :global(.mc-sec li span) { color: var(--muted); }
+  @media (max-width: 34rem) { .body :global(.mc-sec li) { grid-template-columns: 1fr; } }
+  .body :global(.mc-foot) { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding-top: 0.6rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .body :global(.mc-foot span + span) { color: var(--accent); }
+
   .body :global(.science) {
     clear: both;
     margin: 2.5rem 0 1rem;
@@ -177,6 +217,14 @@ const siblings = all
     font-size: 1.35rem;
     color: var(--text);
   }
+  .extras { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: -0.4rem 0 1.4rem; }
+  .extra-chip { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 36px; padding: 0.3rem 0.8rem; border: 1px solid rgba(227, 168, 87, 0.55); border-radius: 999px; font-family: var(--font-display); font-size: 0.85rem; color: var(--accent); text-decoration: none; background: rgba(227, 168, 87, 0.06); }
+  .extra-chip:hover, .extra-chip:focus-visible { background: rgba(227, 168, 87, 0.16); }
+  .extra-chip--int { border-color: rgba(124, 200, 220, 0.55); color: var(--signal); background: rgba(124, 200, 220, 0.06); }
+  .extra-chip--int:hover, .extra-chip--int:focus-visible { background: rgba(124, 200, 220, 0.16); }
+  .body :global(.fieldnote) { scroll-margin-top: 5rem; }
+  .body :global(#cav) { scroll-margin-top: 5rem; }
+  .body :global(.fieldnote .sitenote) { margin: -0.6rem 0 1rem; font-size: 0.8rem; font-style: italic; color: var(--muted); }
   .body :global(.fieldnote .byline) {
     margin: 0 0 1rem;
     padding-bottom: 0.8rem;

@@ -30,7 +30,7 @@ Food is grown inside the loop, under lights, from water and air the habitat recy
 - **Vat-cultured skyr**, a thick, tart, high-protein dairy food made by fermentation and sold at transit kiosks.
 - In industrial tiers, a commissary protein base with a vitamin supplement and an electrolyte block for workers sweating out a shift.
 
-Station food tends to be strong-flavored. In low gravity, fluid shifts toward the head, and a stuffy head dulls the sense of taste.
+Station food tends to be strong-flavored. In low gravity, fluid shifts toward the head, and a stuffy head dulls the sense of taste. See [Food](/wiki/food/) for a Minerva kiosk menu and why everything comes with chili.
 
 ## Shifts
 

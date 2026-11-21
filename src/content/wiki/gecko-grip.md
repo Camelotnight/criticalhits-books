@@ -35,13 +35,14 @@ Gecko grip has one enemy: **fouling**. Dust, regolith, oil or blood clogs the ha
 Setae also wear. An old boot that has walked a hundred hulls is worn smooth in places, and it takes a half-beat longer to catch than its partner.
 
 
-<aside class="fieldnote">
+<aside class="fieldnote" id="field-note">
 
 ## Field notes
 
 ### Holding force
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
+<p class="sitenote">Gavin is a character made up for this website. He does not appear in the book.</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/gecko-grip.mp3" aria-label="Listen to this field note"></audio>
