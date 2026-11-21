@@ -27,13 +27,13 @@ Callisto is also on the rim of Jupiter’s gravity well, the cheapest place to l
 
 ## Skuld City
 
-Built into a ninety-kilometer impact crater, **Skuld City** is a ring that turns inside a **cowl**: a fixed shell of insulation built into the crater wall that the ring never touches. The ring spins to give eight-tenths of a gee. Callisto has gravity of its own, though, so “down” on the ring tips nine degrees off the floor. Water falling from a tap curves. Newcomers walk the ring in a lean, and the inner ear takes three or four days to learn it. Anyone who walks Skuld City cleanly has been there at least that long.
+Built into a ninety-kilometer impact crater, **Skuld City** is a ring that turns inside a **cowl**: a fixed shell of insulation built into the crater wall that the ring never touches. The ring spins to give eight-tenths of a gee. Callisto has gravity of its own, though, so “down” on the ring tips nine degrees off the floor. Water falling from a tap curves. Newcomers walk the ring in a lean. Most need three or four days before they stop leaning the wrong way.
 
 - A pod ride from the hub at the spin axis down to the rim takes about ninety seconds.
 - The **Skuld Maglev** runs in the vacuum gap between ring and cowl.
 - Radiator curtains stand all around the crater rim, droplet sheets falling through them. See [Heat](/wiki/heat/).
 - The **Jovian Claim Registry** is here. It is the only place a helium-3 leasehold can be finalized, and only in person.
-- The deep-space arrays sit out on the static rim, on dead rock. A laser that has to hit Ceres can’t sit on a floor that moves.
+- The deep-space arrays stand on the static rim, out on dead rock.
 
 In orbit, Callisto Logistics Node One handles the moon’s heavy traffic. Everyone calls it **Hell One**.
 

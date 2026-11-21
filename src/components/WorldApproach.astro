@@ -1,13 +1,11 @@
 ---
-// The World page's map: four scales from the solar system to Minerva's tiers, with the
-// Minerva Traffic channel beside it. Self-contained (markup, styles, script); see README.
+// The World page's map: zoom paths to Minerva (L4), Callisto and Skuld City, and Patroclus (L5), each with its
+// own radio band beside the map. Self-contained (markup, styles, script); see README.
 ---
   <div id="ap" class="ap">
+    <div class="routes" role="group" aria-label="Zoom path"><p class="rl">Zoom path</p><button type="button" data-route="minerva" aria-pressed="true">L4 · Minerva</button><button type="button" data-route="callisto" aria-pressed="false">Callisto · Skuld City</button><button type="button" data-route="patroclus" aria-pressed="false">L5 · Patroclus</button></div>
     <nav class="rail" aria-label="Scale">
-      <button type="button" data-stop="0"><span class="n">01</span><span class="t">The system</span><span class="s">5.2 AU</span></button>
-      <button type="button" data-stop="1"><span class="n">02</span><span class="t">The Trojans</span><span class="s">L4</span></button>
-      <button type="button" data-stop="2"><span class="n">03</span><span class="t">The corridor</span><span class="s">~50,000 km</span></button>
-      <button type="button" data-stop="3"><span class="n">04</span><span class="t">Minerva</span><span class="s">axis to skin</span></button>
+      <span id="railstops"></span>
       <span class="zoomctl">
         <button type="button" id="zout" aria-label="Zoom out one scale">−</button>
         <button type="button" id="zin" aria-label="Zoom in one scale">+</button>
@@ -41,6 +39,10 @@
             <text x="150" y="318" class="lbl-a">MINERVA</text>
             <g stroke="#e3a857" stroke-width="1.5" fill="none" opacity=".85">
               <path d="M66 290h-0v0M66 290v14M66 290h14M196 290h-14M196 290v14M66 396v-14M66 396h14M196 396h-14M196 396v-14"/>
+            </g>
+            <g stroke="#7cc8dc" stroke-width="1.3" fill="none" opacity=".7">
+              <path d="M272 196v10M272 196h10M318 196h-10M318 196v10M272 242v-10M272 242h10M318 242h-10M318 242v-10"/>
+              <path d="M612 290v14M612 290h14M742 290h-14M742 290v14M612 396v-14M612 396h14M742 396h-14M742 396v-14"/>
             </g>
             <text x="66" y="412" class="lbl-s">L4 · LEADING TROJANS</text>
             <text x="677" y="412" text-anchor="middle" class="lbl-s">L5 · TRAILING TROJANS</text>
@@ -151,6 +153,143 @@
             <text x="24" y="534" class="lbl-s">NOT TO SCALE · TIERS SPACED IN PROPORTION TO WEIGHT</text>
           </svg>
 
+          <!-- 05 CALLISTO AND HELL ONE -->
+          <svg class="layer" data-layer="4" viewBox="0 0 800 560" aria-hidden="true">
+            <defs>
+              <radialGradient id="callistoShade" cx="0.68" cy="0.3" r="0.85"><stop offset="0" stop-color="#5a5146"/><stop offset="0.55" stop-color="#3a342e"/><stop offset="1" stop-color="#16181c"/></radialGradient>
+            </defs>
+            <ellipse cx="290" cy="380" rx="290" ry="95" transform="rotate(-18 290 380)" fill="none" stroke="#3b4f68" stroke-dasharray="3 6"/>
+            <circle cx="290" cy="380" r="200" fill="url(#callistoShade)"/>
+            <g id="craters"></g>
+            <text x="150" y="520" class="lbl-s" style="fill:#9aa7b6">CALLISTO · GREEN ZONE</text>
+            <text x="150" y="536" class="lbl-s">ABOUT 0.01 REM A DAY · 1/8 GEE AT THE SURFACE</text>
+            <!-- Skuld City, foreshortened on the limb -->
+            <g transform="rotate(-35 395 262)">
+              <ellipse cx="395" cy="262" rx="30" ry="13" fill="#1b1d21" stroke="#7d6c5a"/>
+              <ellipse cx="395" cy="262" rx="22" ry="8" fill="none" stroke="#e3a857" stroke-width="1.6"/>
+              <path d="M368 256v-7M375 251v-7M386 249v-7M404 249v-7M415 251v-7M422 256v-7" stroke="#dde3ea" stroke-opacity=".6"/>
+            </g>
+            <text x="330" y="226" class="lbl-a">SKULD CITY</text>
+            <!-- front half of the orbit, in front of the moon -->
+            <path d="M 14.2 469.6 A 290 95 -18 0 0 565.8 290.4" fill="none" stroke="#7cc8dc" stroke-opacity=".5" stroke-dasharray="3 6"/>
+            <!-- drop shuttle run -->
+            <path class="corr" d="M548 300 Q 480 300 410 262"/>
+            <circle cx="482" cy="294" r="2.6" fill="#dde3ea"/>
+            <text x="452" y="318" class="lbl-c">DROP SHUTTLES</text>
+            <!-- Hell One: a plain node marker. Its structure is not ruled, so the map does not draw one. -->
+            <g transform="translate(566 290)">
+              <circle r="14" fill="none" stroke="#dde3ea" stroke-opacity=".5" stroke-dasharray="2 3"/>
+              <rect x="-7" y="-7" width="14" height="14" fill="#141c27" stroke="#dde3ea" transform="rotate(45)"/>
+              <g fill="#b9c3cf"><path d="M34 22l7 3-7 3z"/><path d="M46 28l7 3-7 3z"/><path d="M58 34l7 3-7 3z"/></g>
+            </g>
+            <text x="590" y="262" class="lbl" style="fill:#dde3ea">HELL ONE</text>
+            <text x="590" y="276" class="lbl-s">CALLISTO LOGISTICS NODE ONE</text>
+            <text x="626" y="340" class="lbl-s">SLIP QUEUE</text>
+            <!-- scoop ships climbing in from Jupiter -->
+            <path d="M796 70 Q 700 140 622 250" fill="none" stroke="#e3a857" stroke-opacity=".5" stroke-dasharray="4 5"/>
+            <g class="scoops" fill="#e3a857"><path d="M752 106l-9 1 5 7z"/><path d="M718 136l-9 1 5 7z"/><path d="M684 172l-9 1 5 7z"/></g>
+            <g fill="#e3a857" fill-opacity=".25"><circle cx="747" cy="110" r="6"/><circle cx="713" cy="140" r="6"/><circle cx="679" cy="176" r="6"/></g>
+            <text x="780" y="96" text-anchor="end" class="lbl-s" style="fill:#b98a4d">SCOOP SHIPS · UP FROM THE DIVE</text>
+            <g stroke="#6d7f95" fill="none" stroke-width="1.2"><path d="M700 58h80M772 52l8 6-8 6"/></g>
+            <text x="694" y="62" text-anchor="end" class="lbl-s">JUPITER · 1.88 MILLION KM</text>
+            <text x="780" y="548" text-anchor="end" class="lbl-s">POSITIONS AND SIZES STYLIZED</text>
+          </svg>
+
+          <!-- 06 SKULD CITY -->
+          <svg class="layer" data-layer="5" viewBox="0 0 800 560" aria-hidden="true">
+            <path d="M0 168 L40 160 Q70 146 96 156 C 122 186 150 330 220 430 Q 262 472 330 476 L 470 476 Q 538 472 580 430 C 650 330 678 186 704 156 Q 730 146 760 160 L 800 168 L 800 560 L 0 560 Z" fill="#151a21" stroke="#3b4f68"/>
+            <path d="M220 430 Q 262 472 330 476 L 470 476 Q 538 472 580 430 Z" fill="#0d1015"/>
+            <text x="400" y="508" text-anchor="middle" class="lbl-s">ICE AND ROCK · VERTICAL NOT TO SCALE</text>
+            <!-- curtains on the rim -->
+            <g class="curtain"><rect x="40" y="58" width="54" height="92" fill="rgba(124,200,220,.04)" stroke="#34465c"/>
+              <path class="drops" d="M48 62V148M56 62V148M64 62V148M72 62V148M80 62V148M88 62V148"/></g>
+            <g class="curtain"><rect x="706" y="58" width="54" height="92" fill="rgba(124,200,220,.04)" stroke="#34465c"/>
+              <path class="drops" d="M714 62V148M722 62V148M730 62V148M738 62V148M746 62V148M754 62V148"/></g>
+            <text x="67" y="50" text-anchor="middle" class="lbl-s">CURTAINS</text>
+            <text x="733" y="50" text-anchor="middle" class="lbl-s">CURTAINS</text>
+            <!-- the ring seen in perspective, then the two sides of the cross-section -->
+            <ellipse cx="400" cy="206" rx="266" ry="18" fill="none" stroke="#e3a857" stroke-opacity=".25" stroke-dasharray="4 5"/>
+            <rect x="116" y="168" width="34" height="76" rx="4" fill="#10161f" stroke="#5f6f84"/>
+            <rect x="650" y="168" width="34" height="76" rx="4" fill="#10161f" stroke="#5f6f84"/>
+            <rect x="127" y="176" width="13" height="60" fill="#e3a857" fill-opacity=".75"/>
+            <rect x="660" y="176" width="13" height="60" fill="#e3a857" fill-opacity=".75"/>
+            <g fill="#7cc8dc"><rect x="120.5" y="198" width="4" height="12"/><rect x="675.5" y="212" width="4" height="12"/></g>
+            <text x="133" y="262" text-anchor="middle" class="lbl-a" style="font-size:10.5px">RING</text>
+            <text x="133" y="276" text-anchor="middle" class="lbl-s">IN ITS COWL</text>
+            <text x="692" y="186" class="lbl-s">REGISTRY</text>
+            <text x="692" y="236" class="lbl-s">MAGLEV</text>
+            <!-- spokes, spindle, hub, apron -->
+            <g stroke="#9aa7b6" stroke-opacity=".7"><path d="M140 203H396M140 209H396M660 203H404M660 209H404"/></g>
+            <rect x="396" y="124" width="8" height="85" fill="#34465c"/>
+            <circle cx="400" cy="124" r="10" fill="#141c27" stroke="#dde3ea"/>
+            <rect x="346" y="104" width="108" height="8" fill="#5f6f84"/>
+            <g fill="#9aa7b6"><rect x="356" y="98" width="18" height="6"/><rect x="391" y="98" width="18" height="6"/><rect x="426" y="98" width="18" height="6"/></g>
+            <text x="346" y="92" class="lbl-a" style="font-size:10.5px">ZENITH APRON</text>
+            <path d="M490 58 Q 456 74 424 92" fill="none" stroke="#7cc8dc" stroke-dasharray="2 5"/>
+            <text x="498" y="62" class="lbl-c">FROM HELL ONE</text>
+            <line x1="400" y1="20" x2="400" y2="476" stroke="#6d7f95" stroke-dasharray="2 5" stroke-opacity=".7"/>
+            <text x="408" y="300" class="lbl-s">SPIN AXIS</text>
+            <!-- radial car -->
+            <g id="pod" class="pod" style="transform:translate(380px,206px)"><rect x="-8" y="-6" width="16" height="12" rx="2" fill="#dde3ea"/><text id="podg" x="14" y="-10" class="lbl-a" style="font-size:10.5px"></text></g>
+            <!-- refineries on the crater floor -->
+            <g fill="#1f2731" stroke="#34465c"><rect x="300" y="446" width="40" height="30"/><rect x="346" y="438" width="30" height="38"/><rect x="452" y="444" width="44" height="32"/></g>
+            <g fill="#7cc8dc" fill-opacity=".35" stroke="#7cc8dc" stroke-opacity=".6"><rect x="386" y="402" width="8" height="74" rx="3"/><rect x="402" y="394" width="8" height="82" rx="3"/><rect x="418" y="406" width="8" height="70" rx="3"/><rect x="434" y="398" width="8" height="78" rx="3"/></g>
+            <text x="300" y="384" class="lbl-s">REFINERIES · ABOUT 2 K</text>
+            <!-- the lean -->
+            <g transform="translate(596 404)">
+              <rect width="188" height="132" rx="4" fill="#0b0f15" fill-opacity=".92" stroke="#34465c"/>
+              <text x="12" y="20" class="lbl-a" style="font-size:10.5px">THE LEAN</text>
+              <line x1="20" y1="104" x2="176" y2="104" stroke="#9aa7b6"/>
+              <text x="176" y="122" text-anchor="end" class="lbl-s">RING FLOOR</text>
+              <path d="M50 34 V96 M44 88 l6 8 6-8" stroke="#e3a857" fill="none"/>
+              <text x="58" y="44" class="lbl-s" style="fill:#e3a857">SPIN · 0.8</text>
+              <path d="M50 96 H36 M42 92 l-6 4 6 4" stroke="#7cc8dc" fill="none"/>
+              <text x="12" y="122" class="lbl-s" style="fill:#7cc8dc">MOON · 1/8</text>
+              <path d="M50 34 L40 96" stroke="#dde3ea" stroke-dasharray="3 3"/>
+              <text x="58" y="62" class="lbl-s" style="fill:#dde3ea">TRUE DOWN</text><text x="58" y="75" class="lbl-s" style="fill:#dde3ea">9° OFF</text>
+              <g stroke="#dde3ea" stroke-width="1.6" fill="none" transform="rotate(9 140 104)"><circle cx="140" cy="68" r="5"/><path d="M140 73V90M140 90l-6 14M140 90l6 14M140 78l-8 7M140 78l8 7"/></g>
+            </g>
+            <g stroke="#6d7f95"><path d="M70 548H730M70 542v12M730 542v12"/></g>
+            <text x="400" y="540" text-anchor="middle" class="lbl-s">RIM TO RIM · 90 KM</text>
+          </svg>
+
+          <!-- 07 PATROCLUS -->
+          <svg class="layer" data-layer="6" viewBox="0 0 800 560" aria-hidden="true">
+            <defs><linearGradient id="wilds" x1="0" x2="1"><stop offset="0" stop-color="#0b0f15" stop-opacity="0"/><stop offset="1" stop-color="#05070a" stop-opacity=".95"/></linearGradient></defs>
+            <g id="swarm5"></g>
+            <rect x="640" y="0" width="160" height="560" fill="url(#wilds)"/>
+            <text transform="translate(778 300) rotate(90)" text-anchor="middle" class="lbl" style="letter-spacing:.4em">THE WILDS</text>
+            <ellipse cx="430" cy="276" rx="150" ry="44" transform="rotate(-12 430 276)" fill="none" stroke="#3b4f68" stroke-dasharray="3 6"/>
+            <path d="M262 290 C 250 236 300 214 334 222 C 372 230 404 258 398 300 C 392 344 350 370 306 360 C 268 350 270 320 262 290Z" fill="#5d564d" stroke="#8d8579"/>
+            <path d="M474 248 C 470 208 512 190 546 200 C 584 212 600 246 586 282 C 572 314 530 322 502 306 C 480 294 476 272 474 248Z" fill="#544e46" stroke="#8d8579"/>
+            <text x="320" y="392" text-anchor="middle" class="lbl">PATROCLUS</text>
+            <text x="536" y="344" text-anchor="middle" class="lbl">MENOETIUS</text>
+            <!-- the hub in the calm between the lobes -->
+            <g transform="translate(436 266)">
+              <ellipse rx="18" ry="7" fill="none" stroke="#e3a857"/>
+              <rect x="-6" y="-5" width="12" height="10" fill="#141c27" stroke="#e3a857"/>
+              <g fill="#ffd48a"><circle cx="-14" cy="-2" r="1.4"/><circle cx="14" cy="2" r="1.4"/><circle cx="0" cy="-8" r="1.4"/></g>
+              <path d="M-18 0 H-36 M18 0 H34" stroke="#6d7f95" stroke-dasharray="2 3"/>
+            </g>
+            <text x="436" y="236" text-anchor="middle" class="lbl-a" style="font-size:10.5px">THE HUB</text>
+            <!-- clusters built into rock -->
+            <g id="clusters"></g>
+            <text x="150" y="118" class="lbl-s">MELTED-ICE HABITATS</text>
+            <text x="560" y="500" class="lbl-s">RUBBLE WARRENS</text>
+            <!-- the yards: a hollowed rock -->
+            <path d="M92 318 C 96 296 132 288 156 300 C 176 312 172 344 150 352 C 126 360 96 350 92 318Z" fill="#4a4540" stroke="#8d8579"/>
+            <path d="M118 312 C 128 306 146 310 146 322 C 146 334 128 338 118 330Z" fill="#0b0f15"/>
+            <g class="sparks" fill="#ffd48a"><circle cx="130" cy="320" r="1.4"/><circle cx="136" cy="326" r="1"/><circle cx="126" cy="326" r="1"/></g>
+            <text x="124" y="376" text-anchor="middle" class="lbl-s">THE YARDS</text>
+            <!-- a wandering fleet -->
+            <g class="fleet" fill="#b9c3cf"><path d="M300 92l8 3-8 3z"/><path d="M318 100l8 3-8 3z"/><path d="M336 94l8 3-8 3z"/><path d="M354 104l8 3-8 3z"/><path d="M372 96l8 3-8 3z"/></g>
+            <text x="300" y="80" class="lbl-s">WANDERING FLEET</text>
+            <g stroke="#6d7f95" fill="none" stroke-width="1.2"><path d="M100 58h-80M28 52l-8 6 8 6"/><path d="M560 58h80M632 52l8 6-8 6"/></g>
+            <text x="106" y="62" class="lbl-s">JUPITER · 5.2 AU</text>
+            <text x="554" y="62" text-anchor="end" class="lbl-s">SATURN · THE OUTER SYSTEM</text>
+            <text x="24" y="534" class="lbl-s">POSITIONS AND SIZES STYLIZED</text>
+          </svg>
+
           <div id="hots"></div>
         </div>
         <p class="rule-label chips-label" id="listlabel">Places</p>
@@ -166,7 +305,7 @@
           </div>
           <ol class="tr-log" id="trlog" role="log" aria-live="off" aria-label="Minerva Traffic channel"></ol>
           <p class="sr-only" id="trsay" aria-live="polite"></p>
-          <p class="tr-idle" id="tridle">Zoom in on the Trojans to listen in on Minerva Traffic.</p>
+          <p class="tr-idle" id="tridle">Zoom in from the system view to hear the local radio: Minerva, Hell One, Skuld City or Patroclus.</p>
           <div class="tr-ctl">
             <button type="button" id="trpause" aria-pressed="false">Pause</button>
             <button type="button" id="trnext">Next call</button>
@@ -185,9 +324,11 @@
 @keyframes ap-drift{from{transform:translateX(0)}to{transform:translateX(60px)}}
 @keyframes ap-driftback{from{transform:translateX(0)}to{transform:translateX(-60px)}}
 @keyframes ap-spin{to{transform:rotate(360deg)}}
+@keyframes ap-fall{to{stroke-dashoffset:-18}}
+@keyframes ap-climb{to{transform:translate(-10px,14px)}}
 .ap {
 /* Scale rail */
-.rail{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:.75rem;background:var(--bg-2)}
+.rail{display:grid;grid-template-columns:repeat(var(--n,4),1fr) auto;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-bottom:.75rem;background:var(--bg-2)}
 .rail button{all:unset;cursor:pointer;padding:.65rem .9rem;border-right:1px solid var(--line);font-family:var(--font-display);position:relative;min-height:44px}
 .rail button .n{font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-right:.4rem}
 .rail button .t{font-size:.95rem;color:var(--muted)}
@@ -316,15 +457,34 @@ svg text{font-family:var(--font-display)}
 .tier{fill:none;stroke:#34465c;stroke-width:1.2}
 .tier.sel{stroke:#e3a857;stroke-width:2}
 .still .strobe,.still .lane,.still .drones,.still .spinarrow,.still .hot[aria-pressed="true"]::before{animation:none!important}
-.still .layer,.still .car{transition:opacity .15s!important}
+.still .layer,.still .car,.still .pod{transition:opacity .15s!important}
+.routes{display:grid;grid-template-columns:auto repeat(3,1fr);gap:.35rem;align-items:center;margin-bottom:.5rem}
+.routes .rl{font-family:var(--font-display);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:#6d7f95;margin:0 .4rem 0 0}
+.routes button{font-family:var(--font-display);font-size:.82rem;background:var(--bg-2);color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:.45rem .7rem;cursor:pointer;min-height:40px}
+.routes button[aria-pressed="true"]{border-color:var(--accent);color:var(--text)}
+.routes button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#railstops{display:contents}
+.crater{fill:#2a2621;stroke:#6b6055;stroke-opacity:.45}
+.crock{fill:#5d564d}.clight{fill:#ffd48a}
+.pod{transform-box:view-box;transition:transform .9s cubic-bezier(.3,.1,.2,1)}
+.drops{fill:none;stroke:#7cc8dc;stroke-opacity:.55;stroke-dasharray:2 7;animation:ap-fall 1.8s linear infinite}
+
+.scoops{animation:ap-climb 7s ease-in-out infinite alternate}
+
+.sparks{animation:ap-blink 1.3s steps(2) infinite}
+.fleet{animation:ap-drift 30s linear infinite}
+.still .drops,.still .scoops,.still .sparks,.still .fleet{animation:none!important}
 @media (prefers-reduced-motion:reduce){
-  .layer,.layer.on,.car{transition:opacity .15s!important}
+  .layer,.layer.on,.car,.pod{transition:opacity .15s!important}
 }
 
 /* Phone */
 @media (max-width:760px){
   .approach{grid-template-columns:1fr}
-  .rail{grid-template-columns:repeat(4,1fr)}
+  .rail{grid-template-columns:repeat(var(--n,4),1fr)}
+  .routes{grid-template-columns:repeat(3,1fr)}
+  .routes .rl{display:none}
+  .routes button{font-size:.74rem;padding:.4rem .3rem;text-align:center}
   .rail button{padding:.5rem .4rem;text-align:center}
   .rail button .n{display:block;margin:0}
   .rail button .t{font-size:.78rem}
@@ -366,10 +526,10 @@ svg text{font-family:var(--font-display)}
       { id: 'callisto', label: 'Callisto', at: pc(294.8, 218.3), kicker: 'Galilean moon · Green Zone', title: 'Callisto',
         html: '<p>The USN’s capital at Jupiter and the only place helium-3 is refined. A claim started at Minerva is finished here, in person, at the Jovian Claim Registry.</p>',
         facts: [['From Jupiter', '1.88 million km'], ['Surface dose', 'about 0.01 rem a day'], ['Light to Ceres', '40 minutes'], ['Light to Luna City', '49 minutes']],
-        wiki: ['callisto', 'Callisto'] },
+        wiki: ['callisto', 'Callisto'], zoom: [4, 'Zoom in on Callisto'] },
       { id: 'l5', label: 'The Trojans (L5)', at: pc(677.1, 340), kicker: 'Jupiter L5 · trailing Trojans', title: 'The trailing Trojans',
-        html: '<p>The back door. The USN keeps a nominal presence; the Capa run it. Patroclus is the hub, with habitats spread through the swarm in clusters.</p>',
-        facts: [['To Jupiter', '5.2 AU']], wiki: ['the-trojans', 'The Trojans'] },
+        html: '<p>The trailing camp, and the Capa’s home ground at Jupiter. The USN keeps a nominal presence; the Capa run it. Patroclus is the hub, with habitats spread through the swarm in clusters.</p>',
+        facts: [['To Jupiter', '5.2 AU']], wiki: ['the-trojans', 'The Trojans'], zoom: [6, 'Zoom in on Patroclus'] },
     ]},
     { name: 'Leading Trojans', field: 'Field · L4, the leading Trojans · stylized', crumbs: ['Sun', 'L4'], focus: pc(360, 300), items: [
       { id: 'minerva', label: 'Minerva Station', at: pc(230, 380), kicker: 'USN anchor at L4', title: 'Minerva Station',
@@ -427,6 +587,78 @@ svg text{font-family:var(--font-display)}
         html: '<p>The outer industrial ring: heat, roar and sweet, resin-thick air, with the spinnery extruders throbbing through the floor. People born here grow thick-boned to carry 1.2 gee all their lives. Down here the ground is a floor or a concourse.</p><div class="stripes"><span style="border-color:#8b96a3">grey · line crews</span><span style="border-color:#e3a857">amber · supervisors</span><span style="border-color:#5f8fd6">blue · skips the queue</span></div>',
         facts: [['Weight', '1.2 gee'], ['Industry', 'the Arachne spinnery']], wiki: ['arachne-weavers', 'Arachne weavers'] },
     ]},
+    // ---- Callisto branch (green v4). Card text is blue's red-checked set (/root/round4/blue.md), trimmed per the
+    // coordinator: no Hell One structure, no pod-ride duration, no Patroclus sizes, and the yards are "Patroclus yards" (LEX-32).
+    // Cards marked (green) are new, built from the same safe-texture list and run through red's five questions.
+    { name: 'Callisto', field: 'Field · Callisto and Hell One · stylized', lagline: 'Light, Callisto to L4 · 43 min', items: [
+      { id: 'moon', label: 'Callisto', at: pc(230, 450), kicker: 'Galilean moon · the Green Zone', title: 'Callisto from orbit',
+        html: '<p>The quietest of Jupiter’s big moons, and the busiest sky. It sits outside the main radiation belts, so baseline people can live here, and its old, cold crust is the steadiest ground at Jupiter. Fuel comes up from it, scoop catch goes down to it, and workers on rotation pass through one logistics node overhead.</p>',
+        facts: [['From Jupiter', '1.88 million km'], ['Surface dose', 'about 0.01 rem a day'], ['Surface gravity', 'about an eighth of a gee']],
+        wiki: ['callisto', 'Callisto'] },
+      { id: 'hellone', label: 'Hell One', at: pc(566, 290), kicker: 'Callisto Logistics Node One', title: 'Hell One',
+        html: '<p>The workforce named it, and the name stuck. Hell One is the busiest port at Jupiter, always overbooked with refinery traffic, and the drop shuttles to Skuld City run from here.</p>',
+        facts: [['Formal name', 'Callisto Logistics Node One'], ['Busiest with', 'refinery traffic and drop shuttles']],
+        wiki: ['callisto', 'Callisto'] },
+      { id: 'scoops', label: 'Scoop ships', at: pc(716, 140), kicker: 'Up from Jupiter’s air', title: 'The scoop ships', // (green)
+        html: '<p>Capa crews under lease dive into Jupiter’s upper atmosphere behind ablative heat shields, inside a bubble of magnetic shielding, then climb back out with a catch of raw gas. Every scoop crew in the system brings its catch to Callisto, and is paid by the ton.</p>',
+        facts: [['Yield', 'about a kilogram of helium-3 an hour'], ['A run', 'days or weeks'], ['Paid', 'by tonnage delivered']],
+        wiki: ['helium-3', 'Helium-3'] },
+      { id: 'skuld', label: 'Skuld City', at: pc(395, 262), kicker: 'Callisto · USN capital at Jupiter', title: 'Skuld City',
+        html: '<p>A bright ring turning high on the inner wall of a ninety-kilometer crater, with the cowl around it, the curtains above it and the refineries below. The spin gives eight-tenths of a gee, but Callisto pulls too, so down sits nine degrees off true. Its concourses are warm and crowded. At the Callisto Basin Resources Pavilion, wealth shows in mass: a desk of real mahogany grown under a sun, and clean water running over black basalt into a pool.</p>',
+        facts: [['Ring', '0.8 gee on a 9° cant'], ['Crater', '90 km across'], ['Ring from the axis', 'about 40 to 45 km']],
+        wiki: ['callisto', 'Callisto'], zoom: [5, 'Zoom in on Skuld City'] },
+    ]},
+    { name: 'Skuld City', field: 'Field · Skuld City, rim to rim · cross-section', lagline: 'Light, Callisto to L4 · 43 min', items: [
+      { id: 'apron', r: 0, label: 'Zenith Apron', at: pc(400, 100), kicker: 'Skuld City · the front door', title: 'The Zenith Apron',
+        html: '<p>Every visitor arrives here. Drop shuttles from Hell One settle onto static pads at the top of the city’s spin axis, where nothing turns and Callisto’s own eighth of a gee is all the weight you get. Arrivals drift more than they walk, in a loose, half-floating shuffle through the transfer hub. Freight cages drop down a fixed central spindle, and radial cars carry people out along the spokes, their weight building with every kilometer.</p>',
+        facts: [['On the pads', 'an eighth of a gee, the moon’s own'], ['At the hub', 'the spin adds nothing']],
+        wiki: ['callisto', 'Callisto'] },
+      { id: 'ring', r: 1, label: 'The turntable ring', at: pc(133, 222), kicker: 'Skuld City · eight-tenths of a gee', title: 'The turntable ring',
+        html: '<p>A city where down is nine degrees off true. The floor is built square to the spin, so the moon’s own pull tips everything a little sideways. Turn on a tap and the water falls crooked, bending antispinward. Newcomers lean the wrong way for days, and the ring’s deep hum never stops under their feet.</p>',
+        facts: [['Weight', '0.8 gee'], ['Cant', '9 degrees'], ['Falling water', 'curves antispinward'], ['Learning the lean', 'three or four days']],
+        wiki: ['spin-gravity', 'Spin gravity'] },
+      { id: 'cowl', r: 1, label: 'The cowl', at: pc(133, 176), kicker: 'Skuld City · the fixed shell', title: 'The cowl',
+        html: '<p>A ring that never touches its shell, turning inside a ninety-kilometer crater. The cowl is a fixed lining of insulation built into the crater wall, and it keeps the city’s warmth away from the ice that holds everything up. Between ring and cowl is a gap of vacuum, and the maglev runs inside it.</p>',
+        wiki: ['callisto', 'Callisto'] },
+      { id: 'maglev', r: 1, label: 'The Skuld Maglev', at: pc(678, 218), kicker: 'Skuld City · ring to rim', title: 'The Skuld Maglev',
+        html: '<p>To leave the ring, the train runs backward as fast as the city turns, until you stand still. Cars leave from under arched steel to departure chimes, drop into the vacuum gap between ring and cowl, and shed the spin as they go. When only the moon’s faint pull is left, the cowl’s own track takes the car off the ring.</p>',
+        facts: [['Runs in', 'the vacuum gap between ring and cowl'], ['Goes to', 'the static rim']],
+        wiki: ['spin-gravity', 'Spin gravity'] },
+      { id: 'curtains', label: 'The curtains', at: pc(67, 104), kicker: 'Skuld City · the crater rim', title: 'The curtains',
+        html: '<p>Skuld City’s silhouette. All around the crater rim stand the curtains: droplet radiators whose falling sheets glow off the city’s heat and carry it up and away from the ice the city rests on. The rim itself is dead, static rock, and the deep-space arrays stand there too.</p>',
+        facts: [['Type', 'liquid droplet radiators'], ['Spacer word', 'a curtain; a whole array is the Curtain']],
+        wiki: ['heat', 'Heat'] },
+      { id: 'refineries', label: 'The refineries', at: pc(414, 430), kicker: 'The crater floor, under the ring', title: 'The refineries',
+        html: '<p>Under the city, the refineries run colder than space. They lie dark and vast across the crater floor beneath Skuld City’s ring, where cascade columns chill the catch to about two kelvin. At that cold, ordinary helium turns superfluid and slips through filters that helium-3 cannot pass. Every gram of helium-3 in the system is refined here.</p>',
+        facts: [['Working cold', 'about 2 kelvin; space itself is 2.7'], ['Owner', 'the USN, every plant'], ['Contract holder', 'Callisto Basin Resources']],
+        wiki: ['helium-3', 'Helium-3'] },
+      { id: 'registry', label: 'The Registry', at: pc(666, 184), kicker: 'Skuld City · on the ring', title: 'The Jovian Claim Registry',
+        html: '<p>The only place in the system where a helium-3 leasehold can be finalized, and only in person. Behind the name is an ordinary municipal queue at a scratched counter. A finished filing goes to Ceres and Luna City, and it is permanent only once both have logged it.</p>',
+        facts: [['The rule', 'started at Minerva, finished here'], ['Logged at', 'Ceres and Luna City, 40 and 49 light-minutes away']],
+        wiki: ['jovian-leasehold', 'The Jovian Leasehold'] },
+    ]},
+    // ---- L5 branch (green v4). Patroclus as a home: never a fortress or a refuge.
+    { name: 'Patroclus', field: 'Field · L5, Patroclus · stylized', lagline: 'Light, L5 to Jupiter · 43 min', items: [
+      { id: 'pair', label: 'Patroclus', at: pc(320, 300), kicker: 'Jupiter L5 · the trailing Trojans', title: 'Patroclus',
+        html: '<p>Two worlds orbiting each other, and a town in the calm between them. Patroclus and Menoetius are ice and frozen mud, lighter than water.</p><p class="sci">The pair is real: 617 Patroclus and Menoetius, a binary Trojan that NASA’s Lucy mission is set to visit.</p>',
+        facts: [['Made of', 'ice and frozen mud'], ['Best departure point for', 'Saturn and the outer system']],
+        wiki: ['the-trojans', 'The Trojans'] },
+      { id: 'hub', label: 'The hub', at: pc(436, 266), kicker: 'The calm between the lobes', title: 'The hub', // (green)
+        html: '<p>The hub of the spacer population at Jupiter sits between the two lobes: docks, an administrative block and a chartered terminal. The USN keeps a nominal presence. The Capa run it.</p>',
+        wiki: ['capa', 'The Capa'] },
+      { id: 'clusters', label: 'The clusters', at: pc(600, 470), kicker: 'Built into the rock', title: 'The clusters', // (green)
+        html: '<p>The Capa build into the rock. Their homes are spread through the swarm in clusters: melted-ice habitats in the icy bodies, and fused-rubble warrens in the loose ones.</p>',
+        wiki: ['capa', 'The Capa'] },
+      { id: 'yards', label: 'The yards', at: pc(130, 320), kicker: 'Patroclus yards', title: 'The yards', // (green)
+        html: '<p>Independent repair yards keep the aging Belt fleet flying, with work the USN calls non-compliant.</p>',
+        wiki: ['the-trojans', 'The Trojans'] },
+      { id: 'fleets', label: 'Wandering fleets', at: pc(340, 98), kicker: 'Neutral ground', title: 'Wandering fleets', // (green)
+        html: '<p>Religious breakaway communities and wandering fleets live out here too, and often serve as neutral ground between the USN and the Capa.</p>',
+        wiki: ['the-trojans', 'The Trojans'] },
+      { id: 'wilds', label: 'The Wilds', at: pc(740, 300), kicker: 'Beyond L5', title: 'The Wilds', // (green)
+        html: '<p>Beyond L5, the Wilds: where the lanes and the law run out. Spacers call the open dark past the lanes the deep void.</p>',
+        wiki: ['the-trojans', 'The Trojans'] },
+    ]},
   ];
   STOPS[3].items.forEach((it) => { if (it.g) it.at = pc(...tierHot(it.g)); });
 
@@ -440,6 +672,12 @@ svg text{font-family:var(--font-display)}
   });
   { const g = document.getElementById('swarm'), r = rng(777);
     for (let i = 0; i < 420; i++) dot(g, r() * 800, 40 + r() * 500, .6 + r() * r() * 3.2); }
+  { const g = document.getElementById('craters'), r = rng(4711);
+    for (let i = 0; i < 90; i++) { const a = r() * Math.PI * 2, d = Math.sqrt(r()) * 186, x = 290 + d * Math.cos(a), y = 380 + d * Math.sin(a); if (y < 505) dot(g, x, y, .8 + r() * r() * 7, 'crater'); } }
+  { const g = document.getElementById('swarm5'), r = rng(5151);
+    for (let i = 0; i < 260; i++) dot(g, r() * 800, 40 + r() * 500, .6 + r() * r() * 3); }
+  { const g = document.getElementById('clusters');
+    [[160, 140], [220, 460], [600, 470], [690, 150], [560, 120]].forEach(([x, y]) => { dot(g, x, y, 7, 'crock'); [[-9, -4], [8, 3], [2, -9], [-4, 8]].forEach(([dx, dy]) => dot(g, x + dx, y + dy, 1.4, 'clight')); }); }
   { // tiers wedge
     const [ax, ay] = APEX, d = D(1.2) + 6;
     document.getElementById('wedge').setAttribute('d', `M${ax} ${ay} L${ax - d * Math.sin(HALF)} ${ay + d * Math.cos(HALF)} A${d} ${d} 0 0 0 ${ax + d * Math.sin(HALF)} ${ay + d * Math.cos(HALF)} Z`);
@@ -458,11 +696,41 @@ svg text{font-family:var(--font-display)}
   // State and rendering
   const root = document.getElementById('ap');
   const layers = [...document.querySelectorAll('.layer')];
-  const railBtns = [...document.querySelectorAll('.rail [data-stop]')];
   const itemsEl = document.getElementById('items'), card = document.getElementById('card'), hots = document.getElementById('hots');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let stop = 0, sel = 0;
   const still = () => root.classList.contains('still');
+  // ---- Routes (green v4): the System view opens three zoom paths. Every stop has one parent.
+  const PARENT = [null, 0, 1, 2, 0, 4, 0];
+  const ROUTES = { minerva: [0, 1, 2, 3], callisto: [0, 4, 5], patroclus: [0, 6] };
+  const RAIL = [['The system', '5.2 AU'], ['The Trojans', 'L4'], ['The corridor', '~50,000 km'], ['Minerva', 'axis to skin'],
+    ['Callisto', 'Hell One'], ['Skuld City', 'rim to rim'], ['Patroclus', 'L5']];
+  const FOCUS_IN = { 1: STOPS[0].focus, 2: STOPS[1].focus, 3: STOPS[2].focus, 4: pc(294.8, 218.3), 5: pc(395, 262), 6: pc(677.1, 340) };
+  let route = 'minerva';
+  const routeOf = (n) => (n === 0 ? route : Object.keys(ROUTES).find((r) => ROUTES[r].includes(n)));
+  const chain = (n) => (n === null || n === undefined ? [] : [...chain(PARENT[n]), n]);
+  const railEl = document.getElementById('railstops');
+  function renderRail() {
+    route = routeOf(stop);
+    const path = ROUTES[route];
+    railEl.innerHTML = '';
+    railEl.parentElement.style.setProperty('--n', path.length);
+    path.forEach((n, i) => {
+      const b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span><span class="t">${RAIL[n][0]}</span><span class="s">${RAIL[n][1]}</span>`;
+      if (n === stop) b.setAttribute('aria-current', 'step');
+      b.onclick = () => go(n); railEl.appendChild(b);
+    });
+    document.querySelectorAll('.routes button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.route === route));
+    document.getElementById('zout').disabled = stop === 0;
+    document.getElementById('zin').disabled = path.indexOf(stop) === path.length - 1;
+  }
+  const deeperStop = () => { const p = ROUTES[routeOf(stop)]; return p[p.indexOf(stop) + 1]; };
+  document.querySelectorAll('.routes button').forEach((b) => (b.onclick = () => {
+    route = b.dataset.route;
+    if (stop === 0 || routeOf(stop) !== route) go(ROUTES[route][1]); else renderRail();
+  }));
+
 
   function renderItems() {
     const s = STOPS[stop];
@@ -478,10 +746,8 @@ svg text{font-family:var(--font-display)}
     });
     document.getElementById('listlabel').textContent = s.name;
     document.getElementById('field').textContent = s.field;
-    railBtns.forEach((b) => b.removeAttribute('aria-current'));
-    railBtns[stop].setAttribute('aria-current', 'step');
-    document.getElementById('zout').disabled = stop === 0;
-    document.getElementById('zin').disabled = stop === STOPS.length - 1;
+    renderRail();
+    document.querySelector('.hud .lag').textContent = s.lagline || 'Light, L4 to Jupiter · 43 min';
   }
 
   function select(i, focusCard) {
@@ -498,6 +764,10 @@ svg text{font-family:var(--font-display)}
       document.getElementById('carg').textContent = g ? g.toFixed(1) + ' GEE' : '0 GEE';
       document.querySelectorAll('.tier').forEach((t) => t.classList.toggle('sel', t.dataset.tier === it.id));
     }
+    if (stop === 5 && it.r !== undefined) { // ride a radial car from the spindle out to the ring
+      document.getElementById('pod').style.transform = `translate(${396 - it.r * 250}px, 206px)`;
+      document.getElementById('podg').textContent = it.r ? '0.8 GEE · 9° CANT' : '1/8 GEE · MOON ONLY';
+    }
   }
 
   function place(el, scale, origin) {
@@ -505,29 +775,30 @@ svg text{font-family:var(--font-display)}
     el.style.transform = `scale(${scale})`;
   }
   let go = function (n) {
-    if (n === stop || n < 0 || n >= STOPS.length) return;
-    const from = stop, out = layers[from], inn = layers[n], deeper = n > from;
-    const animate = !(reduce.matches || still());
+    if (n === undefined || n === null || n === stop || n < 0 || n >= STOPS.length) return;
+    const from = stop, out = layers[from], inn = layers[n];
+    const down = chain(n).includes(from), up = chain(from).includes(n);
+    const animate = !(reduce.matches || still()) && (down || up);
+    inn.style.transition = 'none'; inn.style.transform = 'scale(1)';
     if (animate) {
-      // Outgoing layer dives toward (or pulls away from) the focus point; incoming arrives from the other side.
-      inn.style.transition = 'none';
-      place(inn, deeper ? 0.3 : 3.2, deeper ? null : STOPS[n].focus);
+      // Dive toward the place you picked (or pull back out from it). Jumps between paths just cross-fade.
+      const c = down ? chain(n) : chain(from), child = c[c.indexOf(down ? from : n) + 1];
+      place(inn, down ? 0.3 : 3.2, down ? null : FOCUS_IN[child]);
       inn.getBoundingClientRect();
       inn.style.transition = '';
-      place(out, deeper ? 3.2 : 0.3, deeper ? STOPS[from].focus : null);
-    }
+      place(out, down ? 3.2 : 0.3, down ? FOCUS_IN[child] : null);
+    } else { inn.getBoundingClientRect(); inn.style.transition = ''; }
     out.classList.remove('on'); inn.classList.add('on');
     requestAnimationFrame(() => { inn.style.transform = 'scale(1)'; });
     stop = n; sel = 0; renderItems(); select(0);
   };
 
-  railBtns.forEach((b) => (b.onclick = () => go(+b.dataset.stop)));
-  document.getElementById('zin').onclick = () => go(stop + 1);
-  document.getElementById('zout').onclick = () => go(stop - 1);
+  document.getElementById('zin').onclick = () => go(deeperStop());
+  document.getElementById('zout').onclick = () => go(PARENT[stop]);
   document.addEventListener('keydown', (e) => {
     if (e.target.closest('input,textarea')) return;
-    if (e.key === '+' || e.key === '=') { go(stop + 1); e.preventDefault(); }
-    if (e.key === '-' || e.key === '_') { go(stop - 1); e.preventDefault(); }
+    if (e.key === '+' || e.key === '=') { go(deeperStop()); e.preventDefault(); }
+    if (e.key === '-' || e.key === '_') { go(PARENT[stop]); e.preventDefault(); }
   });
   const motionBtn = document.getElementById('motion');
   let setStill = (on) => { root.classList.toggle('still', on); motionBtn.textContent = on ? 'Motion: off' : 'Motion: on'; motionBtn.setAttribute('aria-pressed', on); };
@@ -560,6 +831,15 @@ svg text{font-family:var(--font-display)}
     DUNANT: ['USNS Dunant', WK + 'united-solar-nations/', 'Dunant', 'USNS'], EDHI: ['USNS Edhi', WK + 'united-solar-nations/', 'Edhi', 'USNS'],
     DAUNTLESS: ['DSSC Dauntless', WK + 'united-solar-nations/', 'Dauntless', 'DSSC'],
     WESTPHALIA: ['DSSC Westphalia', WK + 'united-solar-nations/', 'Westphalia', 'DSSC'], TORDESILLAS: ['DSSC Tordesillas', WK + 'united-solar-nations/', 'Tordesillas', 'DSSC'],
+    // Round 4 bands (green v4, calls from blue's red-checked set). No character names, no Cooper's Reach, no DSSC.
+    HELLPORT: ['Hell One port', WK + 'callisto/'], HELLTRANSIT: ['Hell One transit', WK + 'callisto/'],
+    APRON: ['Zenith Apron', WK + 'callisto/'], DROP: ['Drop shuttle', WK + 'callisto/'],
+    SKULD: ['Skuld Municipal', WK + 'callisto/'], MAGLEV: ['Skuld Maglev', WK + 'spin-gravity/'],
+    PTERMINAL: ['Patroclus Terminal', WK + 'the-trojans/'], PYARDS: ['Patroclus yards', WK + 'the-trojans/'],
+    LOWBAR: ['Low Bar', WK + 'helium-3/', 'Low Bar'], FAIR: ['Fair Shares', WK + 'helium-3/', 'Fair Shares'],
+    TARE: ['Tare Weight', WK + 'helium-3/', 'Tare Weight'], MENDED: ['Mended Twice', WK + 'the-trojans/', 'Mended Twice'],
+    FARMARGIN: ['Far Margin', WK + 'the-trojans/', 'Far Margin'], COMMONTABLE: ['Common Table', WK + 'the-trojans/', 'Common Table'],
+    QUIET: ['Quiet Hours', WK + 'the-trojans/', 'Quiet Hours'],
   };
   const SHIPNAMES = Object.values(REG).map((r) => r[2]).filter(Boolean).concat(['Low Bar', 'Fair Shares', 'Tare Weight']);
   // An exchange is a list of [who, text, opts]. opts: lag (minutes, relays), pos (Reach marker), story/step (in order).
@@ -648,6 +928,51 @@ svg text{font-family:var(--font-display)}
       [['PIT', 'The pit opens on the bell.']],
       [['GENEVA', 'Mail from Geneva posted to the station board.', { lag: 41 }]],
     ],
+    4: [ // Hell One: port authority and transit authority. Live, no lag.
+      [['HELLPORT', 'All stations, Hell One port. The bays are full. Refinery traffic has priority. Others, expect to hold for a slip.']],
+      [['LOWBAR', 'Hell One port, Low Bar, scoop ship, up from the well with a full plant. Request refinery intake.'],
+       ['HELLPORT', 'Low Bar, refinery traffic, you have priority. Cleared to the bays.'],
+       ['LOWBAR', 'Priority, cleared to the bays. Low Bar.']],
+      [['TARE', 'Hell One port, Tare Weight, part catch aboard. Request intake.'],
+       ['HELLPORT', 'Tare Weight, intake takes you after the full plants. Hold for a slip.'],
+       ['TARE', 'After the full plants, hold for a slip. Tare Weight.']],
+      [['FAIR', 'Hell One port, Fair Shares. Catch handed off. Request a slip.'],
+       ['HELLPORT', 'Fair Shares, slip assigned.'],
+       ['FAIR', 'Slip assigned. Fair Shares.']],
+      [['HELLPORT', 'All stations, station-keeping burn in five minutes. Expect a gentle push. Secure loose cargo.']],
+      [['HELLTRANSIT', 'Drop shuttle to Skuld City, boarding now. Next shuttle on the hour.']],
+      [['SHORTRATION', 'Hell One port, Short Ration, Vesta registry, water aboard for the Callisto Run. Request departure for Vesta.'],
+       ['HELLPORT', 'Short Ration, cleared to Vesta as filed. Keep clear of the refinery lanes.'],
+       ['SHORTRATION', 'Vesta as filed, clear of the refinery lanes. Short Ration.']],
+      [['HELLPORT', 'Scoop traffic, the next dive into the belts goes on the posted schedule. Shielding checks first.']],
+      [['HELLPORT', 'USN fuel freighter, cleared outbound for the inner system. The lane is yours.']],
+    ],
+    5: [ // Skuld City municipal band. Live, no lag. Arrivals only at the apron.
+      [['APRON', 'Drop shuttle from Hell One, Zenith Apron. Pad three is yours. Clamps on before you unbelt.'],
+       ['DROP', 'Pad three, clamps on before unbelt.']],
+      [['SKULD', 'Welcome to Skuld City. The hub keeps only the moon’s eighth of a gee. Your weight comes back as the spoke car runs out. New to the ring? Give yourself a few days to find the lean.']],
+      [['SKULD', 'Spoke cars are running to the ring. Hold the rail as your weight comes on.']],
+      [['MAGLEV', 'Rim-side service, doors closing.']],
+      [['MAGLEV', 'This car slows to match the rim. You will feel the spin fade as we stop turning.']],
+      [['SKULD', 'Refinery shift change. Stevedores and refinery techs to the rim-side service. Concourses will run full.']],
+      [['SKULD', 'The Registry opens on the bell. In person only. One queue.']],
+    ],
+    6: [ // Patroclus: the hub, the chartered terminal, the yards, the swarm. Live, no lag stamp (no canon L4 to L5 figure).
+      [['PTERMINAL', 'All stations, Patroclus Terminal. Berths in the calm between the lobes are open. Report your registry and your water needs.']],
+      [['MENDED', 'Patroclus Terminal, Mended Twice, Ceres registry. Request a yard berth for drive work.'],
+       ['PTERMINAL', 'Mended Twice, yard berth assigned. The yards will meet you at the lock.'],
+       ['MENDED', 'Yard berth, yards at the lock. Mended Twice.']],
+      [['PYARDS', 'Mended Twice, yards. We can have it running today. Getting it certified is somebody else’s job.']],
+      [['FARMARGIN', 'Patroclus Terminal, Far Margin, outbound for Saturn. Request departure.'],
+       ['PTERMINAL', 'Far Margin, cleared outbound past the Wilds. Long coast. Keep your water close.'],
+       ['FARMARGIN', 'Cleared outbound. Far Margin.']],
+      [['COMMONTABLE', 'Patroclus Terminal, Common Table, four hulls in company, passing through the swarm. No berth needed. Open for trade on this channel, water for parts.'],
+       ['PTERMINAL', 'Common Table, four hulls, copy. Keep the hub approach clear.']],
+      [['QUIET', 'Patroclus Terminal, Quiet Hours, community tender, bringing our water swap to the hub. Request a berth.'],
+       ['PTERMINAL', 'Quiet Hours, berth assigned. Welcome back.']],
+      [['PTERMINAL', 'Cluster tenders, water barges have the lanes this shift.']],
+      [['PTERMINAL', 'Notice to all hulls: the Belt Code holds in this swarm. If you hear a call for help, you answer it.']],
+    ],
   };
   // Cooper's Reach departs once per visit on the corridor, as three exchanges woven into the shuffle.
   const REACH_EX = [
@@ -675,7 +1000,7 @@ svg text{font-family:var(--font-display)}
     return a;
   }
   const calls = (ex) => ex.filter((c) => Array.isArray(c));
-  const queue = { 1: [], 2: [], 3: [] };
+  const queue = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
   let reachDone = 0;
   function refill(scale) {
     const order = shuffle(EX[scale]);
@@ -730,7 +1055,7 @@ svg text{font-family:var(--font-display)}
   function sync() {
     tr.classList.toggle('idle', stop === 0);
     if (stop > 0 && stop !== shownStop) {
-      document.getElementById('trafficlabel').lastChild.textContent = stop === 3 ? 'Minerva Civilian Control' : 'Minerva Traffic';
+      document.getElementById('trafficlabel').lastChild.textContent = ({ 3: 'Minerva Civilian Control', 4: 'Hell One port', 5: 'Skuld City municipal band', 6: 'Patroclus Terminal' })[stop] || 'Minerva Traffic';
       call(); if (nextIsReply) call();
       shownStop = stop;
     }
@@ -748,9 +1073,10 @@ svg text{font-family:var(--font-display)}
 
   // Deep links: ?stop=2&item=3 (also used for screenshots).
   const q = new URLSearchParams(location.search);
-  stop = Math.min(3, +q.get('stop') || 0); layers[stop].classList.add('on');
+  stop = Math.min(6, +q.get('stop') || 0); layers[stop].classList.add('on');
   renderItems(); select(Math.min(+q.get('item') || 0, STOPS[stop].items.length - 1));
   for (let i = 0; i < (+q.get('calls') || 0); i++) call();
   sync();
 })();
+
 </script>
