@@ -335,6 +335,7 @@
   </div>
 
 <style is:global>
+@keyframes ap-hexout{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes ap-ping{0%{box-shadow:0 0 0 2px rgba(227,168,87,.45)}100%{box-shadow:0 0 0 14px rgba(227,168,87,0)}}
 @keyframes ap-tape{to{transform:translateX(-50%)}}
 @keyframes ap-blink{50%{opacity:.25}}
@@ -473,6 +474,10 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .tr-log li .cs a:hover{color:var(--signal)}
 .tr-log li.reach .cs,.tr-log li.reach .cs a{color:#ffd48a}
 .tr-log li .ship{font-style:italic}
+.tr-log li .hex{font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:.78rem;letter-spacing:.06em;color:#8fa3b8;word-spacing:.2em;display:block;margin-top:.1rem;animation:ap-hexout .9s steps(24,end) both}
+.tr-log li .gloss{display:block;margin-top:.15rem;font-size:.78rem;color:#6d7f95}
+@media (prefers-reduced-motion:reduce){.tr-log li .hex{animation:none}}
+.still .tr-log li .hex{animation:none}
 .tr-log li .lagtag{display:inline-block;margin-right:.35rem;padding:0 .3rem;border:1px solid #34465c;border-radius:2px;font-family:var(--font-display);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:#7cc8dc}
 .tr-log li.relay{color:#b3bfcc}
 .tr-log li.weak{font-style:italic;opacity:.75}
@@ -916,6 +921,13 @@ svg text{font-family:var(--font-display)}
        ['ACHILLES', 'Bad Penny, declaration logged. Proceed.']],
       [['PUNGA', 'Minerva Traffic, Technate tanker Punga, passing your lanes for Hektor. No services required.'],
        ['TRAFFIC', 'Punga, copy. Pass clear of the corridor.']],
+      // The Technate file their transit notice as a data burst (Robert, 2026-11-21). Plain ASCII in hex, never encrypted:
+      // "PUNGA>HEKTOR N2 77K" (77 K is liquid nitrogen's boiling point), a receipt "CLEAR HEKTOR", and the ASCII ACK byte.
+      // Routine cargo only; framed as datalink paperwork, never as keys or authorization (red gate, round 8).
+      [['PUNGA', '5055 4E47 413E 4845 4B54 4F52 204E 3220 3737 4B', { burst: 'Transit notice: Punga, nitrogen for Hektor, 77 K' }],
+       ['TRAFFIC', 'Stand by, Punga.'],
+       ['TRAFFIC', '434C 4541 5220 4845 4B54 4F52', { burst: 'Datalink receipt: clear to Hektor' }],
+       ['PUNGA', '06', { burst: 'Acknowledged' }]],
       [['THEOREM', 'Minerva Traffic, Tharsis Republic vessel Haldane’s Theorem, transiting L4. No docking requested.'],
        ['TRAFFIC', 'Haldane’s Theorem, copy your transit. Keep clear of the Hercules corridor.']],
       [['COMFORT', 'Minerva Traffic, Cold Comfort, settler transport inbound from Luna City for Hercules I.'],
@@ -1092,11 +1104,15 @@ svg text{font-family:var(--font-display)}
     const li = document.createElement('li');
     if (who === 'REACH') li.className = 'reach';
     if (opts.lag) li.classList.add('relay');
+    if (opts.burst) li.classList.add('burst');
     if (who === 'UNKNOWN') li.classList.add('weak');
     const link = REG[who][1];
     const cs = link ? `<a href="${link}">${nameHtml(who)}</a>` : nameHtml(who);
     const lag = opts.lag ? `<span class="lagtag">sent ${hhmm(mins - opts.lag)} · ${opts.lag} min by light</span>` : '';
-    li.innerHTML = `<span class="ts">${hhmm(mins)}</span><span class="cs">${cs}</span>${who === 'REACH' ? '<span class="who">Cassandra · </span>' : ''}${lag}${shipify(fill(text))}`;
+    const body = opts.burst
+      ? `<span class="lagtag">data</span><span class="hex" aria-hidden="true">${text}</span><span class="gloss"><span class="visually-hidden">Data burst, decoded: </span>${shipify(opts.burst)}</span>`
+      : shipify(fill(text));
+    li.innerHTML = `<span class="ts">${hhmm(mins)}</span><span class="cs">${cs}</span>${who === 'REACH' ? '<span class="who">Cassandra · </span>' : ''}${lag}${body}`;
     log.appendChild(li);
     while (log.children.length > 40) log.firstElementChild.remove();
     log.scrollTop = log.scrollHeight;
