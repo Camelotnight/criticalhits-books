@@ -1,20 +1,34 @@
 ---
-// Mailing-list sign-up (Kit). Set KIT_FORM_ID in src/config.ts.
+// The site's one sign-up box (Kit). Form ID and wording come from src/config.ts:
+// SIGNUP_MODE 'arc' asks for advance reader copies; 'newsletter' is the approved list copy.
 import KitForm from './KitForm.astro';
-import { KIT_FORM_ID, RELEASE } from '../config';
+import { KIT_FORM_ID, RELEASE, SIGNUP_MODE } from '../config';
 
 interface Props {
   id?: string;
-  heading?: string;
 }
-const { id = 'signup', heading = 'Join the list' } = Astro.props;
+const { id = 'signup' } = Astro.props;
+const arc = SIGNUP_MODE === 'arc';
 ---
 <section class="signup" id={id} aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`}>{heading}</h2>
-  <p>
-    I'm Robert Hasleton. <em>The Jovian Crisis</em>, Book One of The Capa Incident, lands {RELEASE}.
-    Join the list for release news, early chapters of Book Two, and the occasional look behind the science.
-  </p>
+  {arc ? (
+    <>
+      <p class="eyebrow">Advance reader copies</p>
+      <h2 id={`${id}-title`}>ARC readers wanted</h2>
+      <p>
+        Advance copies of <em>The Jovian Crisis</em>, Book One of The Capa Incident, are going out now, ahead of
+        its {RELEASE} release. Join the list to request one.
+      </p>
+    </>
+  ) : (
+    <>
+      <h2 id={`${id}-title`}>Join the list</h2>
+      <p>
+        I'm Robert Hasleton. <em>The Jovian Crisis</em>, Book One of The Capa Incident, lands {RELEASE}.
+        Join the list for release news, early chapters of Book Two, and the occasional look behind the science.
+      </p>
+    </>
+  )}
   <p class="muted">No spam. One email when there's something worth saying.</p>
 
   <KitForm formId={KIT_FORM_ID} id={id} />

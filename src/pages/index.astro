@@ -2,8 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import SignUp from '../components/SignUp.astro';
-import KitForm from '../components/KitForm.astro';
-import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, KIT_ARC_FORM_ID } from '../config';
+import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, SIGNUP_CTA } from '../config';
 ---
 <Base title="Home" description={`${TAGLINE} The Jovian Crisis, Book One of The Capa Incident, by Robert Hasleton. ${RELEASE}.`}>
   <section class="hero">
@@ -24,7 +23,7 @@ import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, KIT_ARC_FORM_I
         <p class="release"><span class="rule-label">Release</span> <time class="date" datetime={RELEASE_ISO}>{RELEASE}</time></p>
         <div class="actions">
           <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
-          <a class="btn btn--ghost" href="#signup">Join the list</a>
+          <a class="btn btn--ghost" href="#signup">{SIGNUP_CTA}</a>
           <a class="btn btn--ghost" href="/book/">About the book</a>
         </div>
       </div>
@@ -32,14 +31,8 @@ import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, KIT_ARC_FORM_I
   </section>
 
   <section class="section">
-    <div class="wrap split">
+    <div class="wrap">
       <SignUp />
-      <aside class="arc" aria-labelledby="arc-title">
-        <p class="eyebrow">Advance reader copies</p>
-        <h2 id="arc-title">ARC readers wanted</h2>
-        <p>Advance copies are going out now. Join the list to request one.</p>
-        <KitForm formId={KIT_ARC_FORM_ID} id="arc" />
-      </aside>
     </div>
   </section>
 
@@ -72,9 +65,6 @@ import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, TAGLINE, KIT_ARC_FORM_I
   .release .date { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 
-  .split { display: grid; gap: 2rem; align-items: start; }
-  @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
-  .arc { padding: clamp(1.25rem, 4vw, 2rem); border: 1px dashed var(--line-strong); border-radius: var(--radius); }
 
   .explore { display: grid; gap: 1rem; }
   @media (min-width: 720px) { .explore { grid-template-columns: 1fr 1fr; } }
