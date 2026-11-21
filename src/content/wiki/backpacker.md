@@ -68,7 +68,7 @@ The trade is real. A hard shell has a fixed cross-section. Force it through a wa
 
 **Assessment.** Recommend against deleting the inner garment. Our form lists redundancy as a deficiency. I have entered it under safety features and attached this note.
 
-**Note.** A hard shell has one cross-section and does not negotiate. Gaps are measured before entry. The crew chief measures them herself.
+**Note.** A hard shell has one cross-section and does not negotiate. Gaps are measured before entry. The crew chief measures them himself.
 
 </aside>
 
