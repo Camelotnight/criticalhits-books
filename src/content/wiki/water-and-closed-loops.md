@@ -32,7 +32,7 @@ The *Cooper’s Reach* recovers 100 percent of its water. It catalytically oxidi
 
 [Minerva](/wiki/minerva-station/) runs a **six-stage ionic reclamation** system. Its water is held in great **cisterns** around the station’s skin. Graywater, the used water from washing and industry, moves through them in an **annular matrix**: a ring-shaped channel where it is driven hard enough to **cavitate**. Bubbles form in the low-pressure flow and collapse violently, tearing apart contaminants and microbes.
 
-It is the loudest structure on the station. The roar of the cisterns comes through as **infrasound**, a pressure below hearing. It makes people without augmented ears queasy. The pump rooms are walled in spun basalt to kill the sound. Near the cisterns the corridors grow humid, and the air smells of ozone.
+It is the loudest structure on the station. Up close, the collapsing bubbles crackle like gravel in a pipe. Under that, the great pumps and the turning ring set up a roar that comes through as **infrasound**, a pressure below hearing. It makes people without augmented ears queasy. The pump rooms are walled in spun basalt to kill the sound. Near the cisterns the corridors grow humid, and the air smells of ozone.
 
 ## Food
 
@@ -43,10 +43,8 @@ A habitat’s food is part of the same loop. See [Daily life](/wiki/daily-life/)
 
 ## Behind the science
 
-*Draft, for Robert to rewrite in his own words:* This system gets one line in the book, and it took hours. I went through YouTube videos, Wikipedia pages, amateur submarine and enthusiast sites, and water-reclamation-plant training videos (very dry, very dull) and turned them into a space station’s water purification system.
-
 The physics is real. **Hydrodynamic cavitation** happens when water is forced through a constriction fast enough that its pressure drops below its vapor pressure. Bubbles form, then collapse with local shock waves, hot spots and highly reactive hydroxyl radicals. Submarine designers fight cavitation because it is loud and it chews up propellers. Water engineers use it on purpose, as an advanced oxidation process to break down pollutants and kill bacteria.
 
-Infrasound, sound below about 20 hertz, is known to cause unease and nausea in some people. Put those together and you get a cistern that cleans the water and makes the room sick.
+The collapse itself is a sharp, high crackle; that is the sound sonar operators listen for. The deep sound in the book comes from somewhere else: heavy pumps and a large turning structure can drive infrasound, sound below about 20 hertz, which is known to cause unease and nausea in some people. Put those together and you get a cistern that cleans the water and makes the room sick.
 
 </aside>
