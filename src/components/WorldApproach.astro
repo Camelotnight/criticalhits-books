@@ -402,7 +402,7 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .tk-name{margin:0;font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
 .tk-unit{font-family:var(--font-display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#6d7f95;text-align:right}
 .tk-tape{overflow:hidden;border-block:1px solid var(--line);padding:.35rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.tk-run{display:inline-flex;gap:1.4rem;white-space:nowrap;animation:ap-tape 30s linear infinite;font-family:var(--font-display);font-size:.8rem}
+.tk-run{display:inline-flex;gap:1.4rem;white-space:nowrap;animation:ap-tape 48s linear infinite;font-family:var(--font-display);font-size:.8rem}
 .tk-tape:hover .tk-run{animation-play-state:paused}
 .tk-item{display:inline-flex;gap:.4rem;align-items:baseline}
 .tk-sym{color:var(--text);font-weight:600;letter-spacing:.04em}
@@ -1094,14 +1094,15 @@ svg text{font-family:var(--font-display)}
         ['Eu', 'europium', 58.4, 1], ['Yb', 'ytterbium', 40.8, 1], ['Dy', 'dysprosium', 116.8, 1], ['Tb', 'terbium', 386.4, 1], ['Ru', 'ruthenium', 488.0, 1], ['Pd', 'palladium', 563.2, 1],
         ['Pt', 'platinum', 681.6, 1], ['Re', 'rhenium', 760.0, 1], ['Au', 'gold', 972.0, 1], ['Os', 'osmium', 1216.0, 1], ['Ir', 'iridium', 1691.2, 1], ['Rh', 'rhodium', 2096.0, 1]] },
   };
+  TICK[4] = TICK[5]; // the Skuld City exchange shows on both Callisto views
   const tk = document.getElementById('ticker'), tkRun = document.getElementById('tkrun');
   const tierOf = (px) => (typeof px !== 'number' ? '' : '◆'.repeat(px < 8 ? 0 : px < 80 ? 1 : px < 800 ? 2 : px < 1600 ? 3 : 4));
   let tkStop = -1, tkTimer = null, tkLive = [];
   function tkRender() {
     const T = TICK[stop];
     tk.hidden = !T;
-    if (!T || tkStop === stop) return;
-    tkStop = stop;
+    if (!T || tkStop === T) return;
+    tkStop = T;
     document.getElementById('tkname').textContent = T.name;
     document.getElementById('tkunit').textContent = T.unit;
     document.getElementById('tknote').textContent = T.note;
@@ -1128,7 +1129,7 @@ svg text{font-family:var(--font-display)}
   function tkSync() {
     tkRender();
     clearInterval(tkTimer); tkTimer = null;
-    if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 1800);
+    if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 2560);
   }
 
   function sync() {
