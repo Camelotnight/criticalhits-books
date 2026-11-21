@@ -46,11 +46,11 @@ A Slick is a short-trip suit for work and breaching. It gives **no ballistic pro
 
 ### Puncture response
 
-<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/slick-suit.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:45 · synthetic voice</span>
+<span>Listen · 1:45 · agentic voice</span>
 </div>
 
 *Achilles depot, L4. Item: counter-pressure work garment, Belt pattern. Test conducted by a senior Capa suit technician. The evaluator served as test subject.*

@@ -68,7 +68,7 @@ An article can also carry an in-world sidebar, **Field notes**: a short evaluati
 
 ### Title of the note
 
-<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
 
 *Site. Item. Who ran the test.*
 

@@ -43,11 +43,11 @@ It is ravenous for power, a megawatt or two per rig, all of it fusion. In vacuum
 
 ### Liner acceptance
 
-<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher</p>
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/quantum-drilling.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:52 · synthetic voice</span>
+<span>Listen · 1:52 · agentic voice</span>
 </div>
 
 *Reference note from prior service: helium extraction rig, Luna. Filed for comparison with Belt construction methods.*
