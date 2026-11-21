@@ -10,11 +10,15 @@ infobox:
   - ["Leaseholders", "Capa crews and cooperatives"]
   - ["Refining", "Callisto only"]
   - ["Claims finalized", "Jovian Claim Registry, Callisto"]
+inshort:
+  - ["What it is", "The arrangement that runs Jupiter. Earth’s government owns the fuel. Belt crews do the work of getting it."]
+  - ["Why it matters", "Neither side can do without the other, and neither side likes it. Most of the tension in the book starts here."]
+  - ["In the book", "Claims, registries, fees and waiting lists. Whenever someone asks who owns a find, this is the rulebook."]
 related: ["united-solar-nations", "capa", "callisto", "jovian-system", "helium-3"]
 sources: ["Jovian Leasehold Doctrine §1–§5", "WORLD-06, WORLD-15", "LEX-31"]
 ---
 
-The **Jovian Leasehold** isn’t a single treaty. It is a doctrine that grew up over generations to manage a standoff. Its principle fits in four words: **sovereign title, operational lease.**
+Who owns Jupiter’s fuel, and who gets paid to fetch it? The **Jovian Leasehold** is the answer both sides live with. It isn’t a single treaty. It is a set of rules that grew up over generations to manage a standoff. The principle fits in four words: **sovereign title, operational lease.**
 
 - The [United Solar Nations](/wiki/united-solar-nations/) holds **sovereign title**. Every gram of helium-3 in Jupiter’s atmosphere belongs to the USN until it is extracted and sold. Scooping it doesn’t make it yours. You are providing a service to the owner.
 - The [Capa](/wiki/capa/) hold **operational leases**. Their crews fly the scoop ships and maintain the arrays in the high-radiation zones. They are paid a performance fee by the tonnage they deliver to the refineries on [Callisto](/wiki/callisto/), not for the fuel itself.

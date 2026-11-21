@@ -22,6 +22,8 @@ const wiki = defineCollection({
     summary: z.string(),
     aka: z.array(z.string()).optional(),
     infobox: z.array(z.tuple([z.string(), z.string()])).optional(),
+    // "New to the book?" box: two or three [label, one plain sentence] rows for a first-time reader.
+    inshort: z.array(z.tuple([z.string(), z.string()])).optional(),
     related: z.array(z.string()).default([]),
     // Where each fact came from in the vault. Not shown on the site.
     sources: z.array(z.string()).default([]),

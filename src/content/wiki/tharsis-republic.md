@@ -11,6 +11,10 @@ infobox:
   - ["Helium-3 use", "about 20,000 shu a year"]
   - ["Navy", "about 177 ships"]
   - ["Moons", "Phobos (85,000), Deimos (25,000)"]
+inshort:
+  - ["Who they are", "Mars. An independent republic that answers to neither Earth nor the Belt."]
+  - ["What they want", "To never depend on anyone else’s fuel, and to see everything that moves."]
+  - ["In the book", "In the opening chapters, a name on the edge of the map: the power the others keep one eye on."]
 related: ["quantum-drilling", "heat", "united-solar-nations", "inner-system"]
 sources: ["L5 Trojan Enclave §3.2.2", "SOL System Habitability §2.1, §7", "Propulsion Signature Analysis §4.2 (Phobos/Deimos watchtowers, mirrors)", "Carbon Allotropes §7.4", "Faction Nomenclature §VI"]
 ---

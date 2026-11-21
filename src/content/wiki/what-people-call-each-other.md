@@ -4,6 +4,10 @@ section: powers
 order: 6
 summary: "Names, nicknames and slurs, from the Core to the Hollows, and why so many of them are one hard syllable."
 aka: ["slang", "nomenclature"]
+inshort:
+  - ["What this is", "A short guide to the names and insults people use for each other."]
+  - ["Why it matters", "The name a character uses tells you where they are from, and what they think of the person in front of them."]
+  - ["In the book", "“Capa” on nearly every page. “Dirt-born” when a Capa is being rude about someone from a planet."]
 related: ["capa", "united-solar-nations", "titan-technate", "qern"]
 sources: ["Faction Nomenclature & Slurs §I, §II, §IV, §V, §VII, Part II", "LEX-14, LEX-15, LEX-31, LEX-33"]
 ---

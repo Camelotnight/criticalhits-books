@@ -59,6 +59,35 @@ Real research goes here.
 </aside>
 ```
 
+An article can also carry an in-world sidebar, **Field notes**: a short evaluation report filed by Dr. Gavin Macaraeg, a USN materials researcher sent to Jupiter to test Belt gear for certification. Same shape, placed before the science box:
+
+```md
+<aside class="fieldnote">
+
+## Field notes
+
+### Title of the note
+
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+
+*Site. Item. Who ran the test.*
+
+**Method.** ... **Observation.** ... **Finding.** ... **Assessment.** ... **Note.** ...
+
+</aside>
+```
+
+Gavin's register, so new notes match the first four:
+
+- It is a report, not an anecdote. Run-in heads, short declaratives, about 250 to 300 words.
+- The humor is understatement. He records something alarming or absurd in the same level voice as everything else. Nobody falls over.
+- Everyone is competent. The Capa technician, crew chief or cladding fitter is the expert of record, runs the test, and gets one plain line of dialogue.
+- The recurring joke is the form: the gear beats the standard and is still "nonconforming."
+- The book's PROSE rulings apply to his prose: no negative contractions, no corrective reframes, no "shoulder", no em-dashes, real terms over invented ones, no new coined slang.
+- No invented numbers. If the vault has no figure, the report does without one.
+
+The `inshort` field in an article's front matter fills the "New to the book?" box: two or three `[label, sentence]` rows written for a first-time reader. In the glossary data, `start: n` puts a word in the "Start here" list and `more: 'slug'` links it to its article.
+
 Rules: world facts only, never plot; nothing the book treats as a reveal; no Book 2. The `sources` field in each file records where every fact came from in the vault and is never shown on the site. The quick glossary (`/wiki/glossary/`) lives in `src/data/glossary.ts`.
 
 ## Layout

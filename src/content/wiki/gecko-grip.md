@@ -35,6 +35,28 @@ Gecko grip has one enemy: **fouling**. Dust, regolith, oil or blood clogs the ha
 Setae also wear. An old boot that has walked a hundred hulls is worn smooth in places, and it takes a half-beat longer to catch than its partner.
 
 
+<aside class="fieldnote">
+
+## Field notes
+
+### Holding force
+
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+
+*Hercules construction site, L4. Item: dry-adhesion boots and pads, Belt pattern. Reference item: certified magnetic boots, USN issue. Walk test led by a Capa cladding fitter, Hercules cladding crew.*
+
+**Method.** The standard specifies holding force by magnetic flux, so the reference boots were tested first. The Belt boots followed, on the same surface, under the same load.
+
+**Observation.** Reference boots on carbon weave: no holding force. The hull contains no iron. The result was expected and is recorded for completeness. Belt boots on carbon weave: one pad the size of a palm held a load of more than one hundred kilograms for a full shift, with no creep. The grip is directional. The foot is set, drawn back to engage, and peeled at the toe to release. The fitter does this without thinking. I required two days.
+
+**Failure mode.** Dust. A pad fouled with weave dust from the site held nothing. The boots clear themselves with an ultrasonic flutter. If that fails, a backup grips by electric charge on nearly any surface and produces a hum in the helmet audio. The fitter’s guidance was brief. “If you can hear your boots, stop and clean them.”
+
+**Finding.** Exceeds the holding requirement by a wide margin. Wear is gradual and easy to read. The fitter’s left boot engages a half-beat late, and she has set her stride to it. She declined a replacement. Her stated reason was that she knows this boot.
+
+**Assessment.** Nonconforming. The standard requires magnetic flux. The boots have none and need none. I recommend the standard be amended to measure whether the wearer stays on the hull.
+
+</aside>
+
 <aside class="science">
 
 ## Behind the science

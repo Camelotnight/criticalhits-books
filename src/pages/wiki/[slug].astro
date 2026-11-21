@@ -31,6 +31,15 @@ const siblings = all
         {d.aka && <p class="aka">Also: {d.aka.join(' · ')}</p>}
         <p class="lede">{d.summary}</p>
 
+        {d.inshort && (
+          <aside class="inshort" aria-label="New to the book?">
+            <p class="rule-label">New to the book?</p>
+            <dl>
+              {d.inshort.map(([k, v]) => (<div><dt>{k}</dt><dd>{v}</dd></div>))}
+            </dl>
+          </aside>
+        )}
+
         {d.infobox && (
           <aside class="infobox" aria-label="At a glance">
             <p class="rule-label">At a glance</p>
@@ -89,6 +98,18 @@ const siblings = all
   .infobox dt { color: var(--muted); }
   .infobox dd { margin: 0; }
 
+  .inshort {
+    margin: 1.5rem 0 2rem;
+    padding: 1rem 1.2rem 0.4rem;
+    background: rgba(227, 168, 87, 0.06);
+    border: 1px solid rgba(227, 168, 87, 0.35);
+    border-radius: var(--radius);
+  }
+  .inshort dl { margin: 0.6rem 0 0; }
+  .inshort div { margin-bottom: 0.7rem; }
+  .inshort dt { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; color: var(--accent); }
+  .inshort dd { margin: 0.1rem 0 0; }
+
   .body :global(h2) { margin-top: 2.2rem; }
   .body :global(h3) { margin-top: 1.6rem; color: var(--text); }
   .body :global(ul) { padding-left: 1.2rem; }
@@ -112,6 +133,38 @@ const siblings = all
     text-transform: uppercase;
     color: var(--signal);
   }
+
+  /* In-world sidebar: a researcher's field notes, set apart like a margin story in a sourcebook. */
+  .body :global(.fieldnote) {
+    clear: both;
+    margin: 2.5rem 0 1rem;
+    padding: 1.3rem 1.5rem 0.6rem;
+    background: var(--panel);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    font-size: 0.97rem;
+  }
+  .body :global(.fieldnote h2) {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .body :global(.fieldnote h3) {
+    margin: 0.5rem 0 0.2rem;
+    font-size: 1.35rem;
+    color: var(--text);
+  }
+  .body :global(.fieldnote .byline) {
+    margin: 0 0 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .body :global(.fieldnote blockquote) { color: var(--text); }
 
   .see-also { clear: both; margin-top: 3rem; }
   .see-also ul { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; gap: 0.6rem; }

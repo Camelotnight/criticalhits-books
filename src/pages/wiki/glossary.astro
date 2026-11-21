@@ -8,6 +8,7 @@ const slug = (t: string) =>
 const sorted = [...TERMS].sort((a, b) => key(a.term).localeCompare(key(b.term)));
 const letters = [...new Set(sorted.map((t) => key(t.term)[0].toUpperCase()))];
 const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[0].toUpperCase() === L) }));
+const startHere = TERMS.filter((t) => t.start).sort((a, b) => a.start! - b.start!);
 ---
 <Base
   title="Quick glossary"
@@ -22,11 +23,23 @@ const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[
           The words of the Jovian system in plain English. Each entry tells you what a word means, never what happens.
         </p>
         <p class="muted">
-          Reading in a second language? Some entries are ordinary English used in a special way, like
-          <a href="#translation">translation</a> or <a href="#bingo">bingo</a>. They are marked “Ways of talking.” For
-          the full story behind a word, see the <a href="/wiki/">encyclopedia</a>.
+          Reading in a second language? Some entries are ordinary English used in a special way,
+          like <a href="#translation">translation</a> or <a href="#bingo">bingo</a>. They are marked “Ways of talking.”
         </p>
       </header>
+
+      <section class="start" data-start aria-labelledby="start-here">
+        <h2 id="start-here">Start here</h2>
+        <p class="muted">New to the book? Learn these {startHere.length} words and the first chapters will read easily.</p>
+        <ol class="start-list">
+          {startHere.map((t) => (
+            <li>
+              <a class="term" href={`#${slug(t.term)}`}>{t.term}</a>
+              <span>{t.def}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <div class="controls" data-controls hidden>
         <label class="field grow">
@@ -61,6 +74,7 @@ const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[
                 <dd>
                   <p>{t.def}</p>
                   <span class="kind">{KINDS[t.kind]}</span>
+                  {t.more && <a class="more" href={`/wiki/${t.more}/`}>Read more →</a>}
                 </dd>
               </div>
             ))}
@@ -80,6 +94,7 @@ const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[
   const count = document.querySelector<HTMLElement>('[data-count]')!;
   const empty = document.querySelector<HTMLElement>('[data-empty]')!;
   const groups = [...document.querySelectorAll<HTMLElement>('[data-letter]')];
+  const start = document.querySelector<HTMLElement>('[data-start]')!;
   controls.hidden = false;
 
   const apply = () => {
@@ -96,6 +111,7 @@ const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[
       g.hidden = n === 0;
       shown += n;
     }
+    start.hidden = words.length > 0 || k !== '';
     empty.hidden = shown > 0;
     count.textContent = `${shown} ${shown === 1 ? 'word' : 'words'}`;
   };
@@ -133,6 +149,21 @@ const groups = letters.map((L) => ({ L, terms: sorted.filter((t) => key(t.term)[
     font-size: 1rem;
   }
   .count { margin: 0 0 0.6rem; font-size: 0.85rem; }
+
+  .start {
+    margin: 0 0 1.5rem;
+    padding: 1.2rem 1.4rem 0.6rem;
+    background: rgba(227, 168, 87, 0.06);
+    border: 1px solid rgba(227, 168, 87, 0.35);
+    border-radius: var(--radius);
+  }
+  .start h2 { font-size: 1.3rem; margin: 0 0 0.3rem; }
+  .start-list { margin: 1rem 0 0; padding-left: 1.4rem; display: grid; gap: 0.7rem; }
+  @media (min-width: 900px) { .start-list { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; } }
+  .start-list li::marker { color: var(--muted); font-size: 0.85rem; }
+  .start-list .term { display: block; text-decoration: none; }
+  .start-list span { font-size: 0.95rem; }
+  .more { margin-left: 0.9rem; font-size: 0.85rem; }
 
   .letters { display: flex; flex-wrap: wrap; gap: 0.2rem; margin: 1rem 0 0.5rem; }
   .letters a {

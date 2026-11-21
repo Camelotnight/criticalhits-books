@@ -43,6 +43,30 @@ Spacers wear a backpacker over a [Slick suit](/wiki/slick-suit/). If the hard sh
 The trade is real. A hard shell has a fixed cross-section. Force it through a warped bulkhead gap and it wedges.
 
 
+<aside class="fieldnote">
+
+## Field notes
+
+### Shell-loss drill
+
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+
+*Hercules construction site, L4. Item: long-endurance hard-shell suit, Belt pattern, worn over a Slick suit. Drill supervised by the Capa crew chief.*
+
+**Question.** The backpacker is a complete pressure suit worn over a second complete pressure suit. By our design rules the inner garment is redundant mass. I was asked whether it could be deleted.
+
+**Method.** One full work shift on the lattice in an issued shell, followed by the crew’s standard shell-loss drill. The chief declares a shell dead. The wearer fits the emergency hood from the chest bay, opens the shell and leaves it. The hood is called the Last Breath. I asked whether the name was official. The chief said it was accurate.
+
+**Observation.** Through the shift the shell managed its own heat. The panels darkened under load to shed heat and brightened in shadow to hold it. No input was asked of me. On the drill I left a dead shell in vacuum wearing the Slick and the hood, with both hands free and no loss of pressure on the body. The crew’s apprentices ran the same drill at the end of the same shift. They were faster. They were also carrying tools.
+
+**Finding.** The shell supplies endurance, thrust and strength. The Slick keeps the wearer alive when the shell stops. Crews treat the shell as equipment and the Slick as clothing.
+
+**Assessment.** Recommend against deleting the inner garment. Our form lists redundancy as a deficiency. I have entered it under safety features and attached this note.
+
+**Note.** A hard shell has one cross-section and does not negotiate. Gaps are measured before entry. The crew chief measures them herself.
+
+</aside>
+
 <aside class="science">
 
 ## Behind the science

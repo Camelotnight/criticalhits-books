@@ -11,6 +11,10 @@ infobox:
   - ["Jovian depot", "Hektor, L4 Trojans"]
   - ["Helium-3 use", "about 5,000 shu a year"]
   - ["Called", "Null, Void"]
+inshort:
+  - ["Who they are", "The power on Titan, Saturn’s largest moon. Brilliant, distant and private."]
+  - ["What they want", "Nobody is sure. They sell nitrogen, keep to themselves and explain nothing."]
+  - ["In the book", "Rarely seen. When Titan comes up, it is as the people who ship the air and almost never come to Jupiter."]
 related: ["nitrogen", "the-trojans", "what-people-call-each-other"]
 sources: ["Asteroid Feedstock §3.3, §4.2", "L5 Trojan Enclave §3.2.4", "Minerva Station §2 atmosphere", "LEX-12 (Hektor)", "Faction Nomenclature §V, §VII", "Act 1 CH 05 (Paul and Kade on Titan)"]
 ---

@@ -37,6 +37,30 @@ The beam itself is invisible. What you see is the blinding white flash at the fo
 It is ravenous for power, a megawatt or two per rig, all of it fusion. In vacuum there is no air to suck the cuttings out. A shroud seals the drill site, and the vaporized rock shoots up into a cold trap, where it freezes onto baffles as dust.
 
 
+<aside class="fieldnote">
+
+## Field notes
+
+### Liner acceptance
+
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+
+*Reference note from prior service: helium extraction rig, Luna. Filed for comparison with Belt construction methods.*
+
+**Purpose.** Colleagues at L4 have asked how the inner system builds. This note describes one shaft.
+
+**Method.** A megawatt gyrotron feeds a waveguide. The beam is millimeter-wave and invisible. At the rock face, trapped water and gas flash to vapor and break the rock from inside. The vapor travels up the stem into a sealed shroud. Luna has no air to carry it off, so it is frozen onto chilled plates in a cold trap, and charged plates collect the remainder. The charged plates glow violet while they are working. The crew watches that glow. If it stops, the beam stops.
+
+**Observation.** Behind the drill head the walls melt and set as glass. My first shaft finished as one unbroken liner, black, still warm through a glove. A new liner ticks as it cools. Crews wait for it to go quiet before anyone descends. The wait appears in no manual. I have never seen it skipped.
+
+**Use.** On a helium rig the glass is the pipe that carries gas up to the traps. Deeper in the crust the same glass is housing. The Warrens hold four hundred and fifty million people behind liners made this way. I lived behind one for six years and gave it no thought, which is the best that can be said of a wall.
+
+**Safety.** The beam makes no distinction between rock and a boot. Head count is taken before the gyrotron is keyed and again after. The second count is the one the crew remembers.
+
+**Comparison.** On Luna we melt our housing into the rock. At Hercules they spin it from thread. I was sent to grade the thread. I would like to understand it first.
+
+</aside>
+
 <aside class="science">
 
 ## Behind the science

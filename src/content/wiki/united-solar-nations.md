@@ -10,11 +10,15 @@ infobox:
   - ["Earth population", "12.8 billion"]
   - ["Ship prefix", "USNS"]
   - ["Called", "the USN, the Core"]
+inshort:
+  - ["Who they are", "The government of Earth and the Moon. The oldest and richest power, and the one that writes the rules."]
+  - ["What they want", "Jupiter’s fuel, flowing without a break. Earth’s lights depend on it."]
+  - ["In the book", "Navy ships whose names start with USNS. Settlers who go first in every line. An official stamp that triples the price of a spare part."]
 related: ["jovian-leasehold", "capa", "inner-system", "callisto", "shu"]
 sources: ["Factions/The Jovian Leasehold Doctrine §1, §3.1, §4.2", "Hegemony in the Well Inner System", "L5 Trojan Enclave §3.2.1", "LEX-15, LEX-25", "Minerva Station §5"]
 ---
 
-The United Solar Nations is the oldest and richest power in the solar system. Its capital is Geneva, on Earth, and its industrial heart is the Moon. People out at Jupiter call it the USN, or simply **the Core**. When it acts officially, the word on the paperwork is **Mandate**: Mandate custody, Mandate transit lanes, a Mandate investigator.
+The United Solar Nations is the government of Earth and the Moon, and the oldest and richest power in the solar system. Its capital is Geneva, on Earth. Its factories and shipyards are on and around the Moon. Out at Jupiter, people call it the **USN**, or simply **the Core**.
 
 ## What it holds
 
@@ -33,6 +37,7 @@ Earth’s 12.8 billion people run on helium-3 fusion, and the USN buys almost al
 ## How it looks out here
 
 - Its warships carry the prefix **USNS**, United Solar Nations Ship, the way a navy hull carries USS or HMS.
+- When it acts officially, the word on the paperwork is **Mandate**: Mandate custody, Mandate transit lanes, a Mandate investigator.
 - At Jupiter it governs from Callisto and from [Minerva Station](/wiki/minerva-station/), where the Outer Territories Development Authority, known as **the Directorate**, runs the Leasehold.
 - USN settlers clear the [Hercules](/wiki/hercules/) waiting list first.
 

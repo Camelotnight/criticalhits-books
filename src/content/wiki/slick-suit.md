@@ -40,6 +40,30 @@ For hot work, a crew can strap a **firefighting rig** over the suit: hydrogel co
 A Slick is a short-trip suit for work and breaching. It gives **no ballistic protection**. For a long walk outside, a crew climbs into a [backpacker](/wiki/backpacker/), with the Slick still on underneath.
 
 
+<aside class="fieldnote">
+
+## Field notes
+
+### Puncture response
+
+<p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
+
+*Achilles depot, L4. Item: counter-pressure work garment, Belt pattern. Test conducted by a senior Capa suit technician. The evaluator served as test subject.*
+
+**Method.** The standard calls for a leak-rate test of the pressure bladder. The garment has no bladder. I asked the technician how her yard accepts a new suit. She said every Slick is holed once, on its wearer, at full vacuum, before the wearer goes on a work roster. A crew member should meet a puncture for the first time in a chamber, with a patch in reach. We followed the yard procedure.
+
+**Observation.** Chamber at hard vacuum. The technician passed a steel awl through the left forearm sleeve. Helmet pressure held. The weave around the puncture kept its tension. The exposed skin cooled and lost sensation. The technician sealed the site with a thumb patch and logged the time.
+
+**Finding.** One contusion, the width of the awl, resolved without treatment. In a gas-pressurized suit the same puncture is an emergency. In this garment it is a maintenance item.
+
+**Limits.** Two were confirmed. The wax liners set a fixed thermal working time, and the weave gives no protection against a projectile. The crews plan around both.
+
+**Assessment.** Nonconforming. The garment cannot pass a bladder test because it has no bladder to test. I have recorded the result as a failure of the form.
+
+**Note.** The technician asked whether the USN procedure also tests the wearer. I said it did not. “Then you only know half of it,” she said. I have no technical objection.
+
+</aside>
+
 <aside class="science">
 
 ## Behind the science
