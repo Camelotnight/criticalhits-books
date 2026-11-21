@@ -45,6 +45,11 @@ It is ravenous for power, a megawatt or two per rig, all of it fusion. In vacuum
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
 
+<div class="listen">
+<audio controls preload="none" src="/audio/field-notes/quantum-drilling.mp3" aria-label="Listen to this field note"></audio>
+<span>Listen · 1:52 · synthetic voice</span>
+</div>
+
 *Reference note from prior service: helium extraction rig, Luna. Filed for comparison with Belt construction methods.*
 
 **Purpose.** Colleagues at L4 have asked how the inner system builds. This note describes one shaft.

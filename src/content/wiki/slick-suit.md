@@ -48,6 +48,11 @@ A Slick is a short-trip suit for work and breaching. It gives **no ballistic pro
 
 <p class="byline">Dr. Gavin Macaraeg · USN materials researcher, Sovereign Vendor Certification</p>
 
+<div class="listen">
+<audio controls preload="none" src="/audio/field-notes/slick-suit.mp3" aria-label="Listen to this field note"></audio>
+<span>Listen · 1:45 · synthetic voice</span>
+</div>
+
 *Achilles depot, L4. Item: counter-pressure work garment, Belt pattern. Test conducted by a senior Capa suit technician. The evaluator served as test subject.*
 
 **Method.** The standard calls for a leak-rate test of the pressure bladder. The garment has no bladder. I asked the technician how her yard accepts a new suit. She said every Slick is holed once, on its wearer, at full vacuum, before the wearer goes on a work roster. A crew member should meet a puncture for the first time in a chamber, with a patch in reach. We followed the yard procedure.

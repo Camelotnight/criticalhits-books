@@ -86,6 +86,8 @@ Gavin's register, so new notes match the first four:
 - The book's PROSE rulings apply to his prose: no negative contractions, no corrective reframes, no "shoulder", no em-dashes, real terms over invented ones, no new coined slang.
 - No invented numbers. If the vault has no figure, the report does without one.
 
+Each field note can carry its own audio: an MP3 in `public/audio/field-notes/<article-slug>.mp3`, linked by a `<div class="listen">` player placed right under the byline. One file per note, named after its article.
+
 The `inshort` field in an article's front matter fills the "New to the book?" box: two or three `[label, sentence]` rows written for a first-time reader. In the glossary data, `start: n` puts a word in the "Start here" list and `more: 'slug'` links it to its article.
 
 Rules: world facts only, never plot; nothing the book treats as a reveal; no Book 2. The `sources` field in each file records where every fact came from in the vault and is never shown on the site. The quick glossary (`/wiki/glossary/`) lives in `src/data/glossary.ts`.
