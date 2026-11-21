@@ -1080,18 +1080,17 @@ svg text{font-family:var(--font-display)}
     timer = setTimeout(tick, gap);
   }
   let shownStop = -1;
-  // ---- Price tickers: Hell One (helium-3 against the standard) and Skuld City (metals by the kilo). ----
+  // ---- Price ticker: the Skuld City exchange (helium-3 against the standard, metals by the kilo). ----
   // Prices are illustrative and invented (flagged in README), set by Robert at 8x the first draft; they wander a little and never jump.
   // Fuel is cheaper at the wellhead (shu.md), so Hell One spot trades under the standard. The metals that were
   // precious on Earth sank into planetary cores; the Belt's metal asteroids are broken cores, so out here
   // platinum-group metals sell by the kilo. Rare earths stay dear: they are scattered thin through rock.
   // Rarity marks follow price tiers, a nod to the diamond marks of space games.
   const TICK = {
-    4: { name: 'Hell One exchange', unit: 'Helium-3 in shu per standard unit', note: 'Fuel is cheapest here at the wellhead. Every run a scoop crew finishes, or calls off, moves these numbers.',
+    5: { name: 'Skuld City exchange', unit: 'He-3 against the standard · metals in shu per kg · ◆ scarcity', note: 'Helium-3 is cheapest at the wellhead, and every scoop run finished or called off moves it. Earth’s precious metals sank to its core; the Belt’s metal asteroids are broken cores, so out here platinum and iridium sell by the kilo. Rare earths are scattered thin through rock and stay dear.',
       rows: [['He-3', 'spot, Hell One dock', 0.91, 3], ['He-3', 'delivered Minerva', 0.97, 3], ['He-3', 'delivered Luna City', 1.06, 3], ['He-3', 'next-cycle contract', 0.93, 3],
-        ['D', 'deuterium, per kg', 305.6, 1], ['RUNS', 'finished / called off', '14 / 3', 0], ['FRT', 'freight to Luna, per tonne', 976, 0]] },
-    5: { name: 'Skuld City metals board', unit: 'Shu per kilogram · ◆ scarcity', note: 'Earth’s precious metals sank to its core. The Belt’s metal asteroids are broken cores, so out here platinum and iridium sell by the kilo. Rare earths are scattered thin through rock and stay dear.',
-      rows: [['Fe', 'iron', 0.16, 2], ['Ni', 'nickel', 2.48, 2], ['Co', 'cobalt', 9.92, 2], ['W', 'tungsten', 14.64, 2], ['Ag', 'silver', 72.8, 1], ['Nd', 'neodymium', 33.6, 1],
+        ['D', 'deuterium, per kg', 305.6, 1], ['RUNS', 'finished / called off', '14 / 3', 0], ['FRT', 'freight to Luna, per tonne', 976, 0],
+        ['Fe', 'iron', 0.16, 2], ['Ni', 'nickel', 2.48, 2], ['Co', 'cobalt', 9.92, 2], ['W', 'tungsten', 14.64, 2], ['Ag', 'silver', 72.8, 1], ['Nd', 'neodymium', 33.6, 1],
         ['Eu', 'europium', 58.4, 1], ['Yb', 'ytterbium', 40.8, 1], ['Dy', 'dysprosium', 116.8, 1], ['Tb', 'terbium', 386.4, 1], ['Ru', 'ruthenium', 488.0, 1], ['Pd', 'palladium', 563.2, 1],
         ['Pt', 'platinum', 681.6, 1], ['Re', 'rhenium', 760.0, 1], ['Au', 'gold', 972.0, 1], ['Os', 'osmium', 1216.0, 1], ['Ir', 'iridium', 1691.2, 1], ['Rh', 'rhodium', 2096.0, 1]] },
   };
@@ -1107,7 +1106,7 @@ svg text{font-family:var(--font-display)}
     document.getElementById('tkunit').textContent = T.unit;
     document.getElementById('tknote').textContent = T.note;
     tkLive = T.rows.map((r) => ({ sym: r[0], lab: r[1], px: r[2], dec: r[3], ch: 0 }));
-    const item = (r, i) => `<span class="tk-item" data-i="${i}"><span class="tk-sym">${r.sym}</span><span class="tk-lab">${r.lab}</span>${stop === 5 ? `<span class="tk-r" aria-label="scarcity ${tierOf(r.px).length} of 4">${tierOf(r.px)}</span>` : ''}<span class="tk-px"></span><span class="tk-ch"></span></span>`;
+    const item = (r, i) => `<span class="tk-item" data-i="${i}"><span class="tk-sym">${r.sym}</span><span class="tk-lab">${r.lab}</span>${!['He-3', 'D', 'RUNS', 'FRT'].includes(r.sym) ? `<span class="tk-r" aria-label="scarcity ${tierOf(r.px).length} of 4">${tierOf(r.px)}</span>` : ''}<span class="tk-px"></span><span class="tk-ch"></span></span>`;
     const once = tkLive.map(item).join('');
     tkRun.innerHTML = once + `<span class="tk-dup" aria-hidden="true">${once}</span>`;
     tkPaint();
