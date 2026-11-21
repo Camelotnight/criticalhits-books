@@ -98,6 +98,8 @@ Rules: world facts only, never plot; nothing the book treats as a reveal; no Boo
 
 Beside the map runs the **Minerva Traffic** channel: in-world radio calls that change with the scale (`AMBIENT` in the script). *Cooper's Reach* departs once per visit on the corridor (`REACH_ARC`), with Cassandra on comms, and her marker moves on the map. The channel stops when it is off screen, and stays still under reduced motion. Calls are new writing in the book's register, never manuscript text. Ship names: *Cooper's Reach* and *Haldane's Theorem* (canon), *Bad Penny*, *Dauntless* and *Cold Comfort*. Deep links: `?stop=2&calls=8`.
 
+On Minerva's tiers a **weight calculator** (`weigh` in the component) shows what a scale would read on each tier for the reader's Earth weight, in pounds or kilograms, using the canon tier gees (axis 0, Minerva General 0.8, administrative 0.9, senior offices 1.0, the Sump 1.2). Picking a tier rides the elevator there. The value is remembered in the browser only.
+
 ## Layout
 
 ```

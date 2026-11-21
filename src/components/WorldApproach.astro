@@ -298,6 +298,19 @@
       </figure>
 
       <div class="console">
+        <section class="weigh" id="weigh" aria-labelledby="wgtitle" hidden>
+          <p class="wg-title" id="wgtitle">Your weight on Minerva</p>
+          <div class="wg-in">
+            <label for="wgval">On Earth you weigh</label>
+            <input id="wgval" type="number" inputmode="decimal" min="1" max="999" step="1" value="170">
+            <div class="wg-unit" role="group" aria-label="Unit">
+              <button type="button" data-unit="lb" aria-pressed="true">lb</button><button type="button" data-unit="kg" aria-pressed="false">kg</button>
+            </div>
+          </div>
+          <ol class="wg-list" id="wglist"></ol>
+          <p class="wg-note">Your mass never changes. What changes is how hard the floor pushes back, so this is what a scale would read on each tier. Pick a tier to ride the elevator there.</p>
+          <p class="sr-only" id="wgsay" aria-live="polite"></p>
+        </section>
         <section class="ticker" id="ticker" aria-labelledby="tkname" hidden>
           <div class="tk-head"><p class="tk-name" id="tkname"></p><span class="tk-unit" id="tkunit"></span></div>
           <div class="tk-tape"><div class="tk-run" id="tkrun"></div></div>
@@ -417,6 +430,24 @@ kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-r
 .still .tk-run .tk-dup{display:none}
 .still .tk-tape{-webkit-mask-image:none;mask-image:none}
 
+
+/* Weight calculator (Minerva's tiers) */
+.weigh{border:1px solid var(--line);border-radius:4px;background:var(--bg-2);padding:.7rem .8rem .6rem;margin-bottom:.9rem}
+.wg-title{margin:0 0 .5rem;font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.wg-in{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-bottom:.6rem;font-size:.9rem}
+.wg-in input{width:5.5rem;min-height:40px;padding:.3rem .5rem;background:var(--bg);color:var(--text);border:1px solid var(--line-strong);border-radius:3px;font:inherit;font-variant-numeric:tabular-nums}
+.wg-unit{display:inline-flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
+.wg-unit button{all:unset;cursor:pointer;min-width:40px;min-height:40px;text-align:center;font-family:var(--font-display);font-size:.8rem;color:var(--muted)}
+.wg-unit button[aria-pressed="true"]{background:var(--panel);color:var(--text);box-shadow:inset 0 -2px 0 var(--accent)}
+.wg-unit button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.wg-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.wg-list button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:.75rem;align-items:baseline;width:100%;padding:.4rem .2rem;border-bottom:1px solid var(--line);font-size:.88rem}
+.wg-list button:hover{background:var(--panel)}
+.wg-list button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+.wg-list button[aria-current="true"]{background:var(--panel);box-shadow:inset 2px 0 0 var(--accent)}
+.wg-list .wg-g{font-family:var(--font-display);font-size:.72rem;letter-spacing:.08em;color:#6d7f95}
+.wg-list .wg-w{font-family:var(--font-display);font-variant-numeric:tabular-nums;color:var(--text);min-width:5.5rem;text-align:right}
+.wg-note{margin:.55rem 0 0;font-size:.74rem;line-height:1.45;color:var(--muted)}
 
 /* Place chips under the map */
 .chips-label{margin:.9rem 0 .5rem}
@@ -1132,7 +1163,31 @@ svg text{font-family:var(--font-display)}
     if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 2560);
   }
 
+  // ---- Weight calculator on Minerva's tiers: what a scale reads at each tier's gee. ----
+  const wg = document.getElementById('weigh'), wgVal = document.getElementById('wgval'), wgList = document.getElementById('wglist');
+  let wgUnit = 'lb';
+  try { const m = JSON.parse(localStorage.getItem('minerva-weight') || 'null'); if (m && m.v > 0) { wgVal.value = m.v; wgUnit = m.u === 'kg' ? 'kg' : 'lb'; } } catch (e) {}
+  const wgFmt = (g) => { const v = parseFloat(wgVal.value); return v > 0 ? `${Math.round(v * g).toLocaleString('en-US')} ${wgUnit}` : '·'; };
+  function wgPaint() {
+    wg.querySelectorAll('[data-unit]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.unit === wgUnit));
+    if (stop !== 3) return;
+    const items = STOPS[3].items;
+    wgList.innerHTML = items.map((it, i) => `<li><button type="button" data-i="${i}" aria-current="${i === sel}"><span>${it.title}</span><span class="wg-g">${(it.g || 0).toFixed(1)} gee</span><span class="wg-w">${wgFmt(it.g || 0)}</span></button></li>`).join('');
+    wgList.querySelectorAll('button').forEach((b) => { b.onclick = () => select(+b.dataset.i); });
+    const it = items[sel]; if (it) document.getElementById('carg').textContent = `${(it.g || 0).toFixed(1)} GEE · ${wgFmt(it.g || 0).toUpperCase()}`;
+    try { localStorage.setItem('minerva-weight', JSON.stringify({ v: parseFloat(wgVal.value) || 0, u: wgUnit })); } catch (e) {}
+  }
+  wgVal.addEventListener('input', wgPaint);
+  wg.querySelectorAll('[data-unit]').forEach((b) => { b.onclick = () => {
+    const to = b.dataset.unit; if (to === wgUnit) return;
+    const v = parseFloat(wgVal.value); if (v > 0) wgVal.value = Math.round(to === 'kg' ? v * 0.45359237 : v / 0.45359237);
+    wgUnit = to; wgPaint();
+  }; });
+  const _wgSelect = select; select = (i, f) => { _wgSelect(i, f); if (stop === 3) { wgPaint(); const it = STOPS[3].items[i]; document.getElementById('wgsay').textContent = `${it.title}: you would weigh ${wgFmt(it.g || 0)}.`; } };
+  function wgSync() { wg.hidden = stop !== 3; if (stop === 3) wgPaint(); }
+
   function sync() {
+    wgSync();
     tkSync();
     tr.classList.toggle('idle', stop === 0);
     if (stop > 0 && stop !== shownStop) {
