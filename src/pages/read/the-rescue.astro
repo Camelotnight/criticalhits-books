@@ -1,0 +1,168 @@
+---
+// Read Chapter Four: the site's one approved excerpt, as text and as AI narration, with read-along and a
+// suit display that changes only when the narration speaks a new number. Guardrails (red team): the lead-in,
+// share text and pull quotes never use the chapter's clues about the Second Chance, never feature the spool,
+// never name the survivors.
+import Base from '../../layouts/Base.astro';
+import Cover from '../../components/Cover.astro';
+import { PARAS, MARKS, CUES } from '../../data/the-rescue';
+import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, SIGNUP_CTA } from '../../config';
+const words = PARAS.join(' ').replace(/<[^>]+>/g, '').split(/\s+/).length;
+---
+<Base title="Read Chapter Four: The Rescue" description="Read or listen to all of Chapter Four of The Jovian Crisis: a dead ship, two survivors, and twenty-five minutes of coolant.">
+  <section class="section">
+    <div class="wrap read">
+      <header class="head">
+        <p class="eyebrow">Read the rescue · Chapter Four</p>
+        <h1>The Rescue</h1>
+        <p class="meta">About {Math.round(words / 250)} minutes to read · 24 minutes to listen</p>
+        <div class="lead">
+          <p>
+            A dead ship’s beacon has lit Kade Holloway’s board. The <em>Second Chance</em> is minutes from sublimating,
+            two survivors are strapped into their crash couches, and <em>Cooper’s Reach</em> is the only ship close
+            enough to reach them.
+          </p>
+          <p class="why">
+            Why Chapter Four? It’s the rescue, and you need nothing else to follow it. On the radio: Kade and Dustin in
+            the wreck; Cassandra, Carrie and Gunnar aboard the <em>Reach</em>. <a href="/crew/">Who’s who</a>.
+          </p>
+          <p class="note">Content note: injury and death.</p>
+        </div>
+      </header>
+
+      <div class="body-grid">
+        <div class="side">
+          <div class="player" id="player">
+            <audio id="aud" controls preload="none" src="/audio/read/the-rescue.mp3" aria-label="Listen to Chapter Four, The Rescue"></audio>
+            <div class="pl-row">
+              <button type="button" class="pl-btn" id="back15">Back 15 s</button>
+              <label class="pl-speed">Speed
+                <select id="speed"><option value="1">1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select>
+              </label>
+              <label class="pl-follow"><input type="checkbox" id="follow" checked> Follow along</label>
+              <a class="pl-dl" href="/audio/read/the-rescue.mp3" download>Download MP3</a>
+            </div>
+            <p class="pl-label">AI narration, not the audiobook. Tap any paragraph to listen from there.</p>
+          </div>
+        <aside class="hud" id="hud" aria-label="Kade’s suit display">
+          <p class="hud-title">Suit display</p>
+          <dl>
+            <div><dt>Bingo</dt><dd id="hud-bingo">··</dd></div>
+            <div><dt>Gel coolant</dt><dd id="hud-gel">··</dd></div>
+            <div><dt>Quench margin</dt><dd id="hud-quench">··</dd></div>
+          </dl>
+          <p class="hud-foot">Changes only when the story says so.</p>
+        </aside>
+        </div>
+
+        <article class="chapter" id="chapter">
+          {PARAS.map((p, i) => <p data-i={i} data-t={MARKS[i]} set:html={p} />)}
+          <p class="end">End of Chapter Four</p>
+        </article>
+      </div>
+
+      <section class="next" aria-labelledby="next-title">
+        <div class="next-cover"><Cover width={150} /></div>
+        <div>
+          <p class="eyebrow">Continues in Chapter Five: The Medbay</p>
+          <h2 id="next-title">The Jovian Crisis</h2>
+          <p>
+            He gets the survivors out. Then the ship burns, the proof goes with her, and the claim becomes the most
+            dangerous thing in the Jovian system.
+          </p>
+          <p class="rel">Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></p>
+          <div class="actions">
+            <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+            <a class="btn btn--ghost" href="/about/#signup">{SIGNUP_CTA}</a>
+          </div>
+          <p class="more"><a href="/ship/">Tour <em>Cooper’s Reach</em></a> · <a href="/crew/">Meet the crew</a> · <a href="/book/">About the book</a></p>
+        </div>
+      </section>
+    </div>
+  </section>
+</Base>
+
+<script is:inline define:vars={{ CUES }}>
+  const aud = document.getElementById('aud');
+  const paras = [...document.querySelectorAll('#chapter p[data-t]')];
+  const follow = document.getElementById('follow');
+  const hud = { bingo: document.getElementById('hud-bingo'), gel: document.getElementById('hud-gel'), quench: document.getElementById('hud-quench') };
+  const fmt = (k, v) => (v === 'PAST' ? 'PAST BINGO' : `${v} MIN`);
+  let cur = -1;
+  function paintHud(upto) {
+    const s = { bingo: null, gel: null, quench: null };
+    for (let i = 0; i <= upto; i++) { const c = CUES[i]; if (c) Object.assign(s, c); }
+    for (const k of Object.keys(hud)) {
+      hud[k].textContent = s[k] ? fmt(k, s[k]) : '··';
+      hud[k].classList.toggle('warn', k === 'bingo' && s[k] && (s[k] === 'PAST' || +s[k] <= 11));
+    }
+  }
+  function setCur(i, scroll) {
+    if (i === cur) return;
+    if (cur >= 0) paras[cur].classList.remove('now');
+    cur = i;
+    if (i >= 0) {
+      paras[i].classList.add('now');
+      if (scroll && follow.checked) {
+        const r = paras[i].getBoundingClientRect();
+        if (r.top < 120 || r.bottom > innerHeight - 40) paras[i].scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+    }
+    paintHud(i);
+  }
+  aud.addEventListener('timeupdate', () => {
+    const t = aud.currentTime; let i = -1;
+    for (let k = 0; k < paras.length; k++) { if (+paras[k].dataset.t <= t + 0.05) i = k; else break; }
+    setCur(i, !aud.paused);
+    try { localStorage.setItem('rescue-pos', String(Math.floor(t))); } catch (e) {}
+  });
+  paras.forEach((p, i) => p.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    aud.currentTime = +p.dataset.t; aud.play(); setCur(i, false);
+  }));
+  document.getElementById('back15').onclick = () => { aud.currentTime = Math.max(0, aud.currentTime - 15); };
+  document.getElementById('speed').onchange = (e) => { aud.playbackRate = +e.target.value; };
+  aud.addEventListener('loadedmetadata', () => {
+    try { const s = +localStorage.getItem('rescue-pos'); if (s > 5 && aud.currentTime < 1) aud.currentTime = s; } catch (e) {}
+  }, { once: true });
+  paintHud(-1);
+</script>
+
+<style>
+  .read { max-width: 72rem; }
+  .head { max-width: 40rem; }
+  .meta { color: var(--muted); font-size: 0.9rem; margin: 0.25rem 0 1.25rem; }
+  .lead p { margin: 0 0 0.75rem; line-height: 1.6; }
+  .lead .why { color: var(--muted); font-size: 0.95rem; }
+  .lead .note { color: var(--muted); font-size: 0.85rem; }
+  .player { padding: 0.75rem 0.9rem; background: var(--bg-2, #0f141b); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 1rem; }
+  .player audio { width: 100%; }
+  .head { margin-bottom: 2rem; }
+  .pl-row { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-top: 0.5rem; font-size: 0.88rem; }
+  .pl-btn { min-height: 36px; padding: 0 0.7rem; background: transparent; color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--radius); font: inherit; cursor: pointer; }
+  .pl-speed select { margin-left: 0.35rem; min-height: 36px; background: var(--bg); color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--radius); font: inherit; }
+  .pl-follow { display: inline-flex; gap: 0.35rem; align-items: center; }
+  .pl-label { margin: 0.45rem 0 0; font-size: 0.78rem; color: var(--muted); }
+  .body-grid { display: grid; gap: 2rem; }
+  @media (min-width: 960px) { .body-grid { grid-template-columns: 19rem minmax(0, 40rem); gap: 2.5rem; } .side { position: sticky; top: 88px; align-self: start; } }
+  .hud { align-self: start; font-family: var(--font-display); border: 1px solid rgba(124, 200, 220, 0.4); border-radius: var(--radius); padding: 0.75rem 0.9rem; background: rgba(124, 200, 220, 0.05); color: var(--signal); }
+  @media (max-width: 959px) { .hud dl { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; } }
+  .hud-title { margin: 0 0 0.5rem; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  .hud dl { margin: 0; }
+  .hud div { margin-bottom: 0.45rem; }
+  .hud dt { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6d9fae; }
+  .hud dd { margin: 0; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+  .hud dd.warn { color: #e3a857; }
+  .hud-foot { margin: 0.4rem 0 0; font-size: 0.68rem; color: #6d7f95; }
+  .chapter p { font-size: 1.08rem; line-height: 1.75; margin: 0 0 1.1rem; padding: 0.15rem 0.5rem; margin-left: -0.5rem; border-left: 2px solid transparent; border-radius: 2px; cursor: pointer; transition: background 0.3s; }
+  .chapter p.now { background: rgba(227, 168, 87, 0.07); border-left-color: var(--accent); }
+  .chapter p .gl { color: inherit; text-decoration: underline dotted; text-decoration-color: var(--signal); text-underline-offset: 3px; }
+  .chapter .end { cursor: default; text-align: center; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; margin-top: 2rem; }
+  @media (prefers-reduced-motion: reduce) { .chapter p { transition: none; } }
+  .next { display: grid; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); max-width: 52rem; }
+  @media (min-width: 640px) { .next { grid-template-columns: 150px 1fr; align-items: start; } }
+  .next h2 { margin: 0.2rem 0 0.75rem; }
+  .next .rel { color: var(--muted); }
+  .next .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0; }
+  .next .more { font-size: 0.92rem; }
+</style>

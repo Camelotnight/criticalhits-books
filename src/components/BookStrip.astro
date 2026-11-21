@@ -12,7 +12,7 @@ import { RELEASE, RELEASE_ISO } from '../config';
       <p class="bs-title"><em>The Jovian Crisis</em> · Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></p>
       <p class="bs-hook">Some distress calls should stay unanswered.</p>
     </div>
-    <a class="btn btn--ghost bs-btn" href="/book/">About the book</a>
+    <div class="bs-btns"><a class="btn btn--ghost" href="/book/">About the book</a><a class="bs-read" href="/read/the-rescue/">Read Chapter Four</a></div>
   </div>
 </aside>
 
@@ -25,8 +25,10 @@ import { RELEASE, RELEASE_ISO } from '../config';
   .bs-kicker { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
   .bs-title { margin-top: 0.2rem !important; font-size: 1rem; }
   .bs-hook { margin-top: 0.2rem !important; color: var(--accent); font-size: 0.95rem; }
+  .bs-btns { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .bs-read { font-size: 0.88rem; }
   @media (max-width: 40rem) {
     .bs { grid-template-columns: auto 1fr; }
-    .bs-btn { grid-column: 1 / -1; justify-self: start; }
+    .bs-btns { grid-column: 1 / -1; flex-direction: row; gap: 1rem; justify-self: start; }
   }
 </style>

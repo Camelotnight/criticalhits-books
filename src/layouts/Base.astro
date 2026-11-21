@@ -25,6 +25,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const nav = [
   { href: '/', label: 'Home' },
   { href: '/book/', label: 'The Book' },
+  { href: '/read/the-rescue/', label: 'Read', pill: true },
   { href: '/ship/', label: 'The Ship' },
   { href: '/crew/', label: 'The Crew' },
   { href: '/world/', label: 'The World' },
@@ -68,7 +69,7 @@ const isCurrent = (href: string) => {
           <ul>
             {nav.map((item) => (
               <li>
-                <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+                <a href={item.href} class={item.pill ? 'pill' : undefined} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
               </li>
             ))}
           </ul>
@@ -149,6 +150,8 @@ const isCurrent = (href: string) => {
     border-bottom: 2px solid transparent;
   }
   nav a:hover { color: var(--text); }
+  nav a.pill { color: var(--accent); border: 1px solid rgba(227, 168, 87, 0.55); border-radius: 999px; padding-inline: 0.75rem; }
+  nav a.pill:hover { background: rgba(227, 168, 87, 0.1); }
   nav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--accent); }
 
   main:focus { outline: none; }

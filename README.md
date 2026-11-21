@@ -90,6 +90,10 @@ The `inshort` field in an article's front matter fills the "New to the book?" bo
 
 Rules: world facts only, never plot; nothing the book treats as a reveal; no Book 2. The `sources` field in each file records where every fact came from in the vault and is never shown on the site. The quick glossary (`/wiki/glossary/`) lives in `src/data/glossary.ts`.
 
+## The one approved excerpt
+
+`/read/the-rescue/` carries all of Chapter Four, “The Rescue”, as text (`src/data/the-rescue.ts`) and as AI narration (`public/audio/read/the-rescue.mp3`, Kokoro voice Onyx, 64k mono). Robert approved it on 2026-11-21 as the site’s single exception to the no-manuscript rule; it is his prose, unedited. Keep it the only excerpt (KDP Select allows a sample of up to 10%). The lead-in, share text and pull quotes never use the chapter’s clues about the *Second Chance*, never feature the spool, and never name the survivors.
+
 ## The World page
 
 `/world/` is `src/components/WorldApproach.astro`: one self-contained file (markup, styles, script) with three zoom paths from the system view: L4 (the Trojans, the corridor, Minerva's tiers), Callisto (Hell One, then Skuld City rim to rim) and L5 (Patroclus). Places only, never events: the Callisto places first appear in Act 2 and are cleared as places. Skuld City carries the trading: one price ticker, shown on both Callisto views (`TICK` in the script) with helium-3 against the shu standard, and 18 metals in shu per kilogram with scarcity marks. The prices are invented and illustrative (Robert set the scale, 2026-11-20); platinum-group metals are cheap from Belt metal asteroids, rare earths stay dear. Minerva, Hercules I and Hercules II sit at the corners of an equal-sided triangle, about 50,000 km a side; Hercules is drawn far larger than Minerva, never to scale.
