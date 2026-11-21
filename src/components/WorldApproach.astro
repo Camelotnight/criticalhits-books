@@ -298,6 +298,11 @@
       </figure>
 
       <div class="console">
+        <section class="ticker" id="ticker" aria-labelledby="tkname" hidden>
+          <div class="tk-head"><p class="tk-name" id="tkname"></p><span class="tk-unit" id="tkunit"></span></div>
+          <div class="tk-tape"><div class="tk-run" id="tkrun"></div></div>
+          <p class="tk-note" id="tknote"></p>
+        </section>
         <section class="traffic" id="traffic" aria-labelledby="trafficlabel">
           <div class="tr-head">
             <p class="tr-title" id="trafficlabel"><span class="live" aria-hidden="true"></span>Minerva Traffic</p>
@@ -318,6 +323,7 @@
 
 <style is:global>
 @keyframes ap-ping{0%{box-shadow:0 0 0 2px rgba(227,168,87,.45)}100%{box-shadow:0 0 0 14px rgba(227,168,87,0)}}
+@keyframes ap-tape{to{transform:translateX(-50%)}}
 @keyframes ap-blink{50%{opacity:.25}}
 @keyframes ap-fadein{from{opacity:0;transform:translateY(4px)}}
 @keyframes ap-strobe{50%{opacity:.15}}
@@ -389,6 +395,28 @@
 .wiki{font-size:.9rem}
 .keys{font-size:.8rem;color:#6d7f95;margin:.2rem 0 0}
 kbd{font-family:var(--font-display);border:1px solid var(--line-strong);border-radius:3px;padding:0 .3rem;font-size:.75rem;color:var(--muted)}
+
+/* Price tickers (Hell One, Skuld City) */
+.ticker{border:1px solid var(--line);border-radius:4px;background:var(--bg-2);padding:.6rem .75rem .55rem;margin-bottom:.9rem}
+.tk-head{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;margin-bottom:.4rem}
+.tk-name{margin:0;font-family:var(--font-display);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.tk-unit{font-family:var(--font-display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#6d7f95;text-align:right}
+.tk-tape{overflow:hidden;border-block:1px solid var(--line);padding:.35rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.tk-run{display:inline-flex;gap:1.4rem;white-space:nowrap;animation:ap-tape 60s linear infinite;font-family:var(--font-display);font-size:.8rem}
+.tk-tape:hover .tk-run{animation-play-state:paused}
+.tk-item{display:inline-flex;gap:.4rem;align-items:baseline}
+.tk-sym{color:var(--text);font-weight:600;letter-spacing:.04em}
+.tk-lab{color:#6d7f95;font-size:.7rem}
+.tk-r{color:#e3a857;font-size:.6rem;letter-spacing:.05em}
+.tk-px{color:var(--text);font-variant-numeric:tabular-nums}
+.tk-ch{font-size:.7rem;font-variant-numeric:tabular-nums}
+.tk-ch.up{color:var(--signal)} .tk-ch.dn{color:#e3a857}
+.tk-note{margin:.45rem 0 0;font-size:.74rem;line-height:1.45;color:var(--muted)}
+.still .tk-run{animation:none;flex-wrap:wrap;white-space:normal;row-gap:.35rem}
+.tk-dup{display:contents}
+.still .tk-run .tk-dup{display:none}
+.still .tk-tape{-webkit-mask-image:none;mask-image:none}
+
 
 /* Place chips under the map */
 .chips-label{margin:.9rem 0 .5rem}
@@ -1052,7 +1080,60 @@ svg text{font-family:var(--font-display)}
     timer = setTimeout(tick, gap);
   }
   let shownStop = -1;
+  // ---- Price tickers: Hell One (helium-3 against the standard) and Skuld City (metals by the kilo). ----
+  // Prices are illustrative and invented (flagged in README), set by Robert at 8x the first draft; they wander a little and never jump.
+  // Fuel is cheaper at the wellhead (shu.md), so Hell One spot trades under the standard. The metals that were
+  // precious on Earth sank into planetary cores; the Belt's metal asteroids are broken cores, so out here
+  // platinum-group metals sell by the kilo. Rare earths stay dear: they are scattered thin through rock.
+  // Rarity marks follow price tiers, a nod to the diamond marks of space games.
+  const TICK = {
+    4: { name: 'Hell One exchange', unit: 'Helium-3 in shu per standard unit', note: 'Fuel is cheapest here at the wellhead. Every run a scoop crew finishes, or calls off, moves these numbers.',
+      rows: [['He-3', 'spot, Hell One dock', 0.91, 3], ['He-3', 'delivered Minerva', 0.97, 3], ['He-3', 'delivered Luna City', 1.06, 3], ['He-3', 'next-cycle contract', 0.93, 3],
+        ['D', 'deuterium, per kg', 305.6, 1], ['RUNS', 'finished / called off', '14 / 3', 0], ['FRT', 'freight to Luna, per tonne', 976, 0]] },
+    5: { name: 'Skuld City metals board', unit: 'Shu per kilogram · ◆ scarcity', note: 'Earth’s precious metals sank to its core. The Belt’s metal asteroids are broken cores, so out here platinum and iridium sell by the kilo. Rare earths are scattered thin through rock and stay dear.',
+      rows: [['Fe', 'iron', 0.16, 2], ['Ni', 'nickel', 2.48, 2], ['Co', 'cobalt', 9.92, 2], ['W', 'tungsten', 14.64, 2], ['Ag', 'silver', 72.8, 1], ['Nd', 'neodymium', 33.6, 1],
+        ['Eu', 'europium', 58.4, 1], ['Yb', 'ytterbium', 40.8, 1], ['Dy', 'dysprosium', 116.8, 1], ['Tb', 'terbium', 386.4, 1], ['Ru', 'ruthenium', 488.0, 1], ['Pd', 'palladium', 563.2, 1],
+        ['Pt', 'platinum', 681.6, 1], ['Re', 'rhenium', 760.0, 1], ['Au', 'gold', 972.0, 1], ['Os', 'osmium', 1216.0, 1], ['Ir', 'iridium', 1691.2, 1], ['Rh', 'rhodium', 2096.0, 1]] },
+  };
+  const tk = document.getElementById('ticker'), tkRun = document.getElementById('tkrun');
+  const tierOf = (px) => (typeof px !== 'number' ? '' : '◆'.repeat(px < 8 ? 0 : px < 80 ? 1 : px < 800 ? 2 : px < 1600 ? 3 : 4));
+  let tkStop = -1, tkTimer = null, tkLive = [];
+  function tkRender() {
+    const T = TICK[stop];
+    tk.hidden = !T;
+    if (!T || tkStop === stop) return;
+    tkStop = stop;
+    document.getElementById('tkname').textContent = T.name;
+    document.getElementById('tkunit').textContent = T.unit;
+    document.getElementById('tknote').textContent = T.note;
+    tkLive = T.rows.map((r) => ({ sym: r[0], lab: r[1], px: r[2], dec: r[3], ch: 0 }));
+    const item = (r, i) => `<span class="tk-item" data-i="${i}"><span class="tk-sym">${r.sym}</span><span class="tk-lab">${r.lab}</span>${stop === 5 ? `<span class="tk-r" aria-label="scarcity ${tierOf(r.px).length} of 4">${tierOf(r.px)}</span>` : ''}<span class="tk-px"></span><span class="tk-ch"></span></span>`;
+    const once = tkLive.map(item).join('');
+    tkRun.innerHTML = once + `<span class="tk-dup" aria-hidden="true">${once}</span>`;
+    tkPaint();
+  }
+  function tkPaint() {
+    tkRun.querySelectorAll('.tk-item').forEach((el) => {
+      const r = tkLive[+el.dataset.i];
+      el.querySelector('.tk-px').textContent = typeof r.px === 'number' ? r.px.toLocaleString('en-US', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) : r.px;
+      const c = el.querySelector('.tk-ch');
+      if (typeof r.px !== 'number') { c.textContent = ''; return; }
+      c.className = 'tk-ch ' + (r.ch >= 0 ? 'up' : 'dn');
+      c.textContent = `${r.ch >= 0 ? '▲' : '▼'}${Math.abs(r.ch).toFixed(1)}%`;
+    });
+  }
+  function tkStep() {
+    tkLive.forEach((r) => { if (typeof r.px !== 'number' || trng() < 0.6) return; const m = (trng() - 0.5) * 0.008; r.px = Math.max(r.px * (1 + m), 10 ** -r.dec); r.ch = Math.max(-2.4, Math.min(2.4, r.ch + m * 100)); });
+    tkPaint();
+  }
+  function tkSync() {
+    tkRender();
+    clearInterval(tkTimer); tkTimer = null;
+    if (TICK[stop] && !(reduce.matches || still()) && !document.hidden) tkTimer = setInterval(tkStep, 3200);
+  }
+
   function sync() {
+    tkSync();
     tr.classList.toggle('idle', stop === 0);
     if (stop > 0 && stop !== shownStop) {
       document.getElementById('trafficlabel').lastChild.textContent = ({ 3: 'Minerva Civilian Control', 4: 'Hell One port', 5: 'Skuld City municipal band', 6: 'Patroclus Terminal' })[stop] || 'Minerva Traffic';
