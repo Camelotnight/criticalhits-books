@@ -1,7 +1,7 @@
 // Site-wide settings. Placeholders are listed in README.md.
 
-/** Kit form ID. Replace the placeholder once the Kit form exists. */
-export const KIT_FORM_ID = 'KIT_FORM_ID_PLACEHOLDER';
+/** Kit form ID (app.kit.com). Its success redirect should point at /thank-you/. */
+export const KIT_FORM_ID = '10222508';
 
 /** Amazon listing (Kindle edition). */
 export const AMAZON_URL = 'https://www.amazon.com/Jovian-Crisis-Capa-Incident-Book-ebook/dp/B0HRJ1L35R';

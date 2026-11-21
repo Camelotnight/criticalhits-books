@@ -15,13 +15,9 @@ npm run check:spoilers   # fails if a banned term appears anywhere
 
 Node 22.22 or newer.
 
-## Placeholders still to fill
+## Placeholders
 
-| What | Where | Until then |
-|---|---|---|
-| **Kit form ID** | `KIT_FORM_ID` in `src/config.ts` | The sign-up form shows but is disabled, with "Sign-up opens shortly." |
-
-The cover lives at `src/assets/cover.jpg`; the home page, The Book page and link previews all use it.
+None left. The Kit form ID is `10222508` (`KIT_FORM_ID` in `src/config.ts`).
 
 ## Kit setup
 
