@@ -1,10 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
-import { AMAZON_URL, AMAZON_LABEL, RELEASE, RELEASE_ISO, isPlaceholder } from '../config';
+import { AMAZON_URL, AMAZON_LABEL, AMAZON_INTL, FORMATS_LINE, RELEASE, RELEASE_ISO, isPlaceholder } from '../config';
+import { getImage } from 'astro:assets';
+import coverSrc from '../assets/cover.jpg';
+import { bookSchema, personSchema } from '../data/schema';
 const preorderLive = !isPlaceholder(AMAZON_URL);
+const coverImg = await getImage({ src: coverSrc, width: 800, format: 'jpg' });
+const jsonLd = [bookSchema(Astro.site!, new URL(coverImg.src, Astro.site).href), personSchema(Astro.site!)];
 ---
-<Base title="The Book" description={`The Jovian Crisis, Book One of The Capa Incident. Hard science fiction from the edge of Jupiter. ${RELEASE}.`}>
+<Base title="The Book" description={`The Jovian Crisis, Book One of The Capa Incident. Hard science fiction from the edge of Jupiter. ${RELEASE}.`} jsonLd={jsonLd}>
   <section class="section">
     <div class="wrap grid">
       <div class="side">
@@ -13,8 +18,12 @@ const preorderLive = !isPlaceholder(AMAZON_URL);
           <dt>Series</dt><dd>The Capa Incident, Book One</dd>
           <dt>Release</dt><dd><time datetime={RELEASE_ISO}>{RELEASE}</time></dd>
         </dl>
+        <p class="formats">{FORMATS_LINE}</p>
         {preorderLive ? (
-          <a class="btn buy" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+          <>
+            <a class="btn buy" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+            <p class="intl">Also on Amazon {AMAZON_INTL.map((s, i) => <>{i > 0 && ' · '}<a href={s.href} rel="noopener">{s.label}</a></>)}</p>
+          </>
         ) : (
           <span class="btn buy" aria-disabled="true">Pre-order link coming soon</span>
         )}
@@ -24,6 +33,7 @@ const preorderLive = !isPlaceholder(AMAZON_URL);
         <p class="eyebrow">The Book</p>
         <h1>The Jovian Crisis</h1>
         <p class="hook"><strong>Some distress calls should stay unanswered.</strong></p>
+        <p class="comp"><em>For readers of The Expanse and Delta-v.</em></p>
         <p>
           Kade Holloway flies rescue out of Minerva Station in Jupiter's Trojans, because it's the last place in the
           system where a captain buried in debt can still make the math work. When a dead ship's beacon lights his
@@ -38,13 +48,12 @@ const preorderLive = !isPlaceholder(AMAZON_URL);
           dangerous thing in the Jovian system.
         </p>
         <p>
-          His ship is impounded. The only way out costs him his license. And whoever gutted the <em>Second Chance</em>
-          is still watching the man who walked away with her secret.
+          His ship is impounded. The only way out costs him his license.
+          And whoever gutted the <em>Second Chance</em> is still watching the man who walked away with her secret.
         </p>
         <p>
           <em>My air is your air.</em> It's the first rule on Kade's ship. Now he has to find out how far it reaches.
         </p>
-        <p class="comp"><em>For readers of The Expanse and Delta-v.</em></p>
         <p><a class="btn btn--ghost" href="/read/the-rescue/">Read the rescue: all of Chapter Four, or listen (22 min)</a></p>
       </article>
     </div>
@@ -61,5 +70,8 @@ const preorderLive = !isPlaceholder(AMAZON_URL);
   .facts dd { margin: 0; }
   .buy { width: 100%; }
   .hook { font-size: 1.2rem; }
-  .comp { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); }
+  .hook { margin-bottom: 0.25rem; }
+  .comp { margin-top: 0; color: var(--muted); }
+  .formats { margin: 0 0 1rem; font-size: 0.9rem; color: var(--muted); }
+  .intl { margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--muted); text-align: center; }
 </style>

@@ -46,7 +46,7 @@ Setae also wear. An old boot that has walked a hundred hulls is worn smooth in p
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/gecko-grip.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:50 · agentic voice</span>
+<span>Listen · 1:50 · synthetic narration</span>
 </div>
 
 *Hercules construction site, L4. Item: dry-adhesion boots and pads, Belt pattern. Reference item: certified magnetic boots, USN issue. Walk test led by a Capa cladding fitter, Hercules cladding crew.*

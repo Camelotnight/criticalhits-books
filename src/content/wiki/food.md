@@ -87,7 +87,7 @@ The ice carries bitter magnesium salts, so local water and local salt have a tas
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/food.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:52 · agentic voice</span>
+<span>Listen · 1:52 · synthetic narration</span>
 </div>
 
 *Minerva Station, transit concourse, L4. Item: station food, Capa pattern, from the kiosk menu. Reference item: USN field ration, certified. Tasting led by my Capa assistant, a hull tech assigned to me for the trials.*

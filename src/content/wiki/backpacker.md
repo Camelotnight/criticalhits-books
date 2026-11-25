@@ -54,7 +54,7 @@ The trade is real. A hard shell has a fixed cross-section. Force it through a wa
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/backpacker.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:47 · agentic voice</span>
+<span>Listen · 1:47 · synthetic narration</span>
 </div>
 
 *Hercules construction site, L4. Item: long-endurance hard-shell suit, Belt pattern, worn over a Slick suit. Drill supervised by the Capa crew chief.*

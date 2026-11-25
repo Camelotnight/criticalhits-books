@@ -1,8 +1,7 @@
 ---
-// A slim "this is a novel" strip for the deep pages (World, Ship, Crew, Encyclopedia). It points only to
-// the Book page on this site; the Book page is where a reader chooses to pre-order or join the list.
+// A slim "this is a novel" strip for the deep pages (World, Ship, Crew, Encyclopedia, glossary).
 import Cover from './Cover.astro';
-import { RELEASE, RELEASE_ISO } from '../config';
+import { RELEASE, RELEASE_ISO, AMAZON_URL, AMAZON_LABEL } from '../config';
 ---
 <aside class="bookstrip" aria-label="About the novel">
   <div class="wrap bs">
@@ -12,7 +11,12 @@ import { RELEASE, RELEASE_ISO } from '../config';
       <p class="bs-title"><em>The Jovian Crisis</em> · Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></p>
       <p class="bs-hook">Some distress calls should stay unanswered.</p>
     </div>
-    <div class="bs-btns"><a class="btn btn--ghost" href="/book/">About the book</a><a class="bs-read" href="/read/the-rescue/">Read Chapter Four</a></div>
+    <div class="bs-btns">
+      <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+      <Fragment set:html="<!-- SIGNUP SLOT: reserved for a future sign-up form. Intentionally empty; renders nothing. -->" />
+      <a class="btn btn--ghost" href="/book/">About the book</a>
+      <a class="bs-read" href="/read/the-rescue/">Read Chapter Four</a>
+    </div>
   </div>
 </aside>
 
@@ -25,10 +29,10 @@ import { RELEASE, RELEASE_ISO } from '../config';
   .bs-kicker { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
   .bs-title { margin-top: 0.2rem !important; font-size: 1rem; }
   .bs-hook { margin-top: 0.2rem !important; color: var(--accent); font-size: 0.95rem; }
-  .bs-btns { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+  .bs-btns { display: flex; flex-direction: column; align-items: stretch; gap: 0.4rem; text-align: center; }
   .bs-read { font-size: 0.88rem; }
   @media (max-width: 40rem) {
     .bs { grid-template-columns: auto 1fr; }
-    .bs-btns { grid-column: 1 / -1; flex-direction: row; gap: 1rem; justify-self: start; }
+    .bs-btns { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; justify-self: start; }
   }
 </style>
