@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Cover from '../components/Cover.astro';
 import SignUp from '../components/SignUp.astro';
-import { AMAZON_URL, AMAZON_LABEL, FORMATS_LINE, RELEASE, RELEASE_ISO, TAGLINE, SIGNUP_CTA } from '../config';
+import { AMAZON_URL, AMAZON_LABEL, FORMATS_LINE, RELEASE, TAGLINE, SIGNUP_CTA } from '../config';
 import { getImage } from 'astro:assets';
 import coverSrc from '../assets/cover.jpg';
 import { bookSchema, personSchema } from '../data/schema';
@@ -26,7 +26,6 @@ const jsonLd = [bookSchema(Astro.site!, new URL(coverImg.src, Astro.site).href),
           system where a captain buried in debt can still make the math work. When a dead ship's beacon lights his
           board, he logs first-responder rights under the Belt Code and goes in.
         </p>
-        <p class="release"><span class="rule-label">Release</span> <time class="date" datetime={RELEASE_ISO}>{RELEASE}</time></p>
         <p class="formats">{FORMATS_LINE}</p>
         <div class="actions">
           <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
@@ -70,10 +69,7 @@ const jsonLd = [bookSchema(Astro.site!, new URL(coverImg.src, Astro.site).href),
   .hook { font-size: 1.15rem; }
   .hero-copy .hook { margin-bottom: 0.25rem; }
   .comp { margin-top: 0; color: var(--muted); }
-  .formats { margin: 0.75rem 0 0; font-size: 0.92rem; color: var(--muted); }
-  .release { display: flex; align-items: center; gap: 1rem; max-width: 26rem; margin-top: 1.5rem; }
-  .release .rule-label { flex: 1; }
-  .release .date { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; }
+  .formats { margin: 1.5rem 0 0; font-size: 0.92rem; color: var(--muted); }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 
 
