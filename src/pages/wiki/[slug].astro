@@ -22,7 +22,7 @@ const siblings = all
   .filter((e) => e.data.section === d.section && e.id !== entry.id)
   .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
 ---
-<Base title={d.title} description={d.summary}>
+<Base title={`${d.title} · The Jovian Crisis`} description={d.summary}>
   <section class="section">
     <div class="wrap layout">
       <article class="article">

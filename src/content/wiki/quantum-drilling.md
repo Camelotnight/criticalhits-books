@@ -48,7 +48,7 @@ It is ravenous for power, a megawatt or two per rig, all of it fusion. In vacuum
 
 <div class="listen">
 <audio controls preload="none" src="/audio/field-notes/quantum-drilling.mp3" aria-label="Listen to this field note"></audio>
-<span>Listen · 1:52 · agentic voice</span>
+<span>Listen · 1:52 · synthetic narration</span>
 </div>
 
 *Reference note from prior service: helium extraction rig, Luna. Filed for comparison with Belt construction methods.*

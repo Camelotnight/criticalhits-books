@@ -4,7 +4,7 @@ import '@fontsource/ibm-plex-sans/latin-400.css';
 import '@fontsource/ibm-plex-sans/latin-400-italic.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
 import '../styles/global.css';
-import { SIGNUP_CTA } from '../config';
+import { SIGNUP_CTA, AMAZON_URL, AMAZON_SHORT } from '../config';
 import { getImage } from 'astro:assets';
 import coverSrc from '../assets/cover.jpg';
 
@@ -12,9 +12,11 @@ interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  /** Structured data (schema.org JSON-LD) for this page. */
+  jsonLd?: object[];
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, jsonLd = [] } = Astro.props;
 // Link previews (texts, social posts) show the cover.
 const ogCover = await getImage({ src: coverSrc, width: 800, format: 'jpg' });
 const ogImage = new URL(ogCover.src, Astro.site);
@@ -53,6 +55,7 @@ const isCurrent = (href: string) => {
     <meta property="og:image:alt" content="Cover of The Jovian Crisis by Robert Hasleton" />
     <meta name="twitter:card" content="summary_large_image" />
     {noindex && <meta name="robots" content="noindex" />}
+    {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
@@ -66,16 +69,20 @@ const isCurrent = (href: string) => {
         <nav class="nav-wide" aria-label="Main">
           <ul>
             {nav.map((item) => (
-              <li>
-                <a href={item.href} class={item.mark ? 'mark' : undefined} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
-              </li>
+              <>
+                <li>
+                  <a href={item.href} class={item.mark ? 'mark' : undefined} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+                </li>
+                {item.mark && <li><a class="buy-now" href={AMAZON_URL} rel="noopener">{AMAZON_SHORT}</a></li>}
+              </>
             ))}
           </ul>
         </nav>
         <div class="nav-phone">
           <a class="mark" href="/read/the-rescue/" aria-current={isCurrent('/read/the-rescue/') ? 'page' : undefined}>Read Ch. 4</a>
+          <a class="buy-now" href={AMAZON_URL} rel="noopener">{AMAZON_SHORT}</a>
           <details class="menu">
-            <summary>Menu</summary>
+            <summary><span class="menu-label">Menu</span></summary>
             <nav aria-label="Main">
               <ul>
                 {nav.filter((item) => !item.mark).map((item) => (
@@ -169,6 +176,9 @@ const isCurrent = (href: string) => {
   nav a:hover { color: var(--text); }
   /* Read Ch. 4: same size as every other link, marked by a small amber dot (amber underline still means "you are here"). */
   .bar a.mark::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 0.45rem; border-radius: 50%; background: var(--accent); vertical-align: 0.12em; }
+  /* Pre-order: a small amber button beside Read Ch. 4. */
+  .bar a.buy-now { display: inline-flex; align-items: center; min-height: 36px; margin-block: 4px; padding: 0 0.75rem; line-height: 1; border: 1px solid var(--accent); border-bottom: 1px solid var(--accent); border-radius: var(--radius); background: var(--accent); color: var(--accent-ink); font-family: var(--font-display); font-weight: 600; font-size: 0.88rem; text-decoration: none; white-space: nowrap; }
+  .bar a.buy-now:hover { background: #f0bb70; color: var(--accent-ink); }
   .nav-phone { display: none; align-items: center; gap: 0.25rem; }
   .nav-phone > a.mark { padding: 0.55rem 0.6rem; min-height: 44px; line-height: 1.8; color: var(--text); text-decoration: none; font-family: var(--font-display); font-size: 0.92rem; border-bottom: 2px solid transparent; }
   .nav-phone > a.mark[aria-current='page'] { border-bottom-color: var(--accent); }
@@ -181,10 +191,27 @@ const isCurrent = (href: string) => {
   .menu nav ul { flex-direction: column; gap: 0; }
   .menu nav a { display: block; padding: 0.55rem 1rem; }
   .menu nav a[aria-current='page'] { border-bottom-color: transparent; color: var(--text); box-shadow: inset 2px 0 0 var(--accent); }
-  @media (max-width: 719px) {
+  @media (max-width: 939px) {
     .nav-wide { display: none; }
     .nav-phone { display: flex; }
-    .bar { flex-wrap: nowrap; }
+    .bar { flex-wrap: nowrap; gap: 0.5rem; }
+    .brand-sub { white-space: nowrap; }
+    .nav-phone { gap: 0.15rem; flex-shrink: 0; }
+    .nav-phone > a.mark { white-space: nowrap; padding-inline: 0.4rem; }
+    .bar a.buy-now { padding: 0 0.6rem; }
+    .menu summary { padding: 0 0.6rem; }
+  }
+  @media (max-width: 480px) {
+    .brand-name { font-size: 0.95rem; }
+    .brand-sub { display: none; }
+    /* Menu becomes a three-line icon; the word stays for screen readers. */
+    .menu summary { width: 44px; justify-content: center; padding: 0; }
+    .menu summary::after { display: none; }
+    .menu summary::before { content: ''; width: 18px; height: 2px; background: currentColor; box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor; }
+    .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  }
+  @media (max-width: 350px) {
+    .nav-phone > a.mark::before { display: none; }
   }
   nav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--accent); }
 

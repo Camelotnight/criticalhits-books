@@ -10,6 +10,7 @@
     "check:spoilers": "node scripts/spoiler-check.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
     "@fontsource-variable/space-grotesk": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "astro": "^7.4.0",
