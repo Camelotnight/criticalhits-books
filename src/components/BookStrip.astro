@@ -1,38 +1,36 @@
 ---
-// A slim "this is a novel" strip for the deep pages (World, Ship, Crew, Encyclopedia, glossary).
+// A slim promo card for the deep pages (World, Ship, Crew, Encyclopedia, glossary).
+// Reads top to bottom: cover, hook, title line (links to /book/), buttons.
 import Cover from './Cover.astro';
 import { RELEASE, RELEASE_ISO, AMAZON_URL, AMAZON_LABEL } from '../config';
 ---
 <aside class="bookstrip" aria-label="About the novel">
   <div class="wrap bs">
     <a class="bs-cover" href="/book/" tabindex="-1" aria-hidden="true"><Cover width={72} /></a>
-    <div class="bs-text">
-      <p class="bs-kicker">This world is the setting of a novel</p>
-      <p class="bs-title"><em>The Jovian Crisis</em> · Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></p>
+    <div class="bs-body">
       <p class="bs-hook">Some distress calls should stay unanswered.</p>
-    </div>
-    <div class="bs-btns">
-      <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
-      <Fragment set:html="<!-- SIGNUP SLOT: reserved for a future sign-up form. Intentionally empty; renders nothing. -->" />
-      <a class="btn btn--ghost" href="/book/">About the book</a>
-      <a class="bs-read" href="/read/the-rescue/">Read Chapter Four</a>
+      <p class="bs-title"><a href="/book/"><em>The Jovian Crisis</em> · Book One of The Capa Incident · <time datetime={RELEASE_ISO}>{RELEASE}</time></a></p>
+      <div class="bs-btns">
+        <a class="btn" href={AMAZON_URL} rel="noopener">{AMAZON_LABEL}</a>
+        <Fragment set:html="<!-- SIGNUP SLOT: reserved for a future sign-up form. Intentionally empty; renders nothing. -->" />
+        <a class="btn btn--ghost" href="/read/the-rescue/">Read Chapter Four</a>
+      </div>
     </div>
   </div>
 </aside>
 
 <style>
   .bookstrip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(227, 168, 87, 0.04); margin-top: 2.5rem; }
-  .bs { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem 1.25rem; padding-block: 1rem; }
+  .bs { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1rem 1.25rem; padding-block: 1rem; }
   .bs-cover { display: block; width: 72px; line-height: 0; }
   .bs-cover :global(img) { width: 72px; height: auto; border-radius: 2px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45); }
-  .bs-text p { margin: 0; }
-  .bs-kicker { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-  .bs-title { margin-top: 0.2rem !important; font-size: 1rem; }
-  .bs-hook { margin-top: 0.2rem !important; color: var(--accent); font-size: 0.95rem; }
-  .bs-btns { display: flex; flex-direction: column; align-items: stretch; gap: 0.4rem; text-align: center; }
-  .bs-read { font-size: 0.88rem; }
-  @media (max-width: 40rem) {
-    .bs { grid-template-columns: auto 1fr; }
-    .bs-btns { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; justify-self: start; }
+  .bs-body p { margin: 0; }
+  .bs-hook { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.1rem, 2.6vw, 1.35rem); line-height: 1.25; color: var(--accent); }
+  .bs-title { margin-top: 0.3rem !important; font-size: 0.9rem; }
+  .bs-title a { color: var(--muted); text-decoration: none; }
+  .bs-title a:hover { color: var(--text); text-decoration: underline; }
+  .bs-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.8rem; }
+  @media (max-width: 400px) {
+    .bs { grid-template-columns: 1fr; }
   }
 </style>
